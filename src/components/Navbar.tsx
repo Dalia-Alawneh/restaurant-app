@@ -1,16 +1,18 @@
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { logo, userDefaultImage } from '../assets'
+import { navLinks } from '../constants'
+import ListItem from './ui/ListItem'
 
 const Navbar = () => {
     return (
-        <nav className="flex fixed top-0 start-0 px-4 sm:px-16 py-8 items-center justify-between w-full">
+        <nav className="flex px-4 sm:px-16 py-8 items-center justify-between w-full">
             <Link to='/' className='logo'>
                 <img src={logo} className='w-full' alt="davur logo" />
             </Link>
             <ul className='hidden md:flex gap-8 justify-center'>
-                <NavLink to='/'>pos</NavLink>
-                <NavLink to='transaction'>transaction</NavLink>
-                <NavLink to='dashboard'>dashboard</NavLink>
+                {navLinks.map(link=> (
+                    <ListItem key={"nav-link"+link.text} {...link}/>
+                ))}
             </ul>
             <div className="user flex gap-3 items-center justify-end">
                 <div className="text-right">

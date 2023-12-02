@@ -3,12 +3,14 @@ import RootLayout from "../pages/Layout";
 import ErrorHandler from "../components/error/ErrorHandler"
 import { Dashboard } from "../pages/dashboard";
 import { Pos } from "../pages/pos";
+import { Transaction } from "../pages/transaction";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
         <Route path="/" element={<RootLayout/>}>
             <Route index element={<Pos/>}/>
             <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path="transaction" element={<Transaction/>}/>
         </Route>
         <Route path="*" element={<ErrorHandler status={404} title="Page Not Found!"/>}/>
     </>
