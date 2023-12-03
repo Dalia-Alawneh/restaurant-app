@@ -49,8 +49,14 @@
   font-weight: 400;
   --link-color: #a2a2a2;
   --link-active-color: #263db1;
+  --primary:#2f4cdd;
+  --primary-light:#2f4cdd75;
+  --sec-color:#ff6d4d;
 }
 
+body{
+  min-height: 100vh;
+}
 a {
   font-weight: 500;
   color: var(--link-color);
@@ -110,4 +116,13 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.swiper-slide-active{
+  background-color: var(--sec-color);
+  color: white;
+}
+h2{
+  font-weight: 500;
+  font-size: 1.7rem;
 }
