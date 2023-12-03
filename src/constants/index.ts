@@ -1,3 +1,4 @@
+import { product1 } from "../assets";
 
 export const navLinks:{text:string; path:string}[] = [
     {
@@ -31,3 +32,36 @@ export const posSideBarLinks:{text:string; path:string}[] = [
         path:"foodItems",
     },
 ] 
+
+export const products:{img:string; title:string; price:number}[] = [
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+    {
+        img:product1,
+        title:'Pizza',
+        price:6.00
+    },
+]

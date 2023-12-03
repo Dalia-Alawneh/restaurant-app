@@ -4,13 +4,14 @@ import Carousel from "../../components/Carousel"
 import OrderView from "../../components/OrderView"
 import Sidebar from "../../components/Sidebar"
 import ListItem from "../../components/ui/ListItem"
-import { posSideBarLinks } from "../../constants"
+import ProductCard from "../../components/ui/ProductCard"
+import { posSideBarLinks, products } from "../../constants"
 
 const Pos = () => {
     const isToggle = useAppSelector(state => state.toggleSideBar.value)
 
     return (
-        <div className="flex justify-between w-full gap-4 items-start mt-24">
+        <div className="container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
             <OrderView />
             {isToggle && <>
                 <Sidebar>
@@ -22,8 +23,15 @@ const Pos = () => {
                 </div>
             </>
             }
-
-            <Carousel />
+            <div className="w-full md:w-2/3">
+                <Carousel />
+                <div className="flex flex-wrap justify-center gap-4">
+                {
+                    products.map(product =>
+                        <ProductCard img={product.img} price={product.price} title={product.title} />)
+                }
+                </div>
+            </div>
         </div>
     )
 }
