@@ -1,33 +1,37 @@
-import { Plus,Star, Check } from 'lucide-react'
-import {useState} from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/store';
-import { addToTempOrders } from '../../features/tempOrder/TempOrder';
+import { Plus, Star, Check } from 'lucide-react'
+import { useState } from 'react'
+import { useAppDispatch } from '../../app/store';
+import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/TempOrder';
+import Rating from './Rating';
 interface IProps {
-    id:number;
+    id: number;
     img: string;
     title: string;
     price: number;
+    stars: number;
 }
-const ProductCard = ({id, img, price, title }: IProps) => {
+const ProductCard = ({ id, img, price, title, stars }: IProps) => {
     const [isSelectProduct, setIsSelectProduct] = useState(false)
-    const dipatch = useAppDispatch()
+    const dispatch = useAppDispatch()
+    const orderClickHandler = () => {
+        setIsSelectProduct(!isSelectProduct) 
+        if (!isSelectProduct) {
+            dispatch(addToTempOrders({ id, price, title, qty: 1 }));
+            dispatch(calculateTotalPrice())
+        }else{
+            dispatch(removeFromTempOrders(id))
+        }
+    }
     return (
-        <div className="cursor-pointer rounded-xl border w-full sm:w-1/2 md:w-1/4" onClick={()=> setIsSelectProduct(!isSelectProduct)}>
+        <div className="cursor-pointer rounded-xl border w-full sm:w-1/2 md:w-1/4" onClick={ orderClickHandler }>
             <img className="w-full" src={img} alt={title} />
             <div className="card-head p-3">
-                <div className="flex gap-1 rating">
-                    <Star color='#eee333' />
-                    <Star color='#eee333' />
-                    <Star color='#eee333' />
-                    <Star color='#d7d7d7' />
-                    <Star color='#d7d7d7' />
-                </div>
+                <Rating starsCount={stars} />
                 <h3 className='my-2 text-lg font-semibold'>{title}</h3>
                 <div className="flex justify-between items-center">
                     <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
-                    <button onClick={()=> dipatch(addToTempOrders({id, price, title, qty:1}))}
-                    className={`border-0 focus:outline-none ${isSelectProduct?'bg-[--primary-light]': 'bg-[--sec-color]'} p-1`}>
-                    {isSelectProduct ?<Check color='white'/>: <Plus color='white'/>}
+                    <button className={`border-0 focus:outline-none ${isSelectProduct ? 'bg-[--primary-light]' : 'bg-[--sec-color]'} p-1`}>
+                        {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
                     </button>
                 </div>
             </div>

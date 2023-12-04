@@ -52,6 +52,7 @@
   --primary:#2f4cdd;
   --primary-light:#2f4cdd75;
   --sec-color:#ff6d4d;
+  --sec-light:rgba(247, 112, 82, 0.5)
 }
 
 body{
@@ -100,7 +101,7 @@ button:hover {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline:none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -125,4 +126,8 @@ button:focus-visible {
 h2{
   font-weight: 500;
   font-size: 1.7rem;
+}
+.table td{
+  width: 150px;
+  overflow: auto;
 }
