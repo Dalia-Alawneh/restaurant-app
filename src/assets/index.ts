@@ -7,11 +7,7 @@ import pastry from './categories/3.png'
 import burger from './categories/4.png'
 import menu from './menu.svg'
 import pos from './pos.jpg'
-import product1 from './products/pic-1.jpg'
-import product2 from './products/pic-2 (1).jpg'
-import product3 from './products/pic-2.jpg'
-import product4 from './products/pic-3 (1).jpg'
-import product5 from './products/pic-3.jpg'
+import allCategories from './categories/all.png'
 const categories = [
     {
         title:"Soft Drinks",
@@ -47,4 +43,4 @@ const categories = [
     },
     
 ]
-export {logo, userDefaultImage, close, menu, categories, pos , product1, product2,product3, product4, product5}
+export {logo, userDefaultImage, close, menu, categories, pos, allCategories}

@@ -2,9 +2,8 @@ import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
 import { calculateTotalPrice, cancelOrder, decrementQuantity, incrementQuantity } from "../features/tempOrder/TempOrder"
-import Button from "./ui/Button"
 
-const OrderView = () => {
+const OrderView = ({setSelectedProducts}:{setSelectedProducts:(value:boolean)=>void}) => {
     const tempOrders = useAppSelector(state => state.tempOrders.orders)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
     console.log(totalPrice);
@@ -27,6 +26,7 @@ const OrderView = () => {
     };
     const handleCancelOrder = () => {
         dispatch(cancelOrder()) 
+        setSelectedProducts(false)
     }
     return (
 

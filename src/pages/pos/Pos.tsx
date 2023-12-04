@@ -12,7 +12,9 @@ import { IProduct } from "../../interfaces"
 const Pos = () => {
     const isToggle = useAppSelector(state => state.toggleSideBar.value)
     const [products, setProducts] = useState<IProduct[]>([])
+    const [isSelectProduct, setIsSelectProduct] = useState(false)
 
+    const [selectedProducts, setSelectedProducts] = useState<Record<string, boolean>>({});
 
     console.log(products);
 
@@ -25,7 +27,7 @@ const Pos = () => {
     }, [])
     return (
         <div className="container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
-            <OrderView />
+            <OrderView setSelectedProducts={setSelectedProducts}/>
             {isToggle && <>
                 <Sidebar> {/*responsive issue*/}
                     {posSideBarLinks.map(link => (
@@ -36,14 +38,21 @@ const Pos = () => {
                 </div>
             </>
             }
-            <div className="w-full md:w-2/3">
+             <div className="w-full md:w-2/3">
                 <Carousel />
                 <div className="flex flex-wrap justify-center gap-4">
-                    {
-                        products.map(product =>
-                            <ProductCard attributes={product.attributes} id={product.id} key={product.id} img={`http://localhost:1337${product.attributes.img.data.attributes.url}`} />
-                        )
-                    }
+                    {products.map(product => (
+                        <ProductCard
+                            key={product.id}
+                            isSelectProduct={selectedProducts[product.id] || false}
+                            setIsSelectProduct={(value) =>
+                                setSelectedProducts((prevSelected) => ({ ...prevSelected, [product.id]: value }))
+                            }
+                            attributes={product.attributes}
+                            id={product.id}
+                            img={`http://localhost:1337${product.attributes.img.data.attributes.url}`}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

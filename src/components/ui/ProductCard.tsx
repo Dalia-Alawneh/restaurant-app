@@ -1,13 +1,16 @@
 import { Plus, Check } from 'lucide-react'
-import { useState } from 'react'
 import { useAppDispatch } from '../../app/store';
 import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/TempOrder';
 import Rating from './Rating';
 import { IProduct } from '../../interfaces';
 
-const ProductCard = ({ id, attributes, img }: IProduct) => {
+interface IProps extends IProduct{
+    isSelectProduct: boolean; 
+    setIsSelectProduct: (value: boolean) => void
+}
+const ProductCard = ({ id, attributes, img , isSelectProduct = false, setIsSelectProduct }:IProps) => {
     const { price, title, stars, duration } = attributes
-    const [isSelectProduct, setIsSelectProduct] = useState(false)
+    // const [isSelectProduct, setIsSelectProduct] = useState(false)
     const dispatch = useAppDispatch()
     const orderClickHandler = () => {
         setIsSelectProduct(!isSelectProduct)
@@ -19,7 +22,7 @@ const ProductCard = ({ id, attributes, img }: IProduct) => {
         }
     }
     return (
-        <div className="cursor-pointer rounded-xl border w-full sm:w-1/2 md:w-1/4" onClick={orderClickHandler}>
+        <div className="cursor-pointer rounded-xl border flex flex-col justify-between w-full sm:w-1/2 md:w-1/4" onClick={orderClickHandler}>
             <img className="w-full" src={img} alt={title} />
             <div className="card-head p-3">
                 <Rating starsCount={stars} />
@@ -30,7 +33,7 @@ const ProductCard = ({ id, attributes, img }: IProduct) => {
                         {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
                     </button>
                 </div>
-                <p className='text-center my-2 text-[#80808052] font-semibold'>{duration}</p>
+                <p className='text-center my-2 text-[#80808052] font-semibold'>{duration} min</p>
             </div>
         </div>
     )
