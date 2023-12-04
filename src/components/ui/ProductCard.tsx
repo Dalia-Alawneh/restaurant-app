@@ -9,8 +9,9 @@ interface IProps {
     title: string;
     price: number;
     stars: number;
+    duration:string;
 }
-const ProductCard = ({ id, img, price, title, stars }: IProps) => {
+const ProductCard = ({ id, img, price, title, stars, duration }: IProps) => {
     const [isSelectProduct, setIsSelectProduct] = useState(false)
     const dispatch = useAppDispatch()
     const orderClickHandler = () => {
@@ -34,6 +35,7 @@ const ProductCard = ({ id, img, price, title, stars }: IProps) => {
                         {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
                     </button>
                 </div>
+                <p className='text-center my-2 text-[#80808052] font-semibold'>{duration}</p>
             </div>
         </div>
     )
