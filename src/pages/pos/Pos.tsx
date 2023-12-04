@@ -14,7 +14,7 @@ const Pos = () => {
         <div className="container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
             <OrderView />
             {isToggle && <>
-                <Sidebar>
+                <Sidebar> {/*responsive issue*/ }
                     {posSideBarLinks.map(link => (
                         <ListItem key={"nav-link" + link.text} {...link} />
                     ))}
@@ -28,7 +28,7 @@ const Pos = () => {
                 <div className="flex flex-wrap justify-center gap-4">
                 {
                     products.map(product =>
-                        <ProductCard img={product.img} price={product.price} title={product.title} />)
+                        <ProductCard {...product} />)
                 }
                 </div>
             </div>
