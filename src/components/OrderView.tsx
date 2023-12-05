@@ -3,10 +3,9 @@ import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
 import { calculateTotalPrice, cancelOrder, decrementQuantity, incrementQuantity } from "../features/tempOrder/TempOrder"
 
-const OrderView = ({setSelectedProducts}:{setSelectedProducts:(value:boolean)=>void}) => {
+const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boolean) => void }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.orders)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
-    console.log(totalPrice);
 
     const dispatch = useAppDispatch()
 
@@ -20,20 +19,20 @@ const OrderView = ({setSelectedProducts}:{setSelectedProducts:(value:boolean)=>v
         dispatch(calculateTotalPrice());
     };
 
-    const decrementQuantityHandler = (id:number) => {
+    const decrementQuantityHandler = (id: number) => {
         dispatch(decrementQuantity(id));
         dispatch(calculateTotalPrice());
     };
     const handleCancelOrder = () => {
-        dispatch(cancelOrder()) 
+        dispatch(cancelOrder())
         setSelectedProducts(false)
     }
     return (
 
         <>
-            <div className="p-8 max-w-[500px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
+            <div className="p-8 max-w-[500px] min-h-[600px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
                 {tempOrders.length > 0 ?
-                    <>
+                    <div className="flex flex-col justify-between min-h-[600px]">
                         <table className="table text-center">
                             <thead className="border-b-2 border-[--primary] bg-[--primary-light]">
                                 <tr>
@@ -60,20 +59,24 @@ const OrderView = ({setSelectedProducts}:{setSelectedProducts:(value:boolean)=>v
                                 ))}
                             </tbody>
                         </table>
+                        <div>
                         <div className="flex justify-between total rounded p-5 px-8 bg-[--primary-light] mt-10 ">
                             <h4 className="font-bold">Total Price:</h4>
                             <p>${totalPrice.toFixed(2)}</p>
                         </div>
                         <button className="w-full text-white mt-10 mb-5 bg-[--sec-color] hover:bg-[--sec-light] hover:text-black hover:border-none border-none">Processed Order</button>
                         <button onClick={handleCancelOrder} className="w-full">Cancel</button>
-                    </>
+                        </div>
+                    </div>
 
                     :
-                    <div>
-                        <img src={pos} alt="" className="mb-6" />
-                        <h2 className="mb-3 text-center">Your Order in Progress Check Order</h2>
-                        <p className="mb-6 text-center">Just click on any item to create order</p>
-                        <div className="flex gap-5 mt-14 mb-8">
+                    <div className="flex min-h-[600px] flex-col justify-between">
+                        <div className="pt-8">
+                            <img src={pos} alt="" className="mb-6" />
+                            <h2 className="mb-3 text-center">Your Order in Progress Check Order</h2>
+                            <p className="mb-6 text-center">Just click on any item to create order</p>
+                        </div>
+                        <div className="flex mt-14 mb-8">
                             <Link to='transaction' className="bg-[#ffeae6] text-center w-full border-0 rounded-3xl py-3 px-6 text-md text-[--sec-color]
                         hover:bg-[--sec-color] hover:text-white transition" >Orders Status</Link>
                         </div>

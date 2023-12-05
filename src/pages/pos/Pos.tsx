@@ -41,7 +41,7 @@ const Pos = withWrapper(() => {
             }
             <div className="w-full md:w-2/3">
                 <Carousel />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
+                <div className="grid mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
 
                     {products.map(product => (
                         <ProductCard isLoading={isLoading}
