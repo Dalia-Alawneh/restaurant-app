@@ -45,7 +45,6 @@ const Carousel = () => {
             onSlideChange={(swiper) => console.log(swiper.activeIndex)}
             onSwiper={(swiper) => console.log(swiper)}
             loop={true}
-            className='my-8'
         >
             <SwiperSlide className='bg-white p-3 rounded-md'>
                 <div className="card py-3 flex flex-col items-center">

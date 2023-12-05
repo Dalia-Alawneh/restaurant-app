@@ -27,7 +27,7 @@ const Pos = withWrapper(() => {
         setData()
     }, [])
     return (
-        <div className="custom-container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
+        <div className="mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
             <OrderView setSelectedProducts={setSelectedProducts} />
             {isToggle && <>
                 <Sidebar> {/*responsive issue*/}

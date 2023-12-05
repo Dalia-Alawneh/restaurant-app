@@ -31,7 +31,7 @@ const OrderView = ({setSelectedProducts}:{setSelectedProducts:(value:boolean)=>v
     return (
 
         <>
-            <div className="my-8 p-8 max-w-[500px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
+            <div className="p-8 max-w-[500px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
                 {tempOrders.length > 0 ?
                     <>
                         <table className="table text-center">

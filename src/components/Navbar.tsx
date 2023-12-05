@@ -8,7 +8,7 @@ const Navbar = () => {
     const isToggle = useAppSelector(state=> state.toggleSideBar.value)
     const dispatch = useAppDispatch()
     return (
-        <nav className="relative w-full top-0 flex shadow-md justify-between z-20 bg-white">
+        <nav className="fixed w-full top-0 flex shadow-md justify-between z-20 bg-white">
             <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> dispatch(toggleSideBar())}>
                 <img src={isToggle? close : menu} className='w-[30px]' alt="" />
             </div>

@@ -3,7 +3,7 @@ import React from 'react';
 const withWrapper = (WrappedComponent:React.FC) => {
     const WithWrapper = ({...props}) => {
         return (
-            <div className="p-16 min-h-screen">
+            <div className="my-6 py-8 min-h-screen custom-container">
                 <WrappedComponent {...props} />
             </div>
         );
