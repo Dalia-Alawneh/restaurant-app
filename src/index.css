@@ -131,3 +131,13 @@ h2{
   width: 150px;
   overflow: auto;
 }
+.custom-container{
+  width: calc(100% - 50px);
+  max-width: 1400px;
+  margin: auto;
+}
+
+.pagination button.active {
+  background-color: var(--primary-light);
+  font-weight: bold;
+}

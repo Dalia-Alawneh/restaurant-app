@@ -8,26 +8,27 @@ import ProductCard from "../../components/ui/ProductCard"
 import { posSideBarLinks } from "../../constants"
 import { getData } from "../../utils/helpers"
 import { IProduct } from "../../interfaces"
+import Paginator from "../../components/ui/Paginator"
+import withWrapper from "../../components/hoc/withWrapper"
 
-const Pos = () => {
+const Pos = withWrapper(() => {
     const isToggle = useAppSelector(state => state.toggleSideBar.value)
     const [products, setProducts] = useState<IProduct[]>([])
-    const [isSelectProduct, setIsSelectProduct] = useState(false)
-
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedProducts, setSelectedProducts] = useState<Record<string, boolean>>({});
-
-    console.log(products);
-
     const setData = async () => {
-        const data = await getData('/products?populate=img')
-        setProducts(data)
+        const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
+        if(data.data.length){
+            setIsLoading(false)
+            setProducts(data.data)
+        }
     }
     useEffect(() => {
         setData()
     }, [])
     return (
-        <div className="container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
-            <OrderView setSelectedProducts={setSelectedProducts}/>
+        <div className="custom-container mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
+            <OrderView setSelectedProducts={setSelectedProducts} />
             {isToggle && <>
                 <Sidebar> {/*responsive issue*/}
                     {posSideBarLinks.map(link => (
@@ -38,11 +39,12 @@ const Pos = () => {
                 </div>
             </>
             }
-             <div className="w-full md:w-2/3">
+            <div className="w-full md:w-2/3">
                 <Carousel />
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
+
                     {products.map(product => (
-                        <ProductCard
+                        <ProductCard isLoading={isLoading}
                             key={product.id}
                             isSelectProduct={selectedProducts[product.id] || false}
                             setIsSelectProduct={(value) =>
@@ -54,9 +56,11 @@ const Pos = () => {
                         />
                     ))}
                 </div>
+            <Paginator products={products} setProducts={setProducts} pageSize={3}/>
+
             </div>
         </div>
     )
-}
+})
 
 export default Pos

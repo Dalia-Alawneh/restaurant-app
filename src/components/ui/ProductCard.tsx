@@ -3,14 +3,15 @@ import { useAppDispatch } from '../../app/store';
 import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/TempOrder';
 import Rating from './Rating';
 import { IProduct } from '../../interfaces';
-
-interface IProps extends IProduct{
-    isSelectProduct: boolean; 
-    setIsSelectProduct: (value: boolean) => void
+import { useState } from 'react'
+import CardSkeleton from './CardSkeleton';
+interface IProps extends IProduct {
+    isSelectProduct: boolean;
+    setIsSelectProduct: (value: boolean) => void;
+    isLoading: boolean;
 }
-const ProductCard = ({ id, attributes, img , isSelectProduct = false, setIsSelectProduct }:IProps) => {
+const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, setIsSelectProduct }: IProps) => {
     const { price, title, stars, duration } = attributes
-    // const [isSelectProduct, setIsSelectProduct] = useState(false)
     const dispatch = useAppDispatch()
     const orderClickHandler = () => {
         setIsSelectProduct(!isSelectProduct)
@@ -22,20 +23,28 @@ const ProductCard = ({ id, attributes, img , isSelectProduct = false, setIsSelec
         }
     }
     return (
-        <div className="cursor-pointer rounded-xl border flex flex-col justify-between w-full sm:w-1/2 md:w-1/4" onClick={orderClickHandler}>
-            <img className="w-full" src={img} alt={title} />
-            <div className="card-head p-3">
-                <Rating starsCount={stars} />
-                <h3 className='my-2 text-lg font-semibold'>{title}</h3>
-                <div className="flex justify-between items-center">
-                    <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
-                    <button className={`border-0 focus:outline-none ${isSelectProduct ? 'bg-[--primary-light]' : 'bg-[--sec-color]'} p-1`}>
-                        {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
-                    </button>
+
+        <>
+            {isLoading ?
+                <CardSkeleton />
+                :
+
+                <div className="cursor-pointer rounded-xl border flex flex-col justify-between w-full min-h-[460px]" onClick={orderClickHandler}>
+                    <img className="w-full" src={img} alt={title} />
+                    <div className="card-head p-3">
+                        <Rating starsCount={stars} />
+                        <h3 className='my-2 text-lg font-semibold'>{title}</h3>
+                        <div className="flex justify-between items-center">
+                            <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
+                            <button className={`border-0 focus:outline-none ${isSelectProduct ? 'bg-[--primary-light]' : 'bg-[--sec-color]'} p-1`}>
+                                {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
+                            </button>
+                        </div>
+                        <p className='text-center my-2 text-[#80808052] font-semibold'>{duration} min</p>
+                    </div>
                 </div>
-                <p className='text-center my-2 text-[#80808052] font-semibold'>{duration} min</p>
-            </div>
-        </div>
+            }
+        </>
     )
 }
 

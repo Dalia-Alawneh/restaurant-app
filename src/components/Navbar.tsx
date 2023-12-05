@@ -8,7 +8,7 @@ const Navbar = () => {
     const isToggle = useAppSelector(state=> state.toggleSideBar.value)
     const dispatch = useAppDispatch()
     return (
-        <nav className="fixed w-full top-0 flex shadow-md justify-between z-20 bg-white">
+        <nav className="relative w-full top-0 flex shadow-md justify-between z-20 bg-white">
             <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> dispatch(toggleSideBar())}>
                 <img src={isToggle? close : menu} className='w-[30px]' alt="" />
             </div>
@@ -23,8 +23,8 @@ const Navbar = () => {
                 </ul>
                 <div className="user flex gap-3 items-center justify-end">
                     <div className="text-right">
-                        <h3 className='font-bold'>Dalia AL.</h3>
-                        <span className='font-light text-sm'>Super Admin</span>
+                        <h3 className='font-bold'>{'Dalia AL.'.slice(0,5)}</h3>
+                        <span className='font-light text-sm hidden sm:inline'>Super Admin</span>
                     </div>
                     <img src={userDefaultImage} alt="user image" className='w-[60px] h-[60px] rounded-full p-1 border-[3px] border-x-[--link-active-color]' />
                 </div>

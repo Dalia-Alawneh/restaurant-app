@@ -15,7 +15,7 @@ const Carousel = () => {
 
     const setData = async () => {
         const data = await getData('/categories?populate=products&populate=img')
-        setCategories(data)
+        setCategories(data.data)
     }
     useEffect(() => {
         setData()
