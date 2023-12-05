@@ -7,22 +7,14 @@ interface IProps {
     products: IProduct[];
     setProducts: (products: IProduct[]) => void;
 }
-const Paginator = ({ pageSize, products, setProducts }: IProps) => {
+const Paginator = ({ pageSize,setProducts }: IProps) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
-
-    console.log(totalPages);
-
     const fetchData = async () => {
-        console.log('Fetching data for page:', currentPage);
         try {
             const data = await getData(
                 `/products?populate=categories&populate=img&pagination[pageSize]=${pageSize}&pagination[page]=${currentPage}`
             );
-            console.log('data is ');
-
-            console.log(data.data)
-
             setProducts(data.data || []);
             setTotalPages(data.meta.pagination?.pageCount || 1)
         } catch (error) {
@@ -35,12 +27,10 @@ const Paginator = ({ pageSize, products, setProducts }: IProps) => {
     }, [currentPage]);
 
     const handlePageChange = (page: number) => {
-        console.log('Current page:', page);
         setCurrentPage(page);
     };
     return (
         <div>
-
             <div className="pagination flex gap-3 my-8 justify-end">
             <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
             <ChevronLeft />

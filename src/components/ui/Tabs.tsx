@@ -1,7 +1,5 @@
-interface IProps {
 
-}
-const Tabs = ({ }: IProps) => {
+const Tabs = () => {
     return (
         <div>
 
