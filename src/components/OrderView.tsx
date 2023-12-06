@@ -2,13 +2,32 @@ import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
 import { calculateTotalPrice, cancelOrder, decrementQuantity, incrementQuantity } from "../features/tempOrder/TempOrder"
-
-const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boolean) => void }) => {
-    const tempOrders = useAppSelector(state => state.tempOrders.orders)
+import MyModal from "./ui/MyModal"
+import { useState, ChangeEvent } from 'react'
+import { Dialog } from "@headlessui/react"
+import Input from "./ui/Input"
+import SelectInput from "./ui/SelectInput"
+import { ICustomer } from "../interfaces"
+const OrderView = ({ setSelectedProducts }:
+    { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
+    const tempOrders = useAppSelector(state => state.tempOrders.order.products)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
 
+    const [customerInfo, setCustomerInfo] = useState<ICustomer>({
+        name: '',
+        phone: '',
+    })
     const dispatch = useAppDispatch()
 
+    const [isOpen, setIsOpen] = useState(false)
+
+    const closeModal = () => {
+        setIsOpen(false)
+    }
+
+    const openModal = () => {
+        setIsOpen(true)
+    }
 
     // handlers
     const calculateItemPrice = (price: number, qty: number): number => {
@@ -26,6 +45,20 @@ const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boole
     const handleCancelOrder = () => {
         dispatch(cancelOrder())
         setSelectedProducts(false)
+    }
+
+    const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(customerInfo);
+        const { name, value } = e.target
+        setCustomerInfo({
+            ...customerInfo,
+            [name]: value,
+        })
+    }
+    const submitOrderHandler = (e) => {
+        e.preventDefault()
+        console.log(tempOrders);
+
     }
     return (
 
@@ -46,7 +79,7 @@ const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boole
                                 {tempOrders.map((order, index) => (
                                     <tr className="border-b" key={'order#' + order.id}>
                                         <td className="py-3">{index + 1}</td>
-                                        <td className="py-3">{order.title}</td>
+                                        <td className="py-3">{order.attributes.title}</td>
                                         <td>
                                             <button onClick={() => incrementQuantityHandler(order.id)}
                                                 className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>
@@ -54,18 +87,19 @@ const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boole
                                             <button onClick={() => decrementQuantityHandler(order.id)}
                                                 className="py-0 px-2 bg-[--primary-light] text-white text-lg">-</button>
                                         </td>
-                                        <td className="font-semibold text-[--sec-color]">${calculateItemPrice(order.price, order.qty).toFixed(2)}</td>
+                                        <td className="font-semibold text-[--sec-color]">${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         <div>
-                        <div className="flex justify-between total rounded p-5 px-8 bg-[--primary-light] mt-10 ">
-                            <h4 className="font-bold">Total Price:</h4>
-                            <p>${totalPrice.toFixed(2)}</p>
-                        </div>
-                        <button className="w-full text-white mt-10 mb-5 bg-[--sec-color] hover:bg-[--sec-light] hover:text-black hover:border-none border-none">Processed Order</button>
-                        <button onClick={handleCancelOrder} className="w-full">Cancel</button>
+                            <div className="flex justify-between total rounded p-5 px-8 bg-[--primary-light] mt-10 ">
+                                <h4 className="font-bold">Total Price:</h4>
+                                <p>${totalPrice.toFixed(2)}</p>
+                            </div>
+                            <button onClick={openModal} className="w-full text-white mt-10 mb-5 bg-[--sec-color] hover:bg-[--sec-light] 
+                        hover:text-black hover:border-none border-none">Processed Order</button>
+                            <button onClick={handleCancelOrder} className="w-full">Cancel</button>
                         </div>
                     </div>
 
@@ -82,7 +116,37 @@ const OrderView = ({ setSelectedProducts }: { setSelectedProducts: (value: boole
                         </div>
                     </div>
                 }
-
+                <MyModal isOpen={isOpen} closeModal={closeModal}>
+                    <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                        Add Order 🤑
+                    </Dialog.Title>
+                    <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                            Need Customer Info Please.. <span className='text-lg'>🫣</span>
+                        </p>
+                    </div>
+                    <form className='flex flex-col gap-4 my-5' onSubmit={submitOrderHandler}>
+                        <div>
+                            <Input type='text' placeholder='Name' value={customerInfo.name} name="name" onChange={handleInfoChange} />
+                        </div>
+                        <div>
+                            <Input type='text' placeholder='Phone' value={customerInfo.phone} name="phone" onChange={handleInfoChange} />
+                        </div>
+                        <SelectInput />
+                        <div className="mt-4 text-center">
+                            <button
+                                type="submit"
+                                className="inline-flex justify-center rounded-md border border-transparent bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                onClick={closeModal}
+                            >
+                                Submit Order
+                            </button>
+                        </div>
+                    </form>
+                </MyModal>
             </div>
         </>
     )

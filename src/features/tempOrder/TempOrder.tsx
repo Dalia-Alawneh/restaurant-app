@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IOrder } from '../../interfaces'
+import { IOrder, IProduct } from '../../interfaces'
 
 export interface ITempOrder {
-    orders: IOrder[];
+    order: IOrder;
     totalPrice: number;
 }
 
 const initialState: ITempOrder = {
-    orders: [],
+    order: {date:'', products:[], id:0},
     totalPrice: 0,
 }
 
@@ -15,53 +15,53 @@ export const tempOrdersSlice = createSlice({
     name: 'tempOrders',
     initialState,
     reducers: {
-        addToTempOrders: (state, action: PayloadAction<IOrder>) => {
-            state.orders = [...state.orders, { ...action.payload }]
+        addToTempOrders: (state, action: PayloadAction<IProduct>) => {
+            state.order.products = [...state.order.products, { ...action.payload, qty:1 }]
         },
         removeFromTempOrders: (state, action: PayloadAction<number>) => {
             const productIdToRemove = action.payload
-            const updatedOrders = state.orders.filter(order => order.id !== productIdToRemove);
+            const updatedOrder = state.order.products.filter(product => product.id !== productIdToRemove);
 
-            state.orders = updatedOrders;
+            state.order.products = updatedOrder;
         },
         incrementQuantity: (state, action: PayloadAction<number>) => {
             const productId = action.payload;
 
-            const productIndex = state.orders.findIndex(product => product.id === productId);
+            const productIndex = state.order.products.findIndex(product => product.id === productId);
 
             if (productIndex !== -1) {
-                const updatedOrders = [...state.orders];
-                updatedOrders[productIndex] = {
-                    ...updatedOrders[productIndex],
-                    qty: (updatedOrders[productIndex].qty || 0) + 1,
+                const updatedOrder = [...state.order.products];
+                updatedOrder[productIndex] = {
+                    ...updatedOrder[productIndex],
+                    qty: (updatedOrder[productIndex].qty || 0) + 1,
                 };
 
-                state.orders = updatedOrders;
+                state.order.products = updatedOrder;
             }
         },
         decrementQuantity: (state, action: PayloadAction<number>) => {
             const productId = action.payload;
 
-            const productIndex = state.orders.findIndex(product => product.id === productId);
+            const productIndex = state.order.products.findIndex(product => product.id === productId);
 
             if (productIndex !== -1) {
-                const updatedOrders = [...state.orders];
-                const currentQuantity = updatedOrders[productIndex].qty || 0;
+                const updatedOrder = [...state.order.products];
+                const currentQuantity = updatedOrder[productIndex].qty || 0;
 
                 const newQuantity = Math.max(0, currentQuantity - 1);
 
-                updatedOrders[productIndex] = {
-                    ...updatedOrders[productIndex],
+                updatedOrder[productIndex] = {
+                    ...updatedOrder[productIndex],
                     qty: newQuantity,
                 };
 
-                state.orders = updatedOrders;
+                state.order.products = updatedOrder;
             }
         },
         calculateTotalPrice: (state) => {
-            const totalPrice = state.orders.reduce((acc, order) => {
+            const totalPrice = state.order.products.reduce((acc, order) => {
                 const quantity = order.qty || 0;
-                const price = order.price || 0;
+                const price = order.attributes.price || 0;
 
                 console.log("Calculating for item:", order);
                 console.log("Quantity:", quantity);
@@ -75,7 +75,7 @@ export const tempOrdersSlice = createSlice({
             state.totalPrice = totalPrice;
         },
         cancelOrder : (state)=>{
-            state.orders = []
+            state.order.products = []
             state.totalPrice = 0
         }
 

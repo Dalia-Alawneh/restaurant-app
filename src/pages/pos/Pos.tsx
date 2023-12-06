@@ -16,6 +16,8 @@ const Pos = withWrapper(() => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedProducts, setSelectedProducts] = useState<Record<string, boolean>>({});
+
+
     const setData = async () => {
         const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
         if(data.data.length){
@@ -59,6 +61,8 @@ const Pos = withWrapper(() => {
             <Paginator products={products} setProducts={setProducts} pageSize={3}/>
 
             </div>
+           
+            
         </div>
     )
 })

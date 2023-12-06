@@ -16,7 +16,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
     const orderClickHandler = () => {
         setIsSelectProduct(!isSelectProduct)
         if (!isSelectProduct) {
-            dispatch(addToTempOrders({ id, price, title, qty: 1 }));
+            dispatch(addToTempOrders({ id, attributes, img}));
             dispatch(calculateTotalPrice())
         } else {
             dispatch(removeFromTempOrders(id))

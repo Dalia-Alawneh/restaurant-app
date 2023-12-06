@@ -1,10 +1,14 @@
-export interface IOrder {
+export interface ITempOrder {
     id: number;
     title: string;
     price: number;
     qty: number;
 }
-
+export interface IOrder {
+    id: number;
+    products:IProduct[];
+    date:string;
+}
 export interface IProduct {
     id: number;
     img: string;
@@ -34,6 +38,10 @@ export interface ICategory {
                 }
             }
         };
-
     };
+}
+
+export interface ICustomer{
+    name:string;
+    phone:string;
 }

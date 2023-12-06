@@ -10,7 +10,9 @@ import Input from "../../components/ui/Input"
 const Transaction = withWrapper(() => {
     return (
         <div className="mt-24 pt-8 ">
-            <Input type="search" placeholder="Search here" icon={<Search  color='#ff6d4d' size={18}/>}/>
+            <div className="mb-8">
+            <Input width="w-[23.25rem]" type="search" placeholder="Search here" icon={<Search  color='#ff6d4d' size={18}/>}/>
+            </div>
 
             <div className="relative overflow-x-auto rounded-lg border border-[--border-color]">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
