@@ -20,13 +20,13 @@ const Pos = withWrapper(() => {
 
 
     const setData = async () => {
-        try{
+        try {
             const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
-            if(data.data.length){
+            if (data.data.length) {
                 setIsLoading(false)
                 setProducts(data.data)
             }
-        }catch(e){
+        } catch (e) {
             toast.error('Something goes wrong.!🥲')
         }
     }
@@ -64,11 +64,8 @@ const Pos = withWrapper(() => {
                         />
                     ))}
                 </div>
-            <Paginator products={products} setProducts={setProducts} pageSize={3}/>
-
+                <Paginator setItems={setProducts} pageSize={3} entity="products" />
             </div>
-           
-            
         </div>
     )
 })

@@ -1,21 +1,20 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IProduct } from "../../interfaces";
 import { getData } from "../../utils/helpers";
 import { useState, useEffect } from 'react'
 interface IProps {
     pageSize: number;
-    products: IProduct[];
-    setProducts: (products: IProduct[]) => void;
+    setItems: (Items: []) => void;
+    entity:string;
 }
-const Paginator = ({ pageSize,setProducts }: IProps) => {
+const Paginator = ({ pageSize,setItems, entity }: IProps) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const fetchData = async () => {
         try {
             const data = await getData(
-                `/products?populate=categories&populate=img&pagination[pageSize]=${pageSize}&pagination[page]=${currentPage}`
+                `/${entity}?populate=categories&populate=img&pagination[pageSize]=${pageSize}&pagination[page]=${currentPage}`
             );
-            setProducts(data.data || []);
+            setItems(data.data || []);
             setTotalPages(data.meta.pagination?.pageCount || 1)
         } catch (error) {
             console.error('Error fetching data:', error)

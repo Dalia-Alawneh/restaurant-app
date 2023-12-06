@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { IOrder } from "../../interfaces"
 import { toast } from 'react-hot-toast'
 import { getData } from "../../utils/helpers"
+import Paginator from "../../components/ui/Paginator"
 
 
 const Transaction = withWrapper(() => {
@@ -104,7 +105,7 @@ const Transaction = withWrapper(() => {
                                     <td colSpan={7} className="text-center">
                                         <div className="flex flex-col items-center justify-center py-10">
                                             <img className="w-[200px]" src={emptyCart} alt="Empty Cart" />
-                                            <h4 className="mt-8 text-[25px] font-semibold">No Orders Yet😯</h4>
+                                            <h4 className="mt-8 text-[25px] font-semibold">No Orders Yet!😯</h4>
                                         </div>
                                     </td>
                                 </tr>
@@ -113,7 +114,7 @@ const Transaction = withWrapper(() => {
 
                     </tbody>
                 </table>
-
+                        <Paginator/>
             </div>
 
             {/* <Paginator products={products} setProducts={setProducts} pageSize={3}/> */}
