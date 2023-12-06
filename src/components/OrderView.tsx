@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
-import { calculateTotalPrice, cancelOrder, decrementQuantity, incrementQuantity } from "../features/tempOrder/TempOrder"
+import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder } from "../features/tempOrder/TempOrder"
 import MyModal from "./ui/MyModal"
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 import { Dialog } from "@headlessui/react"
 import Input from "./ui/Input"
 import SelectInput from "./ui/SelectInput"
 import { ICustomer } from "../interfaces"
+import { postData } from "../utils/helpers"
+import toast from "react-hot-toast"
+
 const OrderView = ({ setSelectedProducts }:
     { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
-
     const [customerInfo, setCustomerInfo] = useState<ICustomer>({
         name: '',
         phone: '',
@@ -43,7 +45,7 @@ const OrderView = ({ setSelectedProducts }:
         dispatch(calculateTotalPrice());
     };
     const handleCancelOrder = () => {
-        dispatch(cancelOrder())
+        dispatch(resetOrder())
         setSelectedProducts(false)
     }
 
@@ -55,9 +57,28 @@ const OrderView = ({ setSelectedProducts }:
             [name]: value,
         })
     }
-    const submitOrderHandler = (e) => {
+    const submitOrderHandler = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(tempOrders);
+        const productsIds = tempOrders.map((order) => order.id);
+        const formattedDate = new Date().toISOString();
+        const reqData = {
+            data: {
+                ...customerInfo,
+                date: formattedDate,
+                products: productsIds,
+                totalPrice:totalPrice,
+            },
+        };
+        try {
+            const res = await postData('/orders', reqData)
+            console.log(res);
+            closeModal()
+            dispatch(resetOrder())
+            setSelectedProducts(false)
+            toast.success('Successfully Order Added!')
+        } catch (e) {
+            console.log(e);
+        }
 
     }
     return (
@@ -136,13 +157,18 @@ const OrderView = ({ setSelectedProducts }:
                             <Input type='text' placeholder='Phone' value={customerInfo.phone} name="phone" onChange={handleInfoChange} />
                         </div>
                         <SelectInput />
-                        <div className="mt-4 text-center">
+                        <div className="mt-4 text-center flex gap-3 justify-center">
+                            <Link to='payment'
+                                type="button"
+                                className="inline-flex justify-center rounded-md border border-transparent bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            >
+                                To Pay
+                            </Link>
                             <button
                                 type="submit"
-                                className="inline-flex justify-center rounded-md border border-transparent bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                onClick={closeModal}
+                                className="inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"
                             >
-                                Submit Order
+                                To Delivery
                             </button>
                         </div>
                     </form>

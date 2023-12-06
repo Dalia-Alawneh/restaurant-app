@@ -10,6 +10,7 @@ import { getData } from "../../utils/helpers"
 import { IProduct } from "../../interfaces"
 import Paginator from "../../components/ui/Paginator"
 import withWrapper from "../../components/hoc/withWrapper"
+import toast from "react-hot-toast/headless"
 
 const Pos = withWrapper(() => {
     const isToggle = useAppSelector(state => state.toggleSideBar.value)
@@ -26,6 +27,7 @@ const Pos = withWrapper(() => {
         }
     }
     useEffect(() => {
+        toast.success('Successfully toasted!')
         setData()
     }, [])
     return (

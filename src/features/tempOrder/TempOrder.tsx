@@ -74,10 +74,12 @@ export const tempOrdersSlice = createSlice({
 
             state.totalPrice = totalPrice;
         },
-        cancelOrder : (state)=>{
+        resetOrder : (state)=>{
             state.order.products = []
             state.totalPrice = 0
         }
+
+        
 
 
     },
@@ -85,6 +87,6 @@ export const tempOrdersSlice = createSlice({
 
 export const { addToTempOrders, incrementQuantity,
     decrementQuantity, removeFromTempOrders,
-    calculateTotalPrice, cancelOrder } = tempOrdersSlice.actions
+    calculateTotalPrice, resetOrder } = tempOrdersSlice.actions
 
 export default tempOrdersSlice.reducer

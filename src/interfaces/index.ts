@@ -25,6 +25,7 @@ export interface IProduct {
         stars: number;
         duration: string;
     };
+    qty?:number;
 }
 
 export interface ICategory {
