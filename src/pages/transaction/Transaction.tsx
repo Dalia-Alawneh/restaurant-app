@@ -17,7 +17,7 @@ const Transaction = withWrapper(() => {
 
     const setData = async () => {
         try {
-            const { data } = await getData('/orders')
+            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8')
             if (data.length) {
                 setOrders(data)
 
@@ -114,8 +114,8 @@ const Transaction = withWrapper(() => {
 
                     </tbody>
                 </table>
-                        <Paginator/>
             </div>
+                        <Paginator entity="orders" pageSize={8} setItems={setOrders}/>
 
             {/* <Paginator products={products} setProducts={setProducts} pageSize={3}/> */}
         </div>
