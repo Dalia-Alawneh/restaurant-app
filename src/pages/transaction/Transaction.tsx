@@ -9,11 +9,11 @@ import { IOrder } from "../../interfaces"
 import { toast } from 'react-hot-toast'
 import { getData } from "../../utils/helpers"
 import Paginator from "../../components/ui/Paginator"
-
+import { ChangeEvent, useCallback } from 'react'
 
 const Transaction = withWrapper(() => {
     const [orders, setOrders] = useState<IOrder[]>()
-
+    const [searchTerm, setSearchTerm] = useState<string>()
 
     const setData = async () => {
         try {
@@ -28,13 +28,25 @@ const Transaction = withWrapper(() => {
             toast.error('Something goes wrong.!🥲')
         }
     }
+    const setSearchTermValue = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target
+        setSearchTerm(value)
+    }
+    const handleSearch = useCallback(async () => {
+        if (searchTerm !== '') {
+            const res = await getData(`http://localhost:1337/api/orders?filters[name][$contains]=${searchTerm?.trim()}`)
+            setOrders(res.data)
+        }
+    }, [searchTerm])
     useEffect(() => {
         setData()
     }, [])
     return (
         <div className="mt-24 pt-8 ">
-            <div className="mb-8">
-                <Input width="w-[23.25rem]" type="search" placeholder="Search here" icon={<Search color='#ff6d4d' size={18} />} />
+            <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
+                <Search color='#ff6d4d' size={18} /> 
+                <input style={{border:'none'}} className="ms-2 w-[23.25rem] p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue}/>
+                <button className="bg-[--primary-light] text-sm text-white" onClick={handleSearch}>Search</button>
             </div>
 
             <div className="relative overflow-x-auto rounded-lg border border-[--border-color]">
@@ -114,8 +126,8 @@ const Transaction = withWrapper(() => {
 
                     </tbody>
                 </table>
+            <Paginator entity="orders" pageSize={8} setItems={setOrders} />
             </div>
-                        <Paginator entity="orders" pageSize={8} setItems={setOrders}/>
 
             {/* <Paginator products={products} setProducts={setProducts} pageSize={3}/> */}
         </div>
