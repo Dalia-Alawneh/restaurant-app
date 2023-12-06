@@ -45,4 +45,5 @@ export interface ICategory {
 export interface ICustomer{
     name:string;
     phone:string;
+    address?:string;
 }

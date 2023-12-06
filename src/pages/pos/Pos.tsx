@@ -20,10 +20,14 @@ const Pos = withWrapper(() => {
 
 
     const setData = async () => {
-        const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
-        if(data.data.length){
-            setIsLoading(false)
-            setProducts(data.data)
+        try{
+            const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
+            if(data.data.length){
+                setIsLoading(false)
+                setProducts(data.data)
+            }
+        }catch(e){
+            toast.error('Something goes wrong.!🥲')
         }
     }
     useEffect(() => {

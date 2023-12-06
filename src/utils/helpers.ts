@@ -9,3 +9,7 @@ export const postData =async (url:string, data:unknown) => {
     const res =await axiosInstance.post(url, data)
     return res.data
 }
+export const putData =async (url:string, data:unknown) => {
+    const res =await axiosInstance.put(url, data)
+    return res.data
+}

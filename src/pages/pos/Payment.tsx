@@ -1,14 +1,29 @@
-import { Link } from "react-router-dom"
+import { FormEvent } from "react"
 import { payment } from "../../assets"
 import withWrapper from "../../components/hoc/withWrapper"
 import BreadCrumb from "../../components/ui/BreadCrumb"
 import SelectInput from "../../components/ui/SelectInput"
+import { putData } from "../../utils/helpers"
+import toast from "react-hot-toast"
+import { useAppSelector } from "../../app/store"
 const selectOtions = [
     {name:'Cash'},
     {name:'Visa'},
     {name:'By Bank'},
 ]
 const Payment = withWrapper(() => {
+    const orderId = useAppSelector(state => state.tempOrders.order.id)
+    const handlePayment= async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            const res = await putData(`/orders/${orderId}`, { data: { status: "completed" } })
+            toast.success('Payment Done Successfully.. 🤑❤️‍🔥')
+            console.log(res);
+        } catch (e) {
+            toast.error('Something goes wrong.!🥲')
+            console.log(e);
+        }
+    }
     return (
         <div className="mt-24 ">
             <BreadCrumb page="Payment" />
@@ -18,7 +33,7 @@ const Payment = withWrapper(() => {
                         <h2 className="text-[20px] font-semibold">Amount to pay</h2>
                         <span className="text-[25px] text-[--primary] font-bold">$20.00</span>
                     </div>
-                    <form className='flex flex-col gap-4 my-10 w-4/5 m-auto' >
+                    <form className='flex flex-col gap-4 my-10 w-4/5 m-auto' onSubmit={handlePayment} >
                         <div>
                         <label htmlFor="">Payment Method:</label>
                         <SelectInput options={selectOtions} />
@@ -38,13 +53,13 @@ const Payment = withWrapper(() => {
                             </div>
                         </div>
                         <div className="mt-4 text-center flex gap-3 justify-center">
-                            <Link to='payment'
-                                type="button"
+                            <button 
+                                type="submit"
                                 className="w-full inline-flex justify-center rounded-md border border-transparent 
                                 bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] hover:text-[--primary] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
-                                Pay
-                            </Link>
+                                Pay Now
+                            </button>
                             
                         </div>
                     </form>

@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
-import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder } from "../features/tempOrder/TempOrder"
+import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder, updateId } from "../features/tempOrder/TempOrder"
 import MyModal from "./ui/MyModal"
 import { useState, ChangeEvent, FormEvent } from 'react'
 import { Dialog } from "@headlessui/react"
 import Input from "./ui/Input"
 import SelectInput from "./ui/SelectInput"
 import { ICustomer } from "../interfaces"
-import { postData } from "../utils/helpers"
+import { postData, putData } from "../utils/helpers"
 import toast from "react-hot-toast"
 const options = [
     { name: 'Wade Cooper' },
@@ -21,14 +21,17 @@ const options = [
 const OrderView = ({ setSelectedProducts }:
     { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
+    const orderId = useAppSelector(state => state.tempOrders.order.id)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
     const [customerInfo, setCustomerInfo] = useState<ICustomer>({
         name: '',
         phone: '',
+        address:'',
     })
     const dispatch = useAppDispatch()
 
     const [isOpen, setIsOpen] = useState(false)
+    const [isPayModalOpen, setIsPayModalOpen] = useState(false)
 
     const closeModal = () => {
         setIsOpen(false)
@@ -36,6 +39,13 @@ const OrderView = ({ setSelectedProducts }:
 
     const openModal = () => {
         setIsOpen(true)
+    }
+    const closePayModal = () => {
+        setIsPayModalOpen(false)
+    }
+
+    const openPayModal = () => {
+        setIsPayModalOpen(true)
     }
 
     // handlers
@@ -64,7 +74,7 @@ const OrderView = ({ setSelectedProducts }:
             [name]: value,
         })
     }
-    const submitOrderHandler = async (e:FormEvent<HTMLFormElement>) => {
+    const submitOrderHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const productsIds = tempOrders.map((order) => order.id);
         const formattedDate = new Date().toISOString();
@@ -73,21 +83,35 @@ const OrderView = ({ setSelectedProducts }:
                 ...customerInfo,
                 date: formattedDate,
                 products: productsIds,
-                totalPrice:totalPrice,
+                totalPrice: totalPrice,
             },
         };
         try {
             const res = await postData('/orders', reqData)
-            console.log(res);
+            dispatch(updateId(res.data.id))
             closeModal()
             dispatch(resetOrder())
             setSelectedProducts(false)
             toast.success('Successfully Order Added!')
+            closeModal()
+            openPayModal()
         } catch (e) {
+            toast.error('Something goes wrong.!🥲')
             console.log(e);
         }
 
     }
+    const handleDelivery = async () => {
+        try {
+            const res = await putData(`/orders/${orderId}`, { data: { status: "delivering" } })
+            toast.success('To Shipping ...🚚')
+            closePayModal()
+            console.log(res);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
 
         <>
@@ -163,19 +187,47 @@ const OrderView = ({ setSelectedProducts }:
                         <div>
                             <Input type='text' placeholder='Phone' value={customerInfo.phone} name="phone" onChange={handleInfoChange} />
                         </div>
-                        <SelectInput options={options} />
+                        <div>
+                            <Input type='text' placeholder='Address' value={customerInfo.address} name="address" onChange={handleInfoChange} />
+                        </div>
+                        {/* <SelectInput options={options} /> */}
+                        <div className="mt-4 text-center flex gap-3 justify-center">
+                            <button
+                                onClick={handleDelivery}
+                                type="submit"
+                                className="inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"
+                            >
+                                Submit Order
+                            </button>
+                        </div>
+                    </form>
+                </MyModal>
+                <MyModal isOpen={isPayModalOpen} closeModal={closePayModal}>
+                    <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                        How to take Your order? 🫣
+                    </Dialog.Title>
+                    <p className="text-sm text-gray-500">
+                        Hello, cashier🫡! Please assist the customer in selecting their preferred payment method or delivery option.
+                        This step is essential to complete their transaction and ensure a satisfactory shopping experience. Kindly guide the
+                        customer through the available choices and provide any necessary information to help them make an informed decision
+                    </p>
+                    <form className='flex flex-col gap-4 my-5'>
+
                         <div className="mt-4 text-center flex gap-3 justify-center">
                             <Link to='payment'
                                 type="button"
                                 className="inline-flex justify-center rounded-md border border-transparent bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
-                                To Pay
+                                Pay Now 🤑
                             </Link>
                             <button
-                                type="submit"
+                                onClick={handleDelivery}
                                 className="inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"
                             >
-                                To Delivery
+                                Delivery 🚚
                             </button>
                         </div>
                     </form>
