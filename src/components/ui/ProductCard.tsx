@@ -3,7 +3,6 @@ import { useAppDispatch } from '../../app/store';
 import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/TempOrder';
 import Rating from './Rating';
 import { IProduct } from '../../interfaces';
-import { useState } from 'react'
 import CardSkeleton from './CardSkeleton';
 interface IProps extends IProduct {
     isSelectProduct: boolean;

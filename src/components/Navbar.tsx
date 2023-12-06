@@ -2,14 +2,10 @@ import { Link } from 'react-router-dom'
 import { close, logo, menu, userDefaultImage } from '../assets'
 import { navLinks } from '../constants'
 import ListItem from './ui/ListItem'
-import { useAppDispatch, useAppSelector } from '../app/store'
-import { toggleSideBar } from '../features/sideBar/sideBarSlice'
-const Navbar = () => {
-    const isToggle = useAppSelector(state=> state.toggleSideBar.value)
-    const dispatch = useAppDispatch()
+const Navbar = ({setIsToggle, isToggle}:{setIsToggle:(isToggle:boolean)=>void, isToggle:boolean}) => {
     return (
         <nav className="fixed w-full top-0 flex shadow-md justify-between z-20 bg-white">
-            <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> dispatch(toggleSideBar())}>
+            <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> setIsToggle(!isToggle)}>
                 <img src={isToggle? close : menu} className='w-[30px]' alt="" />
             </div>
             <div className='px-2 md:px-10 py-4 flex  items-center justify-between w-full'>

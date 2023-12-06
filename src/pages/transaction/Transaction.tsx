@@ -1,9 +1,8 @@
 import { MapPin, Search } from "lucide-react"
-import { allCategories, emptyCart, userDefaultImage } from "../../assets"
+import { emptyCart, userDefaultImage } from "../../assets"
 import withWrapper from "../../components/hoc/withWrapper"
 import { Link } from "react-router-dom"
 import Dropdown from "../../components/ui/DropDown"
-import Input from "../../components/ui/Input"
 import { useEffect, useState } from "react"
 import { IOrder } from "../../interfaces"
 import { toast } from 'react-hot-toast'
@@ -45,8 +44,8 @@ const Transaction = withWrapper(() => {
         <div className="mt-24 pt-8 ">
             <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} /> 
-                <input style={{border:'none'}} className="ms-2 w-[23.25rem] p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue}/>
-                <button className="bg-[--primary-light] text-sm text-white" onClick={handleSearch}>Search</button>
+                <input style={{border:'none'}} className="mw-[23.25rem] p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue}/>
+                <button className="bg-[--primary-light] text-white" onClick={handleSearch}>Search</button>
             </div>
 
             <div className="relative overflow-x-auto rounded-lg border border-[--border-color]">
