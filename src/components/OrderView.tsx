@@ -10,7 +10,14 @@ import SelectInput from "./ui/SelectInput"
 import { ICustomer } from "../interfaces"
 import { postData } from "../utils/helpers"
 import toast from "react-hot-toast"
-
+const options = [
+    { name: 'Wade Cooper' },
+    { name: 'Arlene Mccoy' },
+    { name: 'Devon Webb' },
+    { name: 'Tom Cook' },
+    { name: 'Tanya Fox' },
+    { name: 'Hellen Schmidt' },
+]
 const OrderView = ({ setSelectedProducts }:
     { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
@@ -156,7 +163,7 @@ const OrderView = ({ setSelectedProducts }:
                         <div>
                             <Input type='text' placeholder='Phone' value={customerInfo.phone} name="phone" onChange={handleInfoChange} />
                         </div>
-                        <SelectInput />
+                        <SelectInput options={options} />
                         <div className="mt-4 text-center flex gap-3 justify-center">
                             <Link to='payment'
                                 type="button"

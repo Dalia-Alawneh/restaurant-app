@@ -2,20 +2,13 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
 
-const people = [
-    { name: 'Wade Cooper' },
-    { name: 'Arlene Mccoy' },
-    { name: 'Devon Webb' },
-    { name: 'Tom Cook' },
-    { name: 'Tanya Fox' },
-    { name: 'Hellen Schmidt' },
-]
 
-export default function SelectInput() {
-    const [selected, setSelected] = useState(people[0])
+
+export default function SelectInput({options}:{options:{name:string}[]}) {
+    const [selected, setSelected] = useState(options[0])
 
     return (
-        <div className="">
+        <div className="mt-3">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="relative mt-1">
                     <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -34,11 +27,11 @@ export default function SelectInput() {
                         leaveTo="opacity-0"
                     >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                            {people.map((person, personIdx) => (
+                            {options.map((person, personIdx) => (
                                 <Listbox.Option
                                     key={personIdx}
                                     className={({ active }) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-[--primary-light] text-[--primary]' : 'text-gray-900'
                                         }`
                                     }
                                     value={person}
@@ -52,7 +45,7 @@ export default function SelectInput() {
                                                 {person.name}
                                             </span>
                                             {selected ? (
-                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[--primary]">
                                                     <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                                 </span>
                                             ) : null}

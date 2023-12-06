@@ -8,6 +8,7 @@ import burger from './categories/4.png'
 import menu from './menu.svg'
 import pos from './pos.jpg'
 import allCategories from './categories/all.png'
+import payment from './payments.svg'
 const categories = [
     {
         title:"Soft Drinks",
@@ -43,4 +44,4 @@ const categories = [
     },
     
 ]
-export {logo, userDefaultImage, close, menu, categories, pos, allCategories}
+export {logo, userDefaultImage, close, menu, categories, pos, allCategories, payment}
