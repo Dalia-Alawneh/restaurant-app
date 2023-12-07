@@ -4,7 +4,7 @@ import { navLinks } from '../constants'
 import ListItem from './ui/ListItem'
 const Navbar = ({setIsToggle, isToggle}:{setIsToggle:(isToggle:boolean)=>void, isToggle:boolean}) => {
     return (
-        <nav className="fixed w-full top-0 flex shadow-md justify-between z-20 bg-white">
+        <nav className="fixed w-full top-0 flex shadow-md justify-between z-40 bg-white">
             <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> setIsToggle(!isToggle)}>
                 <img src={isToggle? close : menu} className='w-[30px]' alt="" />
             </div>

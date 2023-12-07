@@ -1,20 +1,19 @@
-import Footer from "../components/Footer"
-import Navbar from "../components/Navbar"
+
 import { Outlet } from 'react-router-dom'
-import Sidebar from "../components/Sidebar"
-import {useState} from 'react'
-import SideBarLink from "../components/ui/SideBarLink"
-import { CircleDollarSign, LayoutDashboard, LogOutIcon, UserRound, Wallet } from "lucide-react"
-const RootLayout = () => {
+import { useState } from 'react'
+import Footer from '../../components/Footer'
+import Sidebar from '../../components/Sidebar'
+import { logo } from '../../assets'
+import SideBarLink from '../../components/ui/SideBarLink'
+import { CircleDollarSign, LayoutDashboard, LogOutIcon, UserRound, Wallet } from 'lucide-react'
+const DashboardLayout = () => {
     const [isToggle, setIsToggle] = useState<boolean>(false)
     return (
         <div className="bg-[#fbfbfb] min-h-screen">
-            <Navbar isToggle={isToggle} setIsToggle={setIsToggle} />
-            {
-            isToggle && <>
-                <Sidebar>
+            <Sidebar>
                 <>
-                    <ul className="flex-col mt-5 max-w-100 gap-16">
+                    <ul className="flex-col max-w-100 gap-16">
+                        <div className='ps-5 pb-16'><img src={logo} className='w-[120px]' alt="" /></div>
                         <SideBarLink icon={<UserRound size={20} color="#1f3786" />} path="/transaction" text="orders" />
                         <SideBarLink icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
                         <SideBarLink icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
@@ -26,9 +25,11 @@ const RootLayout = () => {
                     </div>
                 </>
             </Sidebar>
-                <div onClick={()=>setIsToggle(false)} className="overlay fixed inset-0 bg-[#2c2c2f53] backdrop-blur-sm z-10 m-0">
-                </div>
-            </>
+            {
+                isToggle && <>
+                    <div onClick={() => setIsToggle(false)} className="overlay fixed inset-0 bg-[#2c2c2f53] backdrop-blur-sm z-10 m-0">
+                    </div>
+                </>
             }
             <Outlet />
             <Footer />
@@ -36,4 +37,4 @@ const RootLayout = () => {
     )
 }
 
-export default RootLayout
+export default DashboardLayout

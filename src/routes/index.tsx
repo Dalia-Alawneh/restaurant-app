@@ -5,6 +5,7 @@ import { Dashboard } from "../pages/dashboard";
 import { Pos } from "../pages/pos";
 import { Transaction } from "../pages/transaction";
 import Payment from "../pages/pos/Payment";
+import DashboardLayout from "../pages/dashboard/Layout";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
@@ -14,6 +15,9 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="dashboard" element={<Dashboard/>}/>
             <Route path="transaction" element={<Transaction/>}/>
         </Route>
+        {/* <Route path="/dashboard" element={<DashboardLayout/>}>
+            <Route index element={<Dashboard/>}/>
+        </Route> */}   
         <Route path="*" element={<ErrorHandler status={404} title="Page Not Found!"/>}/>
     </>
 

@@ -51,7 +51,9 @@
   --link-active-color: #263db1;
   --primary:#2f4cdd;
   --primary-light:#2f4cdd75;
+  --primary-extra-light:#3f5df229;
   --sec-color:#ff6d4d;
+  --sec-extra-light:rgba(255, 110, 77, 0.356);
   --sec-light:rgba(247, 112, 82, 0.5);
   --border-color:#72727281;
 }
@@ -141,4 +143,8 @@ h2{
 .pagination button.active {
   background-color: var(--primary-light);
   font-weight: bold;
+}
+
+aside li a.active{
+  background-color: #527aff70;
 }
