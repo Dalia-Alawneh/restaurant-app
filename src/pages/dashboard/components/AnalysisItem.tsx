@@ -4,11 +4,13 @@ interface IProps {
     icon: ReactNode;
     title: string;
     value: string;
+    bgColor: string;
+    textColor: string;
 }
-const AnalysisItem = ({ icon, title, value }: IProps) => {
+const AnalysisItem = ({ icon, title, value, bgColor, textColor }: IProps) => {
     return (
         <ItemWrapper>
-            <div className="text-[--primary] bg-[--primary-extra-light] w-fit p-2 rounded-lg" >
+            <div className={`w-fit p-2 rounded-lg`} style={{backgroundColor:bgColor, color:textColor}} >
                 {icon}
             </div>
             <p className="my-3">{title}</p>

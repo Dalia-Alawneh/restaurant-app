@@ -35,3 +35,4 @@ export const posSideBarLinks:{text:string; path:string; icon?:string}[] = [
         path:"foodItems",
     },
 ] 
+
