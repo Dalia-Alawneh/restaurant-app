@@ -9,7 +9,7 @@ import DashboardLayout from "../pages/dashboard/Layout";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
-        <Route path="/" element={<RootLayout/>}>
+        <Route path="/" element={<RootLayout/>} errorElement={<ErrorHandler status={500} title="Server Error"/>}>
             <Route index element={<Pos/>}/>
             <Route path="payment" element={<Payment/>}/>
             <Route path="dashboard" element={<Dashboard/>}/>
