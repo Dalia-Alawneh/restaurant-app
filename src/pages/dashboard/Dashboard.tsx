@@ -5,30 +5,9 @@ import BarChart from "./components/BarChart"
 import AnalysisItem from "./components/AnalysisItem"
 import ItemWrapper from "./components/ItemWrapper"
 import DoughnutChart from "./components/DoughnutChart"
-import { useState, useEffect } from 'react'
-import { IProduct } from "../../interfaces"
-import { getData } from "../../utils/helpers"
-import toast from "react-hot-toast"
-import ProductCard from "../../components/ui/ProductCard"
-import DashProductCard from "./components/DashProductCard"
+import MostSelectedFoods from "./components/MostSelectedFoods"
 const Dashboard = withWrapper(() => {
-    const [mostSelectedFoods, setMostSelectedFoods] = useState<IProduct[]>([])
-    console.log(mostSelectedFoods);
-
-    const setData = async () => {
-        try {
-            const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=4&pagination[page]=1')
-            if (data.data.length) {
-                setMostSelectedFoods(data.data)
-            }
-        } catch (e) {
-            toast.error('Something goes wrong.!🥲')
-        }
-    }
-    useEffect(() => {
-        toast.success('Successfully toasted!')
-        setData()
-    }, [])
+    
     return (
         <div className="pt-20 ms-16 mt-8">
             <UserInfo name="Dalia Alawneh" />
@@ -57,22 +36,7 @@ const Dashboard = withWrapper(() => {
                         </div>
                     </ItemWrapper>
                 </div>
-                <div className="my-8">
-                    <h2>Most Selected Foods</h2>
-                    <ItemWrapper>
-                        <div className="grid mt-8 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full justify-start gap-6">
-
-                            {mostSelectedFoods.map(product => (
-                                <DashProductCard isLoading={false}
-                                    key={product.id}
-                                    attributes={product.attributes}
-                                    id={product.id}
-                                    img={`http://localhost:1337${product.attributes.img.data.attributes.url}`}
-                                />
-                            ))}
-                        </div>
-                    </ItemWrapper>
-                </div>
+                <MostSelectedFoods/>
             </div>
         </div>
     )
