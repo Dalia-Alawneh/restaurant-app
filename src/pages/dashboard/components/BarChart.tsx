@@ -28,7 +28,7 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Chart.js Bar Chart',
+            text: 'Profits Bar Chart',
         },
     },
 };
@@ -39,18 +39,18 @@ export const data = {
     labels,
     datasets: [
         {
-            label: 'Dataset 1',
+            label: 'Revenue',
             data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: 'rgba(47, 46, 221, 0.46)',
         },
         {
-            label: 'Dataset 2',
+            label: 'Gain',
             data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            backgroundColor: 'rgba(255, 109, 77, 0.4)',
         },
     ],
 };
 
-export function Chart() {
+export default function BarChart() {
     return <Bar options={options} data={data} />;
 }
