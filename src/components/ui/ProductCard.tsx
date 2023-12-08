@@ -32,7 +32,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                     <img className="w-full" src={img} alt={title} />
                     <div className="card-head p-3">
                         <Rating starsCount={stars} />
-                        <h3 className='my-2 text-lg font-semibold'>{title}</h3>
+                        <h3 className='my-2 text-lg font-semibold capitalize'>{title}</h3>
                         <div className="flex justify-between items-center">
                             <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
                             <button className={`border-0 focus:outline-none ${isSelectProduct ? 'bg-[--primary-light]' : 'bg-[--sec-color]'} p-1`}>
