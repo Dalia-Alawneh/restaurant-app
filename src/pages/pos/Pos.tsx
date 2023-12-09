@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Carousel from "../../components/Carousel"
 import OrderView from "../../components/OrderView"
 import ProductCard from "../../components/ui/ProductCard"
@@ -12,7 +12,6 @@ const Pos = withWrapper(() => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedProducts, setSelectedProducts] = useState<Record<string, boolean>>({});
-
 
     const setData = async () => {
         try {
@@ -35,7 +34,7 @@ const Pos = withWrapper(() => {
             
             <OrderView setSelectedProducts={setSelectedProducts} />
             <div className="w-full md:w-2/3">
-                <Carousel />
+                <Carousel setProducts={setProducts} />
                 <div className="grid mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
 
                     {products.map(product => (

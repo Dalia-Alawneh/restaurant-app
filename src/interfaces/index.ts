@@ -35,7 +35,10 @@ export interface ICategory {
         img: {
             data:{
                 attributes:{
-                    url:string
+                    url:string;
+                    products:{
+                        data:IProduct[];
+                    };
                 }
             }
         };
