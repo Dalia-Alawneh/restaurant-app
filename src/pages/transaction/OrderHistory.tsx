@@ -1,16 +1,15 @@
-import { MapPin, Search } from "lucide-react"
-import { emptyCart, userDefaultImage } from "../../assets"
-import withWrapper from "../../components/hoc/withWrapper"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import Dropdown from "../../components/ui/DropDown"
-import { useEffect, useState } from "react"
-import { IOrder } from "../../interfaces"
-import { toast } from 'react-hot-toast'
-import { getData } from "../../utils/helpers"
+import { Dropdown } from "flowbite"
 import Paginator from "../../components/ui/Paginator"
-import { ChangeEvent, useCallback } from 'react'
+import { MapPin, Search } from "lucide-react"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
+import { getData } from "../../utils/helpers"
+import { Link, useNavigate } from "react-router-dom"
+import { IOrder } from "../../interfaces"
+import toast from "react-hot-toast"
+import { emptyCart, userDefaultImage } from "../../assets"
+import DropDown from "../../components/ui/DropDown"
 
-const Transaction = withWrapper(() => {
+const OrderHistory = () => {
     const [orders, setOrders] = useState<IOrder[]>()
     const [searchTerm, setSearchTerm] = useState<string>()
     const navigate = useNavigate()
@@ -111,7 +110,7 @@ const Transaction = withWrapper(() => {
                                             <Link to='/' className="block w-fit px-3 py-2 rounded-xl border border-[--sec-color] text-[--sec-color] hover:text-[--sec-color]">Order Again</Link>
                                         </td>
                                         <td className="px-6 py-4 text-right relative">
-                                            <Dropdown />
+                                            <DropDown />
                                         </td>
                                     </tr>
                                 ))
@@ -126,6 +125,7 @@ const Transaction = withWrapper(() => {
                         }
 
 
+
                     </tbody>
                 </table>
                 <Paginator entity="orders" pageSize={8} setItems={setOrders} />
@@ -134,6 +134,6 @@ const Transaction = withWrapper(() => {
             {/* <Paginator products={products} setProducts={setProducts} pageSize={3}/> */}
         </div>
     )
-})
+}
 
-export default Transaction
+export default OrderHistory

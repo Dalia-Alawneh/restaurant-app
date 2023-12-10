@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Carousel from "../../components/Carousel"
 import OrderView from "../../components/OrderView"
 import ProductCard from "../../components/ui/ProductCard"
@@ -15,7 +15,7 @@ const Pos = withWrapper(() => {
 
     const setData = async () => {
         try {
-            const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=5&pagination[page]=1')
+            const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=3&pagination[page]=1')
             if (data.data.length) {
                 setIsLoading(false)
                 setProducts(data.data)
