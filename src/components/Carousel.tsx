@@ -8,8 +8,9 @@ import { ICategory, IProduct } from '../interfaces';
 import { allCategories } from '../assets';
 interface IProps {
     setProducts: (products: IProduct[]) => void;
+    setIsAll: (isAll: boolean) => void;
 }
-const Carousel = ({ setProducts }: IProps) => {
+const Carousel = ({ setProducts, setIsAll }: IProps) => {
     const [categories, setCategories] = useState<ICategory[]>([])
     const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +77,7 @@ const Carousel = ({ setProducts }: IProps) => {
                     },
                     // when window width is >= 640px
                     800: {
-                        slidesPerView: 4
+                        slidesPerView: 3
                         ,
                         spaceBetween: 40
                     },
@@ -88,6 +89,7 @@ const Carousel = ({ setProducts }: IProps) => {
             onSlideChange={(swiper) => {
                 const activeCategoryId = categories[swiper.realIndex]?.id;
                 setCategoryId(activeCategoryId);
+                setIsAll(false)
             }}
             onSwiper={(swiper) => console.log(swiper)}
             loop={true}
