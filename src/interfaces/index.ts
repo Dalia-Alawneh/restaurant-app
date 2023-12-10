@@ -32,13 +32,13 @@ export interface ICategory {
     id: number;
     attributes:{
         title: string;
+        products:{
+            data:IProduct[];
+        };
         img: {
             data:{
                 attributes:{
                     url:string;
-                    products:{
-                        data:IProduct[];
-                    };
                 }
             }
         };

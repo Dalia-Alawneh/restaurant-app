@@ -29,7 +29,9 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                 :
 
                 <div className="cursor-pointer rounded-xl border flex flex-col justify-between w-full min-h-[460px]" onClick={orderClickHandler}>
+                    <div className="card-img p-3">
                     <img className="w-full" src={img} alt={title} />
+                    </div>
                     <div className="card-head p-3">
                         <Rating starsCount={stars} />
                         <h3 className='my-2 text-lg font-semibold capitalize'>{title}</h3>

@@ -13,7 +13,21 @@ const Carousel = ({ setProducts }: IProps) => {
     const [categories, setCategories] = useState<ICategory[]>([])
     const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
+    const [categoryId, setCategoryId] = useState<number>(1)
+    useEffect(()=>{
+        const filterData = async () => {
+            try {
+                const data = await getData(`/categories/${categoryId}?populate=products&populate=products.img`);
+                setProducts(data.data.attributes.products.data);
+                setActiveIndex(0);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
+        filterData();
+    },[categoryId])
     useEffect(() => {
         const setData = async () => {
             try {
@@ -73,6 +87,15 @@ const Carousel = ({ setProducts }: IProps) => {
             onSlideChange={(swiper) => {
                 setActiveIndex(swiper.activeIndex);
                 console.log(swiper.activeIndex);
+                const activeCategoryId = categories[swiper.activeIndex]?.id;
+                setCategoryId(activeCategoryId)
+                // const filteredProducts = activeCategory?.attributes.products?.data;
+                // console.log("kk");
+                // console.log(filteredProducts);
+                
+                // if (filteredProducts) {
+                //     // setProducts(filteredProducts)
+                // }
 
             }}
             onSwiper={(swiper) => console.log(swiper)}
@@ -87,7 +110,7 @@ const Carousel = ({ setProducts }: IProps) => {
             {categories.map(category => (
                 <SwiperSlide className='bg-white p-3 rounded-md' key={category.id}>
                     <div className="card py-3 flex flex-col items-center">
-                        <img className='w-16 mb-2' src={`http://localhost:1337${category.attributes.img.data.attributes.url}`} alt="" />
+                        <img className='w-16 mb-2' src={`http://localhost:1337${category?.attributes?.img?.data?.attributes?.url}`} alt="" />
                         <h3 className=''>{category.attributes.title}</h3>
                     </div>
                 </SwiperSlide>
