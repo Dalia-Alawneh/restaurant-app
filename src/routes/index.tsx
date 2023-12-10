@@ -5,8 +5,8 @@ import { Dashboard } from "../pages/dashboard";
 import { Pos } from "../pages/pos";
 import { Transaction } from "../pages/transaction";
 import Payment from "../pages/pos/Payment";
-import DashboardLayout from "../pages/dashboard/Layout";
 import OrderDetails from "../pages/transaction/OrderDetails";
+import OrderHistory from "../pages/transaction/OrderHistory";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
@@ -15,6 +15,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="payment" element={<Payment />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="transaction" element={<Transaction />}>
+                <Route index element={<OrderHistory />} />
                 <Route path="order/:id" element={<OrderDetails />} />
             </Route>
         </Route>

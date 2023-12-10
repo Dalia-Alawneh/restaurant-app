@@ -43,7 +43,7 @@ const OrderHistory = () => {
         setData()
     }, [])
     return (
-        <div className="mt-24 pt-8 ">
+        <div>
             <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
                 <input style={{ border: 'none' }} className="mw-[23.25rem] p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
