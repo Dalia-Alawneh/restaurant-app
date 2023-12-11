@@ -26,7 +26,7 @@ const Payment = withWrapper(() => {
     }
     return (
         <div className="mt-24 ">
-            <BreadCrumb page="Payment" />
+            <BreadCrumb homePath="/" page="Payment" />
             <div className="flex mt-8 gap-10">
                 <div className="shadow-lg shadow-[#f8e1e1] w-2/3 p-6">
                     <div className="flex items-center justify-between border-b pb-3">

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { IOrder } from "../../interfaces";
 import { userDefaultImage } from "../../assets";
 import { Check, MapPin, Truck } from "lucide-react";
+import BreadCrumb from "../../components/ui/BreadCrumb";
 
 const OrderDetails = () => {
     const id = useParams().id;
@@ -18,7 +19,8 @@ const OrderDetails = () => {
     }, [])
     return (
         <div>
-            <h1 className="text-[22px] font-semibold capitalize my-4">order detials</h1>
+            <BreadCrumb homePath="/transaction" page="Order details" />
+            <h1 className="text-[22px] font-semibold capitalize mt-10 mb-4">order detials</h1>
             <div className="border border-[--border-color] p-6 rounded-lg">
                 <div className="flex justify-center sm:place-content-between flex-wrap sm:flex-nowrap gap-4 border-b pb-5">
                     <div className="order-info w-full sm:w-50">
