@@ -37,8 +37,8 @@ const Pos = withWrapper(() => {
                 <div className="w-full md:w-2/3">
                     <div className="flex gap-4 w-full">
                         <div className='bg-white p-3 rounded-md w-[300px] border cursor-pointer shadow-[0px_2px_7px_2px_var(--sec-extra-light)]'
-                            onClick={() => { 
-                                setData() 
+                            onClick={() => {
+                                setData()
                                 setIsAll(true)
                             }}
                         >
@@ -49,21 +49,26 @@ const Pos = withWrapper(() => {
                         </div>
                         <Carousel setIsAll={setIsAll} setProducts={setProducts} />
                     </div>
+                        {
+                            products.length>0?
                     <div className="grid mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
-
-                        {products.map(product => (
-                            <ProductCard isLoading={isLoading}
-                                key={product.id}
-                                isSelectProduct={selectedProducts[product.id] || false}
-                                setIsSelectProduct={(value) =>
-                                    setSelectedProducts((prevSelected) => ({ ...prevSelected, [product.id]: value }))
-                                }
-                                attributes={product.attributes}
-                                id={product.id}
-                                img={`http://localhost:1337${product.attributes.img?.data.attributes.url}`}
-                            />
-                        ))}
-                    </div>
+{
+                            products.map(product => (
+                                <ProductCard isLoading={isLoading}
+                                    key={product.id}
+                                    isSelectProduct={selectedProducts[product.id] || false}
+                                    setIsSelectProduct={(value) =>
+                                        setSelectedProducts((prevSelected) => ({ ...prevSelected, [product.id]: value }))
+                                    }
+                                    attributes={product.attributes}
+                                    id={product.id}
+                                    img={`http://localhost:1337${product.attributes.img?.data.attributes.url}`}
+                                />
+                            ))
+                        }
+                        </div>
+                        :<div className="w-full flex justify-center mt-8">No Items Found</div>
+                        }
                     {isAll && <Paginator setItems={setProducts} pageSize={4} entity="products" />}
                 </div>
 
