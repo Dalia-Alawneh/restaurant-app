@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import 'swiper/css';
 import { getData } from '../utils/helpers';
 import { ICategory, IProduct } from '../interfaces';
-import { allCategories } from '../assets';
 interface IProps {
     setProducts: (products: IProduct[]) => void;
     setIsAll: (isAll: boolean) => void;

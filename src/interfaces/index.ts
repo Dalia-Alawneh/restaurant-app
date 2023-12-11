@@ -1,22 +1,30 @@
 export interface ITempOrder {
     id: number;
-    title: string;
-    price: number;
-    qty: number;
+    products: IProduct[];
+    date: string;
 }
 export interface IOrder {
     id: number;
-    products:IProduct[];
-    date:string;
+    attributes: {
+        date: string;
+        name: string;
+        phone: string;
+        status: "delivering" | "completed";
+        totalPrice: number;
+        address:string;
+    };
+    products:{
+        data:IProduct[]
+    };
 }
 export interface IProduct {
     id: number;
     img: string;
     attributes: {
         img: {
-            data:{
-                attributes:{
-                    url:string
+            data: {
+                attributes: {
+                    url: string
                 }
             }
         };
@@ -25,28 +33,28 @@ export interface IProduct {
         stars: number;
         duration: string;
     };
-    qty?:number;
+    qty?: number;
 }
 
 export interface ICategory {
     id: number;
-    attributes:{
+    attributes: {
         title: string;
-        products:{
-            data:IProduct[];
+        products: {
+            data: IProduct[];
         };
         img: {
-            data:{
-                attributes:{
-                    url:string;
+            data: {
+                attributes: {
+                    url: string;
                 }
             }
         };
     };
 }
 
-export interface ICustomer{
-    name:string;
-    phone:string;
-    address?:string;
+export interface ICustomer {
+    name: string;
+    phone: string;
+    address?: string;
 }

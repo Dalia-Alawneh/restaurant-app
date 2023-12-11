@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IOrder, IProduct } from '../../interfaces'
+import { IProduct, ITempOrder } from '../../interfaces'
 
-export interface ITempOrder {
-    order: IOrder;
+export interface IStoreTempOrder {
+    order: ITempOrder;
     totalPrice: number;
 }
 
-const initialState: ITempOrder = {
+const initialState: IStoreTempOrder = {
     order: {date:'', products:[], id:0},
     totalPrice: 0,
 }

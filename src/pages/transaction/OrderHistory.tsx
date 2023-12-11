@@ -13,7 +13,7 @@ const OrderHistory = () => {
     const [orders, setOrders] = useState<IOrder[]>()
     const [searchTerm, setSearchTerm] = useState<string>()
     const navigate = useNavigate()
-    const navigateToOrderDetails = (id:number)=>{
+    const navigateToOrderDetails = (id: number) => {
         navigate(`/transaction/order/${id}`)
     }
     const setData = async () => {
@@ -46,7 +46,7 @@ const OrderHistory = () => {
         <div>
             <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
-                <input style={{ border: 'none' }} className="mw-[23.25rem] p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
+                <input style={{ border: 'none' }} className="mw-[23.25rem] bg-transparent p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
                 <button className="bg-[--primary-light] text-white" onClick={handleSearch}>Search</button>
             </div>
 
@@ -81,7 +81,7 @@ const OrderHistory = () => {
                         {
                             orders?.length ?
                                 orders?.map(order => (
-                                    <tr onClick={()=>navigateToOrderDetails(order.id)} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <tr onClick={() => navigateToOrderDetails(order.id)} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="flex items-center gap-3">
                                                 <img src={userDefaultImage} alt="" className="w-10 rounded-full" />
