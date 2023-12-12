@@ -33,9 +33,9 @@ export interface IProduct {
         stars: number;
         duration: string;
         discount?:number;
+        isNew?: boolean;
     };
     qty?: number;
-    isNew?: boolean;
 }
 
 export interface ICategory {
