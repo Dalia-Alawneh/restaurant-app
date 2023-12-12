@@ -10,12 +10,12 @@ interface IProps extends IProduct {
     isLoading: boolean;
 }
 const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, setIsSelectProduct }: IProps) => {
-    const { price, title, stars, duration } = attributes
+    const { price, title, stars, duration, discount, isNew } = attributes
     const dispatch = useAppDispatch()
     const orderClickHandler = () => {
         setIsSelectProduct(!isSelectProduct)
         if (!isSelectProduct) {
-            dispatch(addToTempOrders({ id, attributes, img}));
+            dispatch(addToTempOrders({ id, attributes, img }));
             dispatch(calculateTotalPrice())
         } else {
             dispatch(removeFromTempOrders(id))
@@ -28,15 +28,30 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                 <CardSkeleton />
                 :
 
-                <div className="cursor-pointer rounded-xl border flex flex-col justify-between w-full min-h-[460px]" onClick={orderClickHandler}>
+                <div className="relative overflow-hidden cursor-pointer rounded-xl border flex flex-col justify-between w-full min-h-[460px]" onClick={orderClickHandler}>
+                    {isNew && <div className="discount text-white text-[13px] p-2 absolute bg-blue-500 rounded-b-full rounded-ss-lg">
+                        New!!
+                    </div>}
+                    {discount && <div className="discount text-white text-[13px] p-2 absolute right-0 bg-red-500 rounded-b-full rounded-ss-lg">
+                        - {discount}%
+                    </div>}
                     <div className="card-img p-3">
-                    <img className="w-full" src={img} alt={title} />
+                        <img className="w-full" src={img} alt={title} />
                     </div>
                     <div className="card-head p-3">
                         <Rating starsCount={stars} />
                         <h3 className='my-2 text-lg font-semibold capitalize'>{title}</h3>
                         <div className="flex justify-between items-center">
-                            <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
+                            <div>
+                                {discount ?
+                                    <>
+                                        <sub className='text-[--sec-light] font-bold text-sm line-through'>${price.toFixed(2)}</sub>
+                                        <sup className='text-[--sec-color] font-bold text-lg'>${(price - (price * (discount / 100))).toFixed(2)}</sup>
+                                    </>
+                                    : <p className='text-[--sec-color] font-bold text-lg'>${price.toFixed(2)}</p>
+                                }
+
+                            </div>
                             <button className={`border-0 focus:outline-none ${isSelectProduct ? 'bg-[--primary-light]' : 'bg-[--sec-color]'} p-1`}>
                                 {isSelectProduct ? <Check color='white' /> : <Plus color='white' />}
                             </button>

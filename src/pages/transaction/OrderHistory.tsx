@@ -55,6 +55,9 @@ const OrderHistory = () => {
                     <thead className="text-xs text-gray-700 uppercase border-b border-[--border-color]">
                         <tr>
                             <th scope="col" className="px-6 py-3">
+                                #
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Menu
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -80,8 +83,13 @@ const OrderHistory = () => {
                     <tbody className="py-5">
                         {
                             orders?.length ?
-                                orders?.map(order => (
+                                orders?.map((order, index) => (
                                     <tr onClick={() => navigateToOrderDetails(order.id)} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div className="flex items-center gap-3">
+                                                    {index+1}
+                                            </div>
+                                        </th>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="flex items-center gap-3">
                                                 <img src={userDefaultImage} alt="" className="w-10 rounded-full" />

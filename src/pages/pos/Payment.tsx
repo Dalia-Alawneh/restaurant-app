@@ -6,6 +6,7 @@ import SelectInput from "../../components/ui/SelectInput"
 import { putData } from "../../utils/helpers"
 import toast from "react-hot-toast"
 import { useAppSelector } from "../../app/store"
+import { useNavigate } from "react-router-dom"
 const selectOtions = [
     {name:'Cash'},
     {name:'Visa'},
@@ -13,12 +14,16 @@ const selectOtions = [
 ]
 const Payment = withWrapper(() => {
     const orderId = useAppSelector(state => state.tempOrders.order.id)
+    const navigate = useNavigate()
     const handlePayment= async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
             const res = await putData(`/orders/${orderId}`, { data: { status: "completed" } })
             toast.success('Payment Done Successfully.. 🤑❤️‍🔥')
             console.log(res);
+            setTimeout(()=>{
+                navigate('/')
+            },1000)
         } catch (e) {
             toast.error('Something goes wrong.!🥲')
             console.log(e);

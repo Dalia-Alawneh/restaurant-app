@@ -32,8 +32,10 @@ export interface IProduct {
         price: number;
         stars: number;
         duration: string;
+        discount?:number;
     };
     qty?: number;
+    isNew?: boolean;
 }
 
 export interface ICategory {
