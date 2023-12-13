@@ -137,7 +137,7 @@ const Menus = withWrapper(() => {
                                     </th>
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div className="flex items-center gap-3">
-                                            <img src={`http://localhost:1337${menu.attributes?.img?.data?.attributes?.url}`} alt="" className="w-10 rounded-full" />
+                                            <img src={menu.attributes?.img?.data?.attributes?.url} alt="" className="w-10 rounded-full" />
                                             <h6 className="capitalize">{menu.attributes.title}</h6>
 
                                         </div>

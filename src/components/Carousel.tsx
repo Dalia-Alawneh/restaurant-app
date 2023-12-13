@@ -96,7 +96,7 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
             {categories.map(category => (
                 <SwiperSlide className='bg-white p-3 rounded-md' key={category.id}>
                     <div className="card py-3 flex flex-col items-center">
-                        <img className='w-16 mb-2' src={`http://localhost:1337${category?.attributes?.img?.data?.attributes?.url}`} alt="" />
+                        <img className='w-16 mb-2' src={category?.attributes?.img?.data?.attributes?.url} alt="" />
                         <h3 className=''>{category.attributes.title}</h3>
                     </div>
                 </SwiperSlide>

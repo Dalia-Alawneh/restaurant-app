@@ -69,7 +69,7 @@ const OrderDetails = () => {
                             order?.attributes.products?.data.map((product, index) => (
                                 <div className="flex justify-between items-center">
                                     <div className="flex items-center gap-3">
-                                        <img className="w-[5rem] h-[5rem] object-contain rounded-xl border border-[--sec-color]" src={`http://localhost:1337${product.attributes.img.data.attributes.url}`} alt="" />
+                                        <img className="w-[5rem] h-[5rem] object-contain rounded-xl border border-[--sec-color]" src={product.attributes.img.data.attributes.url} alt="" />
                                         <div>
                                             <h4 className="capitalize">{product.attributes.title}</h4>
                                             {/* <span>{product.attributes.qty}</span> */}
