@@ -1,6 +1,6 @@
 
 import { Outlet } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import Sidebar from '../../components/Sidebar'
 import SideBarLink from '../../components/ui/SideBarLink'
@@ -8,6 +8,19 @@ import { CircleDollarSign, LogOutIcon, Menu, UserRound, Wallet } from 'lucide-re
 import Navbar from '../../components/Navbar'
 const DashboardLayout = () => {
     const [isToggle, setIsToggle] = useState<boolean>(false)
+    useEffect(() => {
+        const handleKeyDown = (event:KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsToggle(false);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
     return (
         <div className='bg-[#fbfbfb]'>
             <div className=" min-h-screen">

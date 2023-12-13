@@ -11,10 +11,10 @@ export interface IOrder {
         phone: string;
         status: "delivering" | "completed";
         totalPrice: number;
-        address:string;
+        address: string;
     };
-    products:{
-        data:IProduct[]
+    products: {
+        data: IProduct[]
     };
 }
 export interface IProduct {
@@ -28,12 +28,20 @@ export interface IProduct {
                 }
             }
         };
+        categories?: {
+            data: {
+                attributes: {
+                    title: string;
+                };
+            }[];
+        };
         title: string;
         price: number;
         stars: number;
         duration: string;
-        discount?:number;
+        discount?: number;
         isNew?: boolean;
+        sales:number;
     };
     qty?: number;
 }

@@ -2,11 +2,24 @@ import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import { Outlet } from 'react-router-dom'
 import Sidebar from "../components/Sidebar"
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import SideBarLink from "../components/ui/SideBarLink"
 import { CircleDollarSign, LayoutDashboard, LogOutIcon, UserRound, Wallet } from "lucide-react"
 const RootLayout = () => {
     const [isToggle, setIsToggle] = useState<boolean>(false)
+    useEffect(() => {
+        const handleKeyDown = (event:KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsToggle(false);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
     return (
         <div className="bg-[#fbfbfb] min-h-screen">
             <Navbar isToggle={isToggle} setIsToggle={setIsToggle} />

@@ -20,7 +20,7 @@ const router = createBrowserRouter(createRoutesFromElements(
                 <Route path="order/:id" element={<OrderDetails />} />
             </Route>
         </Route>
-        <Route path="/dashboard" element={<DashboardLayout/>}>
+        <Route path="/dashboard" element={<DashboardLayout/>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Dashboard/>}/>
             <Route path="menus" element={<Menus/>}/>
         </Route>

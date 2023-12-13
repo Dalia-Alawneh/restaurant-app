@@ -6,11 +6,11 @@ export const navLinks:{text:string; path:string}[] = [
     },
     {
         text:"transaction",
-        path:"transaction",
+        path:"/transaction",
     },
     {
         text:"dashboard",
-        path:"dashboard",
+        path:"/dashboard",
     },
 ] 
 export const posSideBarLinks:{text:string; path:string; icon?:string}[] = [
