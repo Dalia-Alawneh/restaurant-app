@@ -1,6 +1,6 @@
 import { Plus, Check } from 'lucide-react'
 import { useAppDispatch } from '../../app/store';
-import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/TempOrder';
+import { addToTempOrders, calculateTotalPrice, removeFromTempOrders } from '../../features/tempOrder/index.ts';
 import Rating from './Rating';
 import { IProduct } from '../../interfaces';
 import CardSkeleton from './CardSkeleton';

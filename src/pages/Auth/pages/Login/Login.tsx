@@ -5,6 +5,7 @@ import { postData } from "../../../../utils/helpers";
 import { signinSchema } from "../../../../schemas";
 import toast from "react-hot-toast";
 import { loginFormFeilds } from "../../../../constants";
+import SaberCookies from 'saber-cookies'
 
 interface IFormData {
     identifier: string;
@@ -34,7 +35,7 @@ const Login = () => {
             console.log(values);
             try {
                 const res = await postData("/auth/local", values);
-                
+                SaberCookies.set("token", res.jwt, 3600)
                 setTimeout(()=>{
                     navigate("/");
                 },1000)
@@ -48,9 +49,6 @@ const Login = () => {
     const validationErrors: FormikErrorsWithIndexSignature = errors
     const formikTouched: FormikTouchedWithIndexSignature = touched
     const hasErrors = Object.keys(errors).length > 0;
-
-    console.log({ touched }); // empty why??
-
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">

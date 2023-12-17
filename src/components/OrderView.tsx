@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
-import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder, updateId } from "../features/tempOrder/TempOrder"
+import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder, updateId } from "../features/tempOrder/index.ts"
 import MyModal from "./ui/MyModal"
 import { useState, ChangeEvent, FormEvent } from 'react'
 import { Dialog } from "@headlessui/react"

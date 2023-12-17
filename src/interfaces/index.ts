@@ -75,8 +75,19 @@ export interface ISelectOptions {
     id: number;
 }
 
-export interface IFormFeild { 
-    name: string; 
-    placeholder: string; 
-    type: string; 
+export interface IFormFeild {
+    name: string;
+    placeholder: string;
+    type: string;
+}
+export interface IUser {
+    id: number;
+    username: string;
+    email: string;
+    provider: string;
+    confirmed: boolean;
+    blocked: boolean;
+    createdAt: string;
+    updatedAt: string;
+    isAdmin: boolean
 }
