@@ -89,9 +89,9 @@ export const registerFormFeilds: IFormFeild[] = [
 ]
 export const loginFormFeilds: IFormFeild[] = [
     {
-        name: 'email',
-        type: 'email',
-        placeholder: 'Email',
+        name: 'identifier',
+        type: 'text',
+        placeholder: 'Identifier',
     },
     {
         name: 'password',
