@@ -33,7 +33,7 @@ const MostSelectedFoods = () => {
                                     key={product.id}
                                     attributes={product.attributes}
                                     id={product.id}
-                                    img={`http://localhost:1337${product.attributes.img.data.attributes.url}`}
+                                    img={product.attributes.img.data.attributes.url}
                                 />
                             ))}
                         </div>

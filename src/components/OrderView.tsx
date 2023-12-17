@@ -6,18 +6,9 @@ import MyModal from "./ui/MyModal"
 import { useState, ChangeEvent, FormEvent } from 'react'
 import { Dialog } from "@headlessui/react"
 import Input from "./ui/Input"
-import SelectInput from "./ui/SelectInput"
 import { ICustomer } from "../interfaces"
 import { postData, putData } from "../utils/helpers"
 import toast from "react-hot-toast"
-const options = [
-    { name: 'Wade Cooper' },
-    { name: 'Arlene Mccoy' },
-    { name: 'Devon Webb' },
-    { name: 'Tom Cook' },
-    { name: 'Tanya Fox' },
-    { name: 'Hellen Schmidt' },
-]
 const OrderView = ({ setSelectedProducts }:
     { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
@@ -190,7 +181,6 @@ const OrderView = ({ setSelectedProducts }:
                         <div>
                             <Input type='text' placeholder='Address' value={customerInfo.address} name="address" onChange={handleInfoChange} />
                         </div>
-                        {/* <SelectInput options={options} /> */}
                         <div className="mt-4 text-center flex gap-3 justify-center">
                             <button
                                 onClick={handleDelivery}

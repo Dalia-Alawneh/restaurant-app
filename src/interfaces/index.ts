@@ -41,7 +41,7 @@ export interface IProduct {
         duration: string;
         discount?: number;
         isNew?: boolean;
-        sales:number;
+        sales: number;
     };
     qty?: number;
 }
@@ -67,4 +67,16 @@ export interface ICustomer {
     name: string;
     phone: string;
     address?: string;
+}
+
+
+export interface ISelectOptions {
+    title: string;
+    id: number;
+}
+
+export interface IFormFeild { 
+    name: string; 
+    placeholder: string; 
+    type: string; 
 }
