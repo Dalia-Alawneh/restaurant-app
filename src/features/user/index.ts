@@ -2,7 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ITempOrder, IUser } from '../../interfaces'
 
 export interface IUserSlice {
-    user: IUser
+    user: IUser;
+    isAdmin:boolean;
 }
 
 const initialState: IUserSlice = {
@@ -16,7 +17,8 @@ const initialState: IUserSlice = {
         confirmed: true,
         createdAt: '',
         updatedAt: '',
-    }
+    },
+    isAdmin: false,
 }
 
 export const userSlice = createSlice({
@@ -25,6 +27,7 @@ export const userSlice = createSlice({
     reducers: {
         storeUser: (state, action: PayloadAction<IUser>) => {
             state.user = action.payload
+            state.isAdmin = action.payload.isAdmin
         }
     },
 })
