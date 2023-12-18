@@ -7,7 +7,7 @@ function App() {
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
       <Toaster
         position="bottom-right"
         reverseOrder={false}

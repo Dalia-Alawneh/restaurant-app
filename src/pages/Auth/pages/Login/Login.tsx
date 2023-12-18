@@ -5,7 +5,6 @@ import { postData } from "../../../../utils/helpers";
 import { signinSchema } from "../../../../schemas";
 import toast from "react-hot-toast";
 import { loginFormFeilds } from "../../../../constants";
-import SaberCookies from 'saber-cookies'
 import { useAppDispatch } from "../../../../app/store";
 import { storeUser } from "../../../../features/user";
 
@@ -41,7 +40,11 @@ const Login = () => {
                 dispatch(storeUser(res.user))
                 SaberCookies.set("token", res.jwt, 3600)
                 setTimeout(()=>{
-                    navigate("/");
+                if(res.user.isAdmin) {
+                        navigate("/");
+                    }else{
+                        navigate("/client");
+                    }
                 },1000)
             } catch (e) {
                 console.log(e);
