@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom'
 import { close, logo, menu, userDefaultImage } from '../assets'
 import { navLinks } from '../constants'
 import ListItem from './ui/ListItem'
+import { IUser } from '../interfaces'
+import { useAppSelector } from '../app/store'
 const Navbar = ({setIsToggle, isToggle}:{setIsToggle:(isToggle:boolean)=>void, isToggle:boolean}) => {
+    const loggedInUser: IUser | null = useAppSelector((state) => state.user.user);
+
     return (
         <nav className="fixed w-full top-0 flex shadow-md justify-between z-40 bg-white">
             <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={()=> setIsToggle(!isToggle)}>
@@ -19,7 +23,7 @@ const Navbar = ({setIsToggle, isToggle}:{setIsToggle:(isToggle:boolean)=>void, i
                 </ul>
                 <div className="user flex gap-3 items-center justify-end">
                     <div className="text-right">
-                        <h3 className='font-bold'>{'Dalia AL.'.slice(0,5)}</h3>
+                        <h3 className='font-bold'>{loggedInUser?loggedInUser.username.slice(0,5):"Cashere"}</h3>
                         <span className='font-light text-sm hidden sm:inline'>Super Admin</span>
                     </div>
                     <img src={userDefaultImage} alt="user image" className='w-[60px] h-[60px] rounded-full p-1 border-[3px] border-x-[--link-active-color]' />

@@ -26,11 +26,11 @@ const router = createBrowserRouter(createRoutesFromElements(
             </Route>
 
         </Route>
-        <Route path="/dashboard" element={<Protected><DashboardLayout /></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
+        <Route path="/dashboard" element={<Protected><DashboardLayout/></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Dashboard />} />
             <Route path="menus" element={<Menus />} />
         </Route>
-        <Route path="/auth" element={<Protected redirectTo="/"><AuthLayout /></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
+        <Route path="/auth" element={<Protected><AuthLayout/></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Login />} />
             <Route path="register" element={<Register />} />
         </Route>

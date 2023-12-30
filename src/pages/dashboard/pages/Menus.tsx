@@ -130,7 +130,7 @@ const Menus = withWrapper(() => {
                         Need Menu Info Please.. <span className='text-lg'>🫣</span>
                     </p>
                 </div>
-                <Form options={options} />
+                <Form options={options} closeModal={closeModal} />
             </MyModal>
         </div>
 

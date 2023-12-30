@@ -7,16 +7,15 @@ import toast from "react-hot-toast";
 import { loginFormFeilds } from "../../../../constants";
 import { useAppDispatch } from "../../../../app/store";
 import { storeUser } from "../../../../features/user";
-import SaberCookies from 'saber-cookies'
 
 interface IFormData {
     identifier: string;
     password: string;
 }
-interface FormikErrorsWithIndexSignature {
+export interface FormikErrorsWithIndexSignature {
     [key: string]: string | undefined;
 }
-interface FormikTouchedWithIndexSignature {
+export interface FormikTouchedWithIndexSignature {
     [key: string]: boolean | undefined;
 }
 const Login = () => {
@@ -39,7 +38,6 @@ const Login = () => {
             try {
                 const res = await postData("/auth/local", values);                
                 dispatch(storeUser(res.user))
-                SaberCookies.set("token", res.jwt, 3600)
                 setTimeout(()=>{
                 if(res.user.isAdmin) {
                         navigate("/");

@@ -44,11 +44,6 @@ export const productFormFeilds: IFormFeild[] = [
         name: "title",
     },
     {
-        type: 'file',
-        placeholder: 'image',
-        name: "img",
-    },
-    {
         type: 'number',
         placeholder: 'price',
         name: "price",

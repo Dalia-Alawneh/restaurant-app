@@ -1,82 +1,139 @@
+import React from 'react';
 import {
-    Formik,
+    useFormik,
     FormikHelpers,
-    FormikProps,
-    Form,
-    Field,
-    FieldProps,
 } from 'formik';
-import { productFormFeilds } from '../../../constants';
-import SelectInput from '../../../components/ui/SelectInput';
-import { useEffect } from 'react';
-import { getData, postData } from '../../../utils/helpers';
+import { postData } from '../../../utils/helpers';
 import { ISelectOptions } from '../../../interfaces';
-import axios from 'axios';
+import SelectInput from '../../../components/ui/SelectInput';
+import { productFormFeilds } from '../../../constants';
+import { productValidationSchema } from '../../../schemas';
+import { FormikErrorsWithIndexSignature, FormikTouchedWithIndexSignature } from '../../Auth/pages/Login/Login';
+import toast from 'react-hot-toast';
 
 interface IProps {
-    options: ISelectOptions[]
+    options: ISelectOptions[];
+    closeModal: () => void;
 }
+
 interface MyFormValues {
     title: string;
-    // img: string;
+    img: File | null;
     categories: number[];
     discount: number;
     price: number;
+    duration: string;
     rating: number;
 }
-const feildClasses = 'w-full text-md bg-transparent p-2 rounded-lg border placeholder:text-sm outline-none focus:outline-none focus-visible:outline-none'
-const myForm = ({ options }: IProps) => {
-    const initialValues: MyFormValues = { title: '', categories: [], discount: 0, price: 0, rating: 0 };
-    const submitHandler = async (values: MyFormValues, actions: FormikHelpers<MyFormValues>) => {
+
+const feildClasses =
+    'w-full text-md bg-transparent p-2 rounded-lg border placeholder:text-sm outline-none focus:outline-none focus-visible:outline-none';
+
+const MyForm = ({ options, closeModal }: IProps) => {
+    const initialValues: MyFormValues = {
+        title: '',
+        categories: [],
+        duration: '',
+        img: null,
+        discount: 0,
+        price: 0,
+        rating: 0,
+    };
+
+    const submitHandler = async (
+        values: MyFormValues,
+        actions: FormikHelpers<MyFormValues>
+    ) => {
         console.log({ values, actions });
         actions.setSubmitting(false);
-        const { title, price, img, discount,duration, categories } = values
-        console.log({ title, price, img, discount,duration, categories });
-        const formData = new FormData()
-        formData.append(
-            "data",
-            JSON.stringify({
-                title,
-                price,
-                discount,
-                duration,
-                categories,
-            })
-        )
-        formData.append("files", img)
-        const res = await axios.post('https://davur-restaurant-server.onrender.com/api/upload', formData)
-        console.log(res);
-        
-    }
+
+        try {
+            const { title, price, img, discount, duration, categories } = values;
+
+            const formData = new FormData();
+            formData.append(
+                'data',
+                JSON.stringify({
+                    title,
+                    price,
+                    duration,
+                    discount,
+                    categories,
+                })
+            );
+
+            if (img !== null) {
+                formData.append('files.img', img);
+            }
+
+            const res = await postData('/products?populate=*', formData);
+            console.log({ res });
+            toast.success('Menu Item Added Successfully! ❤️‍🔥');
+            closeModal();
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error('Menu Item not Added. Something Went Wrong!');
+        }
+    };
+
+
+    const handleImageChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+    ) => {
+        const file = event.currentTarget.files?.[0];
+        setFieldValue('img', file);
+    };
+
+    const formik = useFormik<MyFormValues>({
+        initialValues,
+        validationSchema: productValidationSchema,
+        onSubmit: submitHandler,
+    });
+    const validationErrors: FormikErrorsWithIndexSignature = formik.errors
+    const formikTouched: FormikTouchedWithIndexSignature = formik.touched
+    const hasErrors = Object.keys(formik.errors).length > 0;
     return (
         <div>
-            <Formik
-                initialValues={initialValues}
-                onSubmit={submitHandler}
-            >
-                <Form className='flex flex-col gap-3 my-4'>
-                    {productFormFeilds.map(feild => (
-
-                        <div>
-                            <Field className={feildClasses} type={feild.type}
-                                placeholder={feild.placeholder} name={feild.name} />
-                        </div>
-
-                    ))}
-                    <SelectInput options={options} />
-                    <div className="mt-4 text-center flex gap-3 justify-center">
-                        <button
-
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"
-                        >
-                            Submit
-                        </button>
+            <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3 my-4">
+                {productFormFeilds.map((feild) => (
+                    <div key={feild.name}>
+                        <input
+                            className={feildClasses}
+                            type={feild.type}
+                            placeholder={feild.placeholder}
+                            name={feild.name}
+                            onChange={formik.handleChange}
+                        />
+                        {validationErrors[`${feild.name}`] && formikTouched[`${feild.name}`] && (
+                            <p className="text-red-500 text-xs">* {validationErrors[`${feild.name}`]}</p>
+                        )}
                     </div>
-                </Form>
-            </Formik>
+                ))}
+                <input
+                    type="file"
+                    className={feildClasses}
+                    name="img"
+                    onChange={(event) => handleImageChange(event, formik.setFieldValue)}
+                />
+                {validationErrors[`img`] && formikTouched[`img`] && (
+                    <p className="text-red-500 text-xs">* {validationErrors[`img`]}</p>
+                )}
+                <SelectInput options={options} />
+                <div className="mt-4 text-center flex gap-3 justify-center">
+                    <button
+                        type="submit"
+                        className=
+                        {`${hasErrors ? "cursor-not-allowed" : ""} 
+                        "inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"`}
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
     );
-}
+};
 
-export default myForm
+export default MyForm;
