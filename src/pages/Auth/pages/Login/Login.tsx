@@ -36,8 +36,9 @@ const Login = () => {
         onSubmit: async (values) => {
             console.log(values);
             try {
-                const res = await postData("/auth/local", values);                
-                dispatch(storeUser(res.user))
+                const res = await postData("/auth/local", values);      
+                console.log(res);
+                dispatch(storeUser(res))
                 setTimeout(()=>{
                 if(res.user.isAdmin) {
                         navigate("/");

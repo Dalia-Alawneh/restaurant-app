@@ -6,7 +6,7 @@ import { retrieveUserFromCookie } from "../../features/user";
 
 interface IProps {
     children: ReactNode;
-    redirectTo?: string; 
+    redirectTo?: string;
 }
 
 const Protected = ({ children, redirectTo = '/auth' }: IProps) => {
@@ -14,9 +14,9 @@ const Protected = ({ children, redirectTo = '/auth' }: IProps) => {
     dispatch(retrieveUserFromCookie())
     const loggedInUser: IUser | null = useAppSelector(state => state.user.user);
     return loggedInUser ? (
-        <Navigate to={redirectTo} />
-    ) : (
         <>{children}</>
+    ) : (
+        <Navigate to={redirectTo} />
     );
 };
 

@@ -30,7 +30,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route index element={<Dashboard />} />
             <Route path="menus" element={<Menus />} />
         </Route>
-        <Route path="/auth" element={<Protected><AuthLayout/></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
+        <Route path="/auth" element={<AuthLayout/>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Login />} />
             <Route path="register" element={<Register />} />
         </Route>

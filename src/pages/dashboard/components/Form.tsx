@@ -3,7 +3,7 @@ import {
     useFormik,
     FormikHelpers,
 } from 'formik';
-import { postData } from '../../../utils/helpers';
+import { getTokenFromCookie, postData } from '../../../utils/helpers';
 import { ISelectOptions } from '../../../interfaces';
 import SelectInput from '../../../components/ui/SelectInput';
 import { productFormFeilds } from '../../../constants';
@@ -49,7 +49,7 @@ const MyForm = ({ options, closeModal }: IProps) => {
 
         try {
             const { title, price, img, discount, duration, categories } = values;
-
+            const jwt = getTokenFromCookie()
             const formData = new FormData();
             formData.append(
                 'data',
@@ -65,7 +65,16 @@ const MyForm = ({ options, closeModal }: IProps) => {
             if (img !== null) {
                 formData.append('files.img', img);
             }
-
+            // for (let pair of formData.entries()) {
+            //     console.log(pair[0] + ', ' + pair[1]);
+            // }
+            // const res = await postData('/products?populate=*', formData, {
+            //     headers:{
+            //         Authorization: `Bearer ${jwt}`,
+            //         'Content-Type':'application/json; charset=utf-8'
+            //     }
+            // });
+            // console.log({ res });
             const res = await postData('/products?populate=*', formData);
             console.log({ res });
             toast.success('Menu Item Added Successfully! ❤️‍🔥');

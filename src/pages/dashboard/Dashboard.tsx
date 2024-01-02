@@ -6,11 +6,13 @@ import AnalysisItem from "./components/AnalysisItem"
 import ItemWrapper from "./components/ItemWrapper"
 import DoughnutChart from "./components/DoughnutChart"
 import MostSelectedFoods from "./components/MostSelectedFoods"
+import { useAppSelector } from "../../app/store"
+import { IUser } from "../../interfaces"
 const Dashboard = withWrapper(() => {
-    
+    const loggedInUser: IUser | null = useAppSelector((state) => state.user.user);
     return (
         <div className="pt-20 ms-16 mt-8">
-            <UserInfo name="Dalia Alawneh" />
+            <UserInfo name={`${loggedInUser?.username}`} />
             <div className="mt-16 px-4">
                 <h2>Your Home Value</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">

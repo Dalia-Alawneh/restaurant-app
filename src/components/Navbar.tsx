@@ -23,8 +23,8 @@ const Navbar = ({setIsToggle, isToggle}:{setIsToggle:(isToggle:boolean)=>void, i
                 </ul>
                 <div className="user flex gap-3 items-center justify-end">
                     <div className="text-right">
-                        <h3 className='font-bold'>{loggedInUser?loggedInUser.username.slice(0,5):"Cashere"}</h3>
-                        <span className='font-light text-sm hidden sm:inline'>Super Admin</span>
+                        <h3 className='font-bold'>{loggedInUser?loggedInUser.username.slice(0,5):"Cashier"}</h3>
+                        <span className='font-light text-sm hidden sm:inline'>{loggedInUser?"Super Admin":""}</span>
                     </div>
                     <img src={userDefaultImage} alt="user image" className='w-[60px] h-[60px] rounded-full p-1 border-[3px] border-x-[--link-active-color]' />
                 </div>
