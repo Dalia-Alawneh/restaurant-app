@@ -3,9 +3,9 @@ import BreadCrumb from "../../../components/ui/BreadCrumb"
 import Paginator from "../../../components/ui/Paginator"
 import { emptyCart } from "../../../assets"
 import { Edit, Search, Trash } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
-import { getData } from "../../../utils/helpers"
+import { deleteData, getData } from "../../../utils/helpers"
 import { IProduct, ISelectOptions } from "../../../interfaces"
 import { useQuery } from "@tanstack/react-query"
 import ErrorHandler from "../../../components/error/ErrorHandler"
@@ -19,13 +19,23 @@ const Menus = withWrapper(() => {
     const [menus, setMenus] = useState<IProduct[]>()
     const searchRef = useRef<HTMLInputElement>(null)
     const [isOpen, setIsOpen] = useState(false)
-    const [options, setOptions]  = useState<ISelectOptions[]>([])
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [options, setOptions] = useState<ISelectOptions[]>([])
+    const [deleteMenuId, setDeleteMenuId] = useState(null);
     const closeModal = () => {
         setIsOpen(false)
     }
 
     const openModal = () => {
         setIsOpen(true)
+    }
+    const closeDeleteModal = () => {
+        setDeleteModalOpen(false)
+    }
+
+    const openDeleteModal = (menuId) => {
+        setDeleteMenuId(menuId)
+        setDeleteModalOpen(true)
     }
     const setData = async () => {
         try {
@@ -108,6 +118,20 @@ const Menus = withWrapper(() => {
     if (isError) {
         return <ErrorHandler status={403} />
     }
+    const submitDeleteHandler = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        try{
+            const res = await deleteData(`/products/${deleteMenuId}`)
+            console.log('delete',{res});
+            toast.success('Menu Item Deleted Successfully! ❤️‍🔥');
+            closeDeleteModal()
+            setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== deleteMenuId));
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error('Menu Item not Added. Something Went Wrong!');
+        }
+    }
+
     return <div className="mt-24">
         <BreadCrumb homePath="/dashboard" page="Menus" />
         <div className="flex justify-between items-center">
@@ -131,6 +155,17 @@ const Menus = withWrapper(() => {
                     </p>
                 </div>
                 <Form options={options} closeModal={closeModal} />
+            </MyModal>
+            <MyModal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal} >
+                <div className='space-y-3 px-4'>
+                    <h2>Delete Menu Item! 😕</h2>
+                    <p>Are you sure you want to delete this product Menue?</p>
+                    <span className='font-bold'>You can't retrive it❗</span>
+                    <form className="flex space-x-3 pt-3" onSubmit={submitDeleteHandler}>
+                        <button className="bg-red-800 hover:bg-red-700 text-white">Yes, Delete it</button>
+                        <button className="bg-gray-600 hover:bg-gray-500 text-white" type='button' onClick={closeDeleteModal}>Cancel</button>
+                    </form>
+                </div>
             </MyModal>
         </div>
 
@@ -197,7 +232,7 @@ const Menus = withWrapper(() => {
                                         {menu.attributes.sales || 0}
                                     </td>
                                     <td className="px-6 py-4 flex gap-3">
-                                        <button className="hover:border-red-300 px-3"><Trash className="" color="#ff4d4d" /></button>
+                                        <button className="hover:border-red-300 px-3" onClick={() => openDeleteModal(menu.id)}><Trash className="" color="#ff4d4d" /></button>
                                         <button className="hover:border-violet-300 px-3"><Edit color="#2f4cdd75" /></button>
                                     </td>
                                 </tr>

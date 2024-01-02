@@ -16,3 +16,7 @@ export const putData =async (url:string, data:unknown, config:object) => {
 export const getTokenFromCookie = ()=>{
     return SaberCookies.get('token')
 }
+export const deleteData = async (url:string, config?:object) => {
+    const res =await axiosInstance.delete(url, config)
+    return res.data
+}
