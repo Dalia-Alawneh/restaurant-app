@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const signupSchema = Yup.object({
-    identifier: Yup.string()
+    useranme: Yup.string()
         .min(3, 'Must be at least 3 characters')
         .required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
@@ -41,5 +41,4 @@ export const productValidationSchema = Yup.object().shape({
         .typeError('Rating must be a number')
         .min(0, 'Rating must be at least 0')
         .max(5, 'Rating cannot exceed 5')
-        .required('Rating is required'),
 });

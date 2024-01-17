@@ -20,8 +20,9 @@ const Menus = withWrapper(() => {
     const searchRef = useRef<HTMLInputElement>(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [isUpdateModalOpen, setUpdateModalOpen] = useState(false)
     const [options, setOptions] = useState<ISelectOptions[]>([])
-    const [deleteMenuId, setDeleteMenuId] = useState(null);
+    const [selectedMenuId, setSelectedMenuId] = useState(null);
     const closeModal = () => {
         setIsOpen(false)
     }
@@ -34,8 +35,16 @@ const Menus = withWrapper(() => {
     }
 
     const openDeleteModal = (menuId) => {
-        setDeleteMenuId(menuId)
+        setSelectedMenuId(menuId)
         setDeleteModalOpen(true)
+    }
+    const closeUpdateModal = () => {
+        setUpdateModalOpen(false)
+    }
+
+    const openUpdateModal = (menuId) => {
+        setSelectedMenuId(menuId)
+        setUpdateModalOpen(true)
     }
     const setData = async () => {
         try {
@@ -121,11 +130,11 @@ const Menus = withWrapper(() => {
     const submitDeleteHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         try{
-            const res = await deleteData(`/products/${deleteMenuId}`)
+            const res = await deleteData(`/products/${selectedMenuId}`)
             console.log('delete',{res});
             toast.success('Menu Item Deleted Successfully! ❤️‍🔥');
             closeDeleteModal()
-            setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== deleteMenuId));
+            setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== selectedMenuId));
         } catch (error) {
             console.error('Error submitting form:', error);
             toast.error('Menu Item not Added. Something Went Wrong!');
@@ -166,6 +175,21 @@ const Menus = withWrapper(() => {
                         <button className="bg-gray-600 hover:bg-gray-500 text-white" type='button' onClick={closeDeleteModal}>Cancel</button>
                     </form>
                 </div>
+            </MyModal>
+            <MyModal isOpen={isUpdateModalOpen} closeModal={closeUpdateModal}>
+                <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                >
+                    Update Mune 😋
+                </Dialog.Title>
+                <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                        Need Menu Info Please.. <span className='text-lg'>🫣</span>
+                    </p>
+                </div>
+                <Form mode="PUT" options={options} closeModal={closeUpdateModal} 
+                initialValues={menus?.find((menu)=>menu.id === selectedMenuId)}/>
             </MyModal>
         </div>
 
@@ -233,15 +257,15 @@ const Menus = withWrapper(() => {
                                     </td>
                                     <td className="px-6 py-4 flex gap-3">
                                         <button className="hover:border-red-300 px-3" onClick={() => openDeleteModal(menu.id)}><Trash className="" color="#ff4d4d" /></button>
-                                        <button className="hover:border-violet-300 px-3"><Edit color="#2f4cdd75" /></button>
+                                        <button className="hover:border-violet-300 px-3" onClick={()=> openUpdateModal(menu.id)}><Edit color="#2f4cdd75" /></button>
                                     </td>
                                 </tr>
                             ))
                             : <tr className="">
-                                <td colSpan={7} className="text-center">
+                                <td colSpan={8} className="text-center">
                                     <div className="flex flex-col items-center justify-center py-10">
                                         <img className="w-[200px]" src={emptyCart} alt="Empty Cart" />
-                                        <h4 className="mt-8 text-[25px] font-semibold">No Menus Yet!😯</h4>
+                                        <h4 className="mt-8 text-[25px] font-semibold">No Menus!😯</h4>
                                     </div>
                                 </td>
                             </tr>

@@ -9,7 +9,7 @@ export const postData =async (url:string, data:unknown, config?:object) => {
     const res =await axiosInstance.post(url, data, config)
     return res.data
 }
-export const putData =async (url:string, data:unknown, config:object) => {
+export const putData =async (url:string, data:unknown, config?:object) => {
     const res =await axiosInstance.put(url, data, config)
     return res.data
 }
