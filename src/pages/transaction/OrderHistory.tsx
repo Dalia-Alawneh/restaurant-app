@@ -84,7 +84,9 @@ const OrderHistory = () => {
                         {
                             orders?.length ?
                                 orders?.map((order, index) => (
-                                    <tr onClick={() => navigateToOrderDetails(order.id)} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <tr 
+                                    onClick={() => navigateToOrderDetails(order.id)} 
+                                    className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="flex items-center gap-3">
                                                     {index+1}
@@ -110,9 +112,9 @@ const OrderHistory = () => {
                                             ${order.attributes.totalPrice}
                                         </td>
                                         <td className="px-6 py-4 text-center">
-                                            <span className={`block w-fit px-3 py-1 rounded-xl ${order.attributes.status === 'completed' ? 'bg-green-200 text-green-800' : "bg-amber-200 text-amber-800"} `}>
+                                            <span className={`block w-fit px-3 py-1 rounded-xl ${order.attributes.status == null ? 'bg-[#f9b5b5] text-[#af2e2e]' : order.attributes.status === 'completed' ? 'bg-green-200 text-green-800' : "bg-amber-200 text-amber-800"} `}>
 
-                                                {order.attributes.status}</span>
+                                                {order.attributes.status ?? "Canceled"}</span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <Link to='/' className="block w-fit px-3 py-2 rounded-xl border border-[--sec-color] text-[--sec-color] hover:text-[--sec-color]">Order Again</Link>

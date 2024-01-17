@@ -1,9 +1,9 @@
-import { FormEvent } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { payment } from "../../assets"
 import withWrapper from "../../components/hoc/withWrapper"
 import BreadCrumb from "../../components/ui/BreadCrumb"
 import SelectInput from "../../components/ui/SelectInput"
-import { putData } from "../../utils/helpers"
+import { getData, putData } from "../../utils/helpers"
 import toast from "react-hot-toast"
 import { useAppSelector } from "../../app/store"
 import { useNavigate } from "react-router-dom"
@@ -15,6 +15,12 @@ const selectOtions = [
 const Payment = withWrapper(() => {
     const orderId = useAppSelector(state => state.tempOrders.order.id)
     const navigate = useNavigate()
+    const [order, setOrder] = useState()
+    const getOrder = async () => {
+        const { data } = await getData(`/orders/${orderId}?populate=products&populate=products.img`)
+        console.log(data);
+        setOrder(data)
+    }
     const handlePayment= async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
@@ -29,6 +35,9 @@ const Payment = withWrapper(() => {
             console.log(e);
         }
     }
+    useEffect(()=>{
+        getOrder()
+    },[])
     return (
         <div className="mt-24 ">
             <BreadCrumb homePath="/" page="Payment" />
@@ -36,12 +45,12 @@ const Payment = withWrapper(() => {
                 <div className="shadow-lg shadow-[#f8e1e1] w-2/3 p-6">
                     <div className="flex items-center justify-between border-b pb-3">
                         <h2 className="text-[20px] font-semibold">Amount to pay</h2>
-                        <span className="text-[25px] text-[--primary] font-bold">$20.00</span>
+                        <span className="text-[25px] text-[--primary] font-bold">${order?.totalPrice?.toFixed(2)}</span>
                     </div>
                     <form className='flex flex-col gap-4 my-10 w-4/5 m-auto' onSubmit={handlePayment} >
                         <div>
                         <label htmlFor="">Payment Method:</label>
-                        <SelectInput options={selectOtions} />
+                        {/* <SelectInput options={selectOtions} /> */}
                         </div>
                         <div className="flex justify-between gap-4">
                             <div className="w-full">

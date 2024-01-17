@@ -32,10 +32,17 @@ export const userSlice = createSlice({
                 state.user = user;
                 state.isAdmin = user.isAdmin;
             }
+        },
+        logout: (state)=>{
+            state.user = null;
+            state.token = null;
+            state.isAdmin = false;
+            SaberCookies.remove('user');
+            SaberCookies.remove('token');
         }
     },
 })
 
-export const { storeUser, retrieveUserFromCookie } = userSlice.actions
+export const { storeUser, retrieveUserFromCookie, logout } = userSlice.actions
 
 export default userSlice.reducer

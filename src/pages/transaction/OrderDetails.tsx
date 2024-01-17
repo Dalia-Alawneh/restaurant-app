@@ -8,7 +8,9 @@ import BreadCrumb from "../../components/ui/BreadCrumb";
 
 const OrderDetails = () => {
     const id = useParams().id;
+    
     const [order, setOrder] = useState<IOrder>()
+    console.log(order);
     const getOrder = async () => {
         const { data } = await getData(`/orders/${id}?populate=products&populate=products.img`)
         console.log(data);
