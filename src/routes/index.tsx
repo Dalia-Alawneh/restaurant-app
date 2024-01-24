@@ -14,6 +14,7 @@ import { Register } from "../pages/Auth/pages/Register";
 import { Login } from "../pages/Auth/pages/Login";
 import ClientLayout from "../pages/Client/Layout";
 import Protected from "../components/hoc/withProtection";
+import Home from "../pages/Client/pages/Home";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
@@ -34,8 +35,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route index element={<Login />} />
             <Route path="register" element={<Register />} />
         </Route>
-        <Route path="/client" element={<ClientLayout />} errorElement={<ErrorHandler status={500} title="Server Error" />}>
-            <Route index element={<ClientLayout />} />
+        <Route path="/home" element={<ClientLayout />} errorElement={<ErrorHandler status={500} title="Server Error" />}>
+            <Route index element={<Home />} />
         </Route>
         <Route path="*" element={<ErrorHandler status={404} title="Page Not Found!" />} />
     </>

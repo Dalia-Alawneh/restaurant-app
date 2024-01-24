@@ -47,7 +47,9 @@ const Register = () => {
     const validationErrors: FormikErrorsWithIndexSignature = errors
     const formikTouched: FormikTouchedWithIndexSignature = touched
     const hasErrors = Object.keys(errors).length > 0;
-
+console.log('====================================');
+console.log({hasErrors, errors});
+console.log('====================================');
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">Sign up your account</p>

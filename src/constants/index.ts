@@ -94,3 +94,27 @@ export const loginFormFeilds: IFormFeild[] = [
         placeholder: 'Password',
     },
 ]
+
+
+export const clientNavLinks: { text: string; path: string }[] = [
+    {
+        text: "home",
+        path: "/home",
+    },
+    {
+        text: "about",
+        path: "/about",
+    },
+    {
+        text: "shop",
+        path: "/shop",
+    },
+    {
+        text: "blog",
+        path: "/blog",
+    },
+    {
+        text: "contact",
+        path: "/contact",
+    },
+]

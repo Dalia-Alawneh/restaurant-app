@@ -43,7 +43,7 @@ const Login = () => {
                 if(res.user.isAdmin) {
                         navigate("/");
                     }else{
-                        navigate("/client");
+                        navigate("/home");
                     }
                 },1000)
             } catch (e) {
