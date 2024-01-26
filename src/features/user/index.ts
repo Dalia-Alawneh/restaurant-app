@@ -37,8 +37,6 @@ export const userSlice = createSlice({
             state.user = null;
             state.token = null;
             state.isAdmin = false;
-            SaberCookies.remove('user');
-            SaberCookies.remove('token');
         }
     },
 })
