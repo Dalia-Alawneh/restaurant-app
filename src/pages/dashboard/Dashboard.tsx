@@ -11,7 +11,7 @@ import { IUser } from "../../interfaces"
 const Dashboard = withWrapper(() => {
     const loggedInUser: IUser | null = useAppSelector((state) => state.user.user);
     return (
-        <div className="pt-20 ms-16 mt-8">
+        <div className="pt-20 sm:ms-16 mt-8">
             <UserInfo name={`${loggedInUser?.username}`} />
             <div className="mt-16 px-4">
                 <h2>Your Home Value</h2>

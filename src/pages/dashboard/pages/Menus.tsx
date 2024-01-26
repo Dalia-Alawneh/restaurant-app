@@ -129,21 +129,21 @@ const Menus = withWrapper(() => {
     }
     const submitDeleteHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        try{
+        try {
             const res = await deleteData(`/products/${selectedMenuId}`)
-            console.log('delete',{res});
+            console.log('delete', { res });
             toast.success('Menu Item Deleted Successfully! ❤️‍🔥');
             closeDeleteModal()
             setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== selectedMenuId));
         } catch (error) {
             console.error('Error submitting form:', error);
-            toast.error('Menu Item not Added. Something Went Wrong!');
+            toast.error('Menu Item not Deleted. Something Went Wrong!');
         }
     }
 
     return <div className="mt-24">
         <BreadCrumb homePath="/dashboard" page="Menus" />
-        <div className="flex justify-between items-center">
+        <div className="flex sm:flex-row flex-col sm:justify-between items-start mb-5 sm:mb-0 sm:items-center">
             <div className="my-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
                 <input style={{ border: 'none' }} className="mw-[23.25rem] bg-transparent p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
@@ -188,93 +188,95 @@ const Menus = withWrapper(() => {
                         Need Menu Info Please.. <span className='text-lg'>🫣</span>
                     </p>
                 </div>
-                <Form mode="PUT" options={options} closeModal={closeUpdateModal} 
-                initialValues={menus?.find((menu)=>menu.id === selectedMenuId)}/>
+                <Form mode="PUT" options={options} closeModal={closeUpdateModal}
+                    initialValues={menus?.find((menu) => menu.id === selectedMenuId)} />
             </MyModal>
         </div>
 
-        <div className="relative overflow-x-auto rounded-lg border border-[--border-color]">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase border-b border-[--border-color]">
-                    <tr>
-                        <th scope="col" className="px-6 py-3">
-                            #
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Menu
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Category
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Price
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Discount
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Rating
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Sales
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="py-5">
-                    {
-                        menus?.length ?
-                            menus?.map((menu, index) => (
-                                <tr key={menu.id} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="flex items-center gap-3">
-                                            {index + 1}
-                                        </div>
-                                    </th>
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="flex items-center gap-3">
-                                            <img src={menu.attributes?.img?.data?.attributes?.url} alt="" className="w-10 rounded-full" />
-                                            <h6 className="capitalize">{menu.attributes.title}</h6>
+        <div className="relative  rounded-lg border border-[--border-color]">
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase border-b border-[--border-color]">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                #
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Menu
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Category
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Price
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Discount
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Rating
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Sales
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="py-5">
+                        {
+                            menus?.length ?
+                                menus?.map((menu, index) => (
+                                    <tr key={menu.id} className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div className="flex items-center gap-3">
+                                                {index + 1}
+                                            </div>
+                                        </th>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div className="flex items-center gap-3">
+                                                <img src={menu.attributes?.img?.data?.attributes?.url} alt="" className="w-10 rounded-full" />
+                                                <h6 className="capitalize">{menu.attributes.title}</h6>
 
+                                            </div>
+                                        </th>
+                                        <td className="px-6 py-4 capitalize">
+                                            {(menu.attributes.categories?.data)?.map(category => category.attributes.title).join(", ")}
+                                        </td>
+                                        <td className="px-6 py-4 text-[--sec-color] font-bold">
+                                            ${menu.attributes.price}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {menu.attributes.discount || 0}%
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {menu.attributes.stars || 0} / 5
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {menu.attributes.sales || 0}
+                                        </td>
+                                        <td className="px-6 py-4 flex gap-3">
+                                            <button className="hover:border-red-300 px-3" onClick={() => openDeleteModal(menu.id)}><Trash className="" color="#ff4d4d" /></button>
+                                            <button className="hover:border-violet-300 px-3" onClick={() => openUpdateModal(menu.id)}><Edit color="#2f4cdd75" /></button>
+                                        </td>
+                                    </tr>
+                                ))
+                                : <tr className="">
+                                    <td colSpan={8} className="text-center">
+                                        <div className="flex flex-col items-center justify-center py-10">
+                                            <img className="w-[200px]" src={emptyCart} alt="Empty Cart" />
+                                            <h4 className="mt-8 text-[25px] font-semibold">No Menus!😯</h4>
                                         </div>
-                                    </th>
-                                    <td className="px-6 py-4 capitalize">
-                                        {(menu.attributes.categories?.data)?.map(category => category.attributes.title).join(", ")}
-                                    </td>
-                                    <td className="px-6 py-4 text-[--sec-color] font-bold">
-                                        ${menu.attributes.price}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {menu.attributes.discount || 0}%
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {menu.attributes.stars || 0} / 5
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        {menu.attributes.sales || 0}
-                                    </td>
-                                    <td className="px-6 py-4 flex gap-3">
-                                        <button className="hover:border-red-300 px-3" onClick={() => openDeleteModal(menu.id)}><Trash className="" color="#ff4d4d" /></button>
-                                        <button className="hover:border-violet-300 px-3" onClick={()=> openUpdateModal(menu.id)}><Edit color="#2f4cdd75" /></button>
                                     </td>
                                 </tr>
-                            ))
-                            : <tr className="">
-                                <td colSpan={8} className="text-center">
-                                    <div className="flex flex-col items-center justify-center py-10">
-                                        <img className="w-[200px]" src={emptyCart} alt="Empty Cart" />
-                                        <h4 className="mt-8 text-[25px] font-semibold">No Menus!😯</h4>
-                                    </div>
-                                </td>
-                            </tr>
-                    }
+                        }
 
 
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <Paginator entity="products" pageSize={8} setItems={setMenus} />
         </div>
     </div>

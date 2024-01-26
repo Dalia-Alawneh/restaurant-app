@@ -92,7 +92,8 @@ const OrderView = ({ setSelectedProducts }:
         }
 
     }
-    const handleDelivery = async () => {
+    const handleDelivery = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         try {
             const res = await putData(`/orders/${orderId}`, { data: { status: "delivering" } })
             toast.success('To Shipping ...🚚')
@@ -106,9 +107,10 @@ const OrderView = ({ setSelectedProducts }:
     return (
 
         <>
-            <div className="p-8 max-w-[500px] min-h-[600px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
+            <div className="p-8 max-w-[550px] min-h-[600px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
                 {tempOrders.length > 0 ?
                     <div className="flex flex-col justify-between min-h-[600px]">
+                        <div className="min-h-[200px] overflow-x-auto">
                         <table className="table text-center">
                             <thead className="border-b-2 border-[--primary] bg-[--primary-light]">
                                 <tr>
@@ -120,21 +122,22 @@ const OrderView = ({ setSelectedProducts }:
                             </thead>
                             <tbody>
                                 {tempOrders.map((order, index) => (
-                                    <tr className="border-b" key={'order#' + order.id}>
-                                        <td className="py-3">{index + 1}</td>
-                                        <td className="py-3">{order.attributes.title}</td>
-                                        <td>
+                                    <tr className="border-b px-4 py-3" key={'order#' + order.id}>
+                                        <td className="px-4 ">{index + 1}</td>
+                                        <td className="px-4 ">{order.attributes.title}</td>
+                                        <td className="flex items-center py-2 px-4">
                                             <button onClick={() => incrementQuantityHandler(order.id)}
                                                 className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>
                                             <span className="px-3">{order.qty}</span>
                                             <button onClick={() => decrementQuantityHandler(order.id)}
                                                 className="py-0 px-2 bg-[--primary-light] text-white text-lg">-</button>
                                         </td>
-                                        <td className="font-semibold text-[--sec-color]">${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
+                                        <td className="font-semibold text-[--sec-color] px-4">${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                        </div>
                         <div>
                             <div className="flex justify-between total rounded p-5 px-8 bg-[--primary-light] mt-10 ">
                                 <h4 className="font-bold">Total Price:</h4>
@@ -183,7 +186,6 @@ const OrderView = ({ setSelectedProducts }:
                         </div>
                         <div className="mt-4 text-center flex gap-3 justify-center">
                             <button
-                                onClick={handleDelivery}
                                 type="submit"
                                 className="inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"
                             >
@@ -207,7 +209,7 @@ const OrderView = ({ setSelectedProducts }:
                     <form className='flex flex-col gap-4 my-5'>
 
                         <div className="mt-4 text-center flex gap-3 justify-center">
-                            <Link to='payment'
+                            <Link to={`payment/${orderId}`}
                                 type="button"
                                 className="inline-flex justify-center rounded-md border border-transparent bg-[--primary-light] px-4 py-2 text-sm font-medium text-white hover:bg-[--primary-light] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >

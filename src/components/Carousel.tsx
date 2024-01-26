@@ -66,15 +66,17 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
             breakpoints={
                 {
                     320: {
+                        slidesPerView: 1,
+                        spaceBetween: 20
+                    },
+                    420: {
                         slidesPerView: 2,
                         spaceBetween: 20
                     },
-                    // when window width is >= 480px
                     480: {
                         slidesPerView: 3,
                         spaceBetween: 30
                     },
-                    // when window width is >= 640px
                     800: {
                         slidesPerView: 3
                         ,
@@ -97,7 +99,7 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
                 <SwiperSlide className='bg-white p-3 rounded-md' key={category.id}>
                     <div className="card py-3 flex flex-col items-center">
                         <img className='w-16 mb-2' src={category?.attributes?.img?.data?.attributes?.url} alt="" />
-                        <h3 className=''>{category.attributes.title}</h3>
+                        <h3 className='test-center'>{category.attributes.title}</h3>
                     </div>
                 </SwiperSlide>
             ))}

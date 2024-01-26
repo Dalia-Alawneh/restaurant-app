@@ -57,7 +57,6 @@ const Login = () => {
     const formikTouched: FormikTouchedWithIndexSignature = touched
     const hasErrors = Object.keys(errors).length > 0;
 
-
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">

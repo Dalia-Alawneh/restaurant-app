@@ -6,10 +6,14 @@ import Sidebar from '../../components/Sidebar'
 import SideBarLink from '../../components/ui/SideBarLink'
 import { CircleDollarSign, LogOutIcon, Menu, UserRound, Wallet } from 'lucide-react'
 import Navbar from '../../components/Navbar'
+import useLogout from '../../hooks/useLogout'
+
 const DashboardLayout = () => {
     const [isToggle, setIsToggle] = useState<boolean>(false)
+    const handleLogout = useLogout()
+
     useEffect(() => {
-        const handleKeyDown = (event:KeyboardEvent) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 setIsToggle(false);
             }
@@ -35,7 +39,7 @@ const DashboardLayout = () => {
                                     <SideBarLink icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
                                     <SideBarLink icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
                                 </ul>
-                                <div className="border-t flex px-5 gap-2 hover:bg-[--sec-extra-light] cursor-pointer py-4">
+                                <div onClick={handleLogout} className="border-t flex px-5 gap-2 hover:bg-[--sec-extra-light] cursor-pointer py-4">
                                     <LogOutIcon color="#f77" />
                                     <p className="text-[#f77] font-semibold">Logout</p>
                                 </div>

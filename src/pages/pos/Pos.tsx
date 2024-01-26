@@ -31,7 +31,7 @@ const Pos = withWrapper(() => {
     }, [])
     return (
         <>
-            <div className="mx-auto flex flex-col justify-center md:flex-row md:justify-between w-full gap-4 items-start mt-24">
+            <div className="mx-auto flex flex-col justify-center items-center md:flex-row md:justify-between w-full gap-4 md:items-start mt-24">
 
                 <OrderView setSelectedProducts={setSelectedProducts} />
                 <div className="w-full md:w-2/3">
@@ -44,31 +44,31 @@ const Pos = withWrapper(() => {
                         >
                             <div className="card py-3 flex flex-col items-center">
                                 <img className='w-16 mb-2 rounded-full' src={allCategories} alt="" />
-                                <h3>All Categories</h3>
+                                <h3 className="text-center">All Categories</h3>
                             </div>
                         </div>
                         <Carousel setIsAll={setIsAll} setProducts={setProducts} />
                     </div>
-                        {
-                            products.length>0?
-                    <div className="grid mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
-{
-                            products.map(product => (
-                                <ProductCard isLoading={isLoading}
-                                    key={product.id}
-                                    isSelectProduct={selectedProducts[product.id] || false}
-                                    setIsSelectProduct={(value) =>
-                                        setSelectedProducts((prevSelected) => ({ ...prevSelected, [product.id]: value }))
-                                    }
-                                    attributes={product.attributes}
-                                    id={product.id}
-                                    img={product.attributes.img?.data.attributes.url}
-                                />
-                            ))
-                        }
-                        </div>
-                        :<div className="w-full flex justify-center mt-8">No Items Found</div>
-                        }
+                    {
+                        products.length > 0 ?
+                            <div className="grid mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full justify-start gap-6">
+                                {
+                                    products.map(product => (
+                                        <ProductCard isLoading={isLoading}
+                                            key={product.id}
+                                            isSelectProduct={selectedProducts[product.id] || false}
+                                            setIsSelectProduct={(value) =>
+                                                setSelectedProducts((prevSelected) => ({ ...prevSelected, [product.id]: value }))
+                                            }
+                                            attributes={product.attributes}
+                                            id={product.id}
+                                            img={product.attributes.img?.data.attributes.url}
+                                        />
+                                    ))
+                                }
+                            </div>
+                            : <div className="w-full flex justify-center mt-8">No Items Found</div>
+                    }
                     {isAll && <Paginator setItems={setProducts} pageSize={4} entity="products" />}
                 </div>
 
