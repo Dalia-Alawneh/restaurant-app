@@ -3,7 +3,7 @@ import {
     useFormik,
     FormikHelpers,
 } from 'formik';
-import { getTokenFromCookie, postData, putData } from '../../../utils/helpers';
+import { getTokenFromCookie, postData, putData } from '../../../helpers/api';
 import { IProduct, ISelectOptions } from '../../../interfaces';
 import SelectInput from '../../../components/ui/SelectInput';
 import { productFormFeilds } from '../../../constants';
@@ -44,8 +44,8 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
     const isUpdateMode = mode === "PUT";
     console.log(initialValues);
     const updateProduct = initialValues?.attributes
-    let updateInitailValues:MyFormValues
-    if(updateProduct){
+    let updateInitailValues: MyFormValues
+    if (updateProduct) {
         updateInitailValues = {
             title: updateProduct.title,
             duration: updateProduct.duration,
@@ -53,7 +53,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
             discount: updateProduct.discount,
             rating: updateProduct.stars,
             img: updateProduct.img.data.attributes.url,
-            categories: updateProduct.categories.data.map((category)=>category.id)
+            categories: updateProduct.categories.data.map((category) => category.id)
         }
     }
     const submitHandler = async (
@@ -121,7 +121,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
 
 
     const formik = useFormik<MyFormValues>({
-        initialValues: isUpdateMode? updateInitailValues: defaultInitialValues,
+        initialValues: isUpdateMode ? updateInitailValues : defaultInitialValues,
         validationSchema: productValidationSchema,
         onSubmit: submitHandler,
     });

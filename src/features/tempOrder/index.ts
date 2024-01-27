@@ -48,7 +48,7 @@ export const tempOrdersSlice = createSlice({
                 const updatedOrder = [...state.order.products];
                 const currentQuantity = updatedOrder[productIndex].qty || 0;
 
-                const newQuantity = Math.max(0, currentQuantity - 1);
+                const newQuantity = Math.max(1, currentQuantity - 1);
 
                 updatedOrder[productIndex] = {
                     ...updatedOrder[productIndex],

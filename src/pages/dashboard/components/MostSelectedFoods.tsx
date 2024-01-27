@@ -1,9 +1,9 @@
 import toast from "react-hot-toast"
 import { IProduct } from "../../../interfaces"
-import { getData } from "../../../utils/helpers"
+import { getData } from "../../../helpers/api"
 import DashProductCard from "./DashProductCard"
 import ItemWrapper from "./ItemWrapper"
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 
 const MostSelectedFoods = () => {
     const [mostSelectedFoods, setMostSelectedFoods] = useState<IProduct[]>([])
@@ -25,20 +25,20 @@ const MostSelectedFoods = () => {
     }, [])
     return (
         <div className="my-8">
-                    <h2>Most Selected Foods</h2>
-                    <ItemWrapper>
-                        <div className="grid mt-8 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full justify-start gap-6">
-                            {mostSelectedFoods.map(product => (
-                                <DashProductCard isLoading={isLoading}
-                                    key={product.id}
-                                    attributes={product.attributes}
-                                    id={product.id}
-                                    img={product.attributes.img.data.attributes.url}
-                                />
-                            ))}
-                        </div>
-                    </ItemWrapper>
+            <h2>Most Selected Foods</h2>
+            <ItemWrapper>
+                <div className="grid mt-8 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full justify-start gap-6">
+                    {mostSelectedFoods.map(product => (
+                        <DashProductCard isLoading={isLoading}
+                            key={product.id}
+                            attributes={product.attributes}
+                            id={product.id}
+                            img={product.attributes.img.data.attributes.url}
+                        />
+                    ))}
                 </div>
+            </ItemWrapper>
+        </div>
     )
 }
 

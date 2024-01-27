@@ -7,11 +7,11 @@ const useLogout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = (path:string) => {
     SaberCookies.remove('user');
     SaberCookies.remove('token');
     dispatch(logout());
-    setTimeout(() => navigate('/auth'), 500);
+    setTimeout(() => navigate(path), 500);
   };
 
   return handleLogout;

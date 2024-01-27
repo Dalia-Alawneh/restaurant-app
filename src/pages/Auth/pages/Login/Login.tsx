@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Input from "../../../../components/ui/Input";
 import { useFormik } from "formik";
-import { postData } from "../../../../utils/helpers";
+import { postData } from "../../../../helpers/api";
 import { signinSchema } from "../../../../schemas";
 import toast from "react-hot-toast";
 import { loginFormFeilds } from "../../../../constants";
@@ -21,6 +21,8 @@ export interface FormikTouchedWithIndexSignature {
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
+    const location = useLocation()
+    const isAdminAuthPage = location.pathname === '/admin/auth';
     const {
         errors,
         handleChange,
@@ -36,16 +38,16 @@ const Login = () => {
         onSubmit: async (values) => {
             console.log(values);
             try {
-                const res = await postData("/auth/local", values);      
+                const res = await postData("/auth/local", values);
                 console.log(res);
                 dispatch(storeUser(res))
-                setTimeout(()=>{
-                if(res.user.isAdmin) {
+                setTimeout(() => {
+                    if (res.user.isAdmin) {
                         navigate("/");
-                    }else{
+                    } else {
                         navigate("/home");
                     }
-                },1000)
+                }, 1000)
             } catch (e) {
                 console.log(e);
                 toast.error("Something goes wrong.!🥲");
@@ -87,9 +89,9 @@ const Login = () => {
                     Sign in
                 </button>
             </form>
-            <p>
+            {!isAdminAuthPage && <p>
                 Don't have an account? <Link to="/auth/register">Sign up</Link>
-            </p>
+            </p>}
         </div>
     );
 };

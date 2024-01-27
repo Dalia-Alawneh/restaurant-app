@@ -57,7 +57,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                                         <sub className="text-[--sec-light] font-bold text-sm line-through">
                                             ${price.toFixed(2)}
                                         </sub>
-                                        <sup className="-ml-2 mb-2 text-[--sec-color] font-bold text-lg">
+                                        <sup className="ml-1 mt-2 text-[--sec-color] font-bold text-lg">
                                             ${((price - (price * (discount / 100))).toFixed(2))}
                                         </sup>
                                     </div>

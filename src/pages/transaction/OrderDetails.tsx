@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { getData } from "../../utils/helpers"
+import { getData } from "../../helpers/api"
 import { useEffect, useState } from "react"
 import { IOrder } from "../../interfaces";
 import { userDefaultImage } from "../../assets";
@@ -8,7 +8,7 @@ import BreadCrumb from "../../components/ui/BreadCrumb";
 
 const OrderDetails = () => {
     const id = useParams().id;
-    
+
     const [order, setOrder] = useState<IOrder>()
     console.log(order);
     const getOrder = async () => {

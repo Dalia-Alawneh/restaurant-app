@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect } from 'react'
 // Import Swiper styles
 import 'swiper/css';
-import { getData } from '../utils/helpers';
+import { getData } from '../helpers/api';
 import { ICategory, IProduct } from '../interfaces';
 interface IProps {
     setProducts: (products: IProduct[]) => void;

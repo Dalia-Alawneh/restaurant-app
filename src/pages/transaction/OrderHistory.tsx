@@ -1,7 +1,7 @@
 import Paginator from "../../components/ui/Paginator"
 import { MapPin, Search } from "lucide-react"
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react"
-import { deleteData, getData } from "../../utils/helpers"
+import { deleteData, getData } from "../../helpers/api"
 import { useNavigate } from "react-router-dom"
 import { IOrder } from "../../interfaces"
 import toast from "react-hot-toast"
@@ -14,7 +14,7 @@ const OrderHistory = () => {
     const [searchTerm, setSearchTerm] = useState<string>()
     const navigate = useNavigate()
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
-    const [selectedOrderId, setSelectedOrderId] =useState<number|null>(null)
+    const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null)
     const navigateToOrderDetails = (id: number) => {
         navigate(`/transaction/order/${id}`)
     }
@@ -22,7 +22,7 @@ const OrderHistory = () => {
         setDeleteModalOpen(false)
     }
 
-    const openDeleteModal = (orderId:number) => { 
+    const openDeleteModal = (orderId: number) => {
         setDeleteModalOpen(true)
         setSelectedOrderId(orderId)
     }
@@ -134,7 +134,7 @@ const OrderHistory = () => {
                                                     {order.attributes.status ?? "Canceled"}</span>
                                             </td>
                                             <td className="px-6 py-4 text-right relative">
-                                                <DropDown openDeleteModal={()=>openDeleteModal(order.id)} navigateToOrderDetails={()=>navigateToOrderDetails(order.id)}/>
+                                                <DropDown openDeleteModal={() => openDeleteModal(order.id)} navigateToOrderDetails={() => navigateToOrderDetails(order.id)} />
                                             </td>
                                         </tr>
                                     ))

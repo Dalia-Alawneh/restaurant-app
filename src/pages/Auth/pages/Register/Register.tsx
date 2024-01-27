@@ -3,7 +3,7 @@ import Input from "../../../../components/ui/Input"
 import { registerFormFeilds } from "../../../../constants"
 import { useFormik } from "formik";
 import { FormikErrorsWithIndexSignature, FormikTouchedWithIndexSignature } from "../Login/Login";
-import { postData } from "../../../../utils/helpers";
+import { postData } from "../../../../helpers/api";
 import toast from "react-hot-toast";
 import { signupSchema } from "../../../../schemas";
 interface IFormData {
@@ -27,7 +27,7 @@ const Register = () => {
             password: "",
             confirmPassword: "",
         },
-        validationSchema:signupSchema,
+        validationSchema: signupSchema,
         onSubmit: async (values) => {
             console.log(values);
             try {
@@ -47,16 +47,16 @@ const Register = () => {
     const validationErrors: FormikErrorsWithIndexSignature = errors
     const formikTouched: FormikTouchedWithIndexSignature = touched
     const hasErrors = Object.keys(errors).length > 0;
-console.log('====================================');
-console.log({hasErrors, errors});
-console.log('====================================');
+    console.log('====================================');
+    console.log({ hasErrors, errors });
+    console.log('====================================');
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">Sign up your account</p>
             <form className="flex flex-col gap-6 mt-4" onSubmit={handleSubmit}>
                 {registerFormFeilds.map((feild, index) => (
                     <div key={index}>
-                        <Input 
+                        <Input
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder={feild.placeholder} type={feild.type} name={feild.name} />

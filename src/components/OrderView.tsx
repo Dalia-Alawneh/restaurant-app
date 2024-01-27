@@ -7,7 +7,7 @@ import { useState, ChangeEvent, FormEvent } from 'react'
 import { Dialog } from "@headlessui/react"
 import Input from "./ui/Input"
 import { ICustomer } from "../interfaces"
-import { postData, putData } from "../utils/helpers"
+import { postData, putData } from "../helpers/api.ts"
 import toast from "react-hot-toast"
 const OrderView = ({ setSelectedProducts }:
     { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
@@ -17,7 +17,7 @@ const OrderView = ({ setSelectedProducts }:
     const [customerInfo, setCustomerInfo] = useState<ICustomer>({
         name: '',
         phone: '',
-        address:'',
+        address: '',
     })
     const dispatch = useAppDispatch()
 
@@ -107,36 +107,36 @@ const OrderView = ({ setSelectedProducts }:
     return (
 
         <>
-            <div className="p-8 max-w-[550px] min-h-[600px] rounded-md bg-white w-full md:w-1/2 lg:w-1/3">
+            <div className="p-8 w-[500px] max-w-[550px] min-h-[600px] rounded-md bg-white md:w-1/2 lg:w-1/3">
                 {tempOrders.length > 0 ?
                     <div className="flex flex-col justify-between min-h-[600px]">
                         <div className="min-h-[200px] overflow-x-auto">
-                        <table className="table text-center">
-                            <thead className="border-b-2 border-[--primary] bg-[--primary-light]">
-                                <tr>
-                                    <th>#</th>
-                                    <th className="py-2">Title</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tempOrders.map((order, index) => (
-                                    <tr className="border-b px-4 py-3" key={'order#' + order.id}>
-                                        <td className="px-4 ">{index + 1}</td>
-                                        <td className="px-4 ">{order.attributes.title}</td>
-                                        <td className="flex items-center py-2 px-4">
-                                            <button onClick={() => incrementQuantityHandler(order.id)}
-                                                className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>
-                                            <span className="px-3">{order.qty}</span>
-                                            <button onClick={() => decrementQuantityHandler(order.id)}
-                                                className="py-0 px-2 bg-[--primary-light] text-white text-lg">-</button>
-                                        </td>
-                                        <td className="font-semibold text-[--sec-color] px-4">${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
+                            <table className="table text-center">
+                                <thead className="border-b-2 border-[--primary] bg-[--primary-light]">
+                                    <tr>
+                                        <th>#</th>
+                                        <th className="py-2">Title</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {tempOrders.map((order, index) => (
+                                        <tr className="border-b px-4" key={'order#' + order.id}>
+                                            <td className="px-4 w-[20px] py-2">{index + 1}</td>
+                                            <td className="px-4 py-2" style={{width: '150px'}}>{order.attributes.title}</td>
+                                            <td className="flex items-center py-4 px-4">
+                                                <button onClick={() => incrementQuantityHandler(order.id)}
+                                                    className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>
+                                                <span className="px-3 w-[40px]">{order.qty}</span>
+                                                <button onClick={() => decrementQuantityHandler(order.id)}
+                                                    className="py-0 px-2 bg-[--primary-light] text-white text-lg">-</button>
+                                            </td>
+                                            <td className="font-semibold text-[--sec-color] py-2 px-4" style={{width:'110px', overflow:'hidden'}}>${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                         <div>
                             <div className="flex justify-between total rounded p-5 px-8 bg-[--primary-light] mt-10 ">

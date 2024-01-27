@@ -3,11 +3,13 @@ import { close, logo, menu, userDefaultImage } from '../assets'
 import { navLinks } from '../constants'
 import ListItem from './ui/ListItem'
 import { IUser } from '../interfaces'
-import { useAppSelector } from '../app/store'
 import UserDropDown from './ui/UserDropDown'
+
 import { useState } from 'react'
+import { getUserFromCookies } from '../helpers/getUserFromCookies'
+
 const Navbar = ({ setIsToggle, isToggle }: { setIsToggle: (isToggle: boolean) => void, isToggle: boolean }) => {
-    const loggedInUser: IUser | null = useAppSelector((state) => state.user.user);
+    const loggedInUser: IUser | null = getUserFromCookies();
 
     const [isOpen, setIsOpen] = useState(false)
     return (
@@ -24,7 +26,7 @@ const Navbar = ({ setIsToggle, isToggle }: { setIsToggle: (isToggle: boolean) =>
                         <ListItem key={"nav-link" + link.text} {...link} />
                     ))}
                 </ul>
-                <div className={`user flex gap-3 items-center justify-end ${loggedInUser ?"cursor-pointer": ''} `}  onClick={loggedInUser ? ()=> setIsOpen(!isOpen): undefined}>
+                <div className={`user flex gap-3 items-center justify-end ${loggedInUser ? "cursor-pointer" : ''} `} onClick={loggedInUser ? () => setIsOpen(!isOpen) : undefined}>
                     <div className="hidden sm:inline text-right">
                         <h3 className='font-bold capitalize'>{loggedInUser ? loggedInUser.username.slice(0, 6) : "Cashier"}</h3>
                         <span className='font-light text-sm'>{loggedInUser ? "Super Admin" : ""}</span>

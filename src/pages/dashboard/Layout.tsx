@@ -39,7 +39,7 @@ const DashboardLayout = () => {
                                     <SideBarLink icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
                                     <SideBarLink icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
                                 </ul>
-                                <div onClick={handleLogout} className="border-t flex px-5 gap-2 hover:bg-[--sec-extra-light] cursor-pointer py-4">
+                                <div onClick={()=>handleLogout('/admin/auth')} className="border-t flex px-5 gap-2 hover:bg-[--sec-extra-light] cursor-pointer py-4">
                                     <LogOutIcon color="#f77" />
                                     <p className="text-[#f77] font-semibold">Logout</p>
                                 </div>
