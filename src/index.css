@@ -142,6 +142,11 @@ h2{
   margin: auto;
 }
 
+.container{
+  width: calc(100% - 100px);
+  max-width: 1300px;
+  margin: auto;
+}
 .pagination button.active {
   background-color: var(--primary-light);
   font-weight: bold;
@@ -149,4 +154,41 @@ h2{
 
 aside li a.active{
   background-color: #527aff70;
+}
+
+.move-animation{
+  animation: move 1.2s infinite;
+  -webkit-animation: move 1.2s infinite;
+}
+@keyframes move {
+  0% {
+    transform: rotate(0);
+}
+10% {
+    transform: rotate(-15deg);
+}
+20% {
+    transform: rotate(20deg);
+}
+30% {
+    transform: rotate(-24deg);
+}
+50% {
+    transform: rotate(-18deg);
+}
+60% {
+    transform: rotate(14deg);
+}
+70% {
+    transform: rotate(-11deg);
+}
+80% {
+    transform: rotate(7deg);
+}
+90% {
+    transform: rotate(-3deg);
+}
+100% {
+    transform: rotate(1deg);
+}
 }

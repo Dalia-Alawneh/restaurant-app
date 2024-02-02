@@ -1,4 +1,4 @@
-import { IFormFeild, IProduct } from "../interfaces";
+import { IFormFeild } from "../interfaces";
 
 export const navLinks: { text: string; path: string }[] = [
     {

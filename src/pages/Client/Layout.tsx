@@ -1,10 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "./components/Navbar"
 
-interface IProps {
-
-}
-const ClientLayout = ({ }: IProps) => {
+const ClientLayout = () => {
     return (
         <div>
             <Navbar />
