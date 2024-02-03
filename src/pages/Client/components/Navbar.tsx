@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const [isToggle, setIsToggle] = useState<boolean>(false)
     return (
-        <nav className="flex shadow-md justify-between z-40 bg-white">
+        <nav className="flex fixed w-full top-0 shadow-md justify-between z-40 bg-white">
             <div className='container md:px-10 flex py-4 items-center justify-between w-full'>
                 <div className="flex items-center gap-20">
                     <Link to='/' className='w-[150px]'>

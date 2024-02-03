@@ -1,11 +1,13 @@
+import FoodQuality from "../components/FoodQuality"
+import Header from "../components/Header"
+import Features from "../components/features"
 
-interface IProps {
-
-}
-const Home = ({ }: IProps) => {
+const Home = () => {
   return (
-    <div className="mt-26">
-      Home
+    <div className="home">
+      <Header />
+      <Features/>
+      <FoodQuality/>
     </div>
   )
 }
