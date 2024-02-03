@@ -1,3 +1,4 @@
+import { feature1, feature2, feature3 } from "../assets";
 import { IFormFeild } from "../interfaces";
 
 export const navLinks: { text: string; path: string }[] = [
@@ -95,7 +96,6 @@ export const loginFormFeilds: IFormFeild[] = [
     },
 ]
 
-
 export const clientNavLinks: { text: string; path: string }[] = [
     {
         text: "home",
@@ -116,5 +116,22 @@ export const clientNavLinks: { text: string; path: string }[] = [
     {
         text: "contact",
         path: "/contact",
+    },
+]
+export const features: { title: string; image: string; description: string; }[] = [
+    {
+        image: feature1,
+        title:"Easy To Order",
+        description: "It is a long established fact that a reader of a page when looking at its layout."
+    },
+    {
+        image: feature2,
+        title:"Fastest Deilvery",
+        description: "It is a long established fact that a reader of a page when looking at its layout."
+    },
+    {
+        image: feature3,
+        title:"Best Quailty",
+        description: "It is a long established fact that a reader of a page when looking at its layout."
     },
 ]
