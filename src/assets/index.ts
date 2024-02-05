@@ -13,6 +13,7 @@ import feature2 from './client/feature2.png'
 import feature3 from './client/feature3.png'
 import burger from './client/burger.png'
 import vegetable from './client/vegetable-2.png'
+import subPagebg from './client/bg.jpg'
 export {
   logo,
   userDefaultImage,
@@ -29,4 +30,5 @@ export {
   feature3,
   burger,
   vegetable,
+  subPagebg,
 }
