@@ -69,7 +69,7 @@ const OrderDetails = () => {
                         <h3 className="text-[16px] capitalize font-semibold">order menu</h3>
                         {
                             order?.attributes.products?.data.map((product, index) => (
-                                <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center" key={product.id}>
                                     <div className="flex items-center gap-3">
                                         <img className="w-[5rem] h-[5rem] object-contain rounded-xl border border-[--sec-color]" src={product.attributes.img.data.attributes.url} alt="" />
                                         <div>

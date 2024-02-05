@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/store"
 import { pos } from "../assets"
-import { calculateTotalPrice, decrementQuantity, incrementQuantity, resetOrder, updateId } from "../features/tempOrder/index.ts"
+import { calculateTotalPrice, decrementQuantity, incrementQuantity, removeOrderItemById, resetOrder, updateId } from "../features/tempOrder/index.ts"
 import MyModal from "./ui/MyModal"
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, ChangeEvent, FormEvent, MouseEvent } from 'react'
 import { Dialog } from "@headlessui/react"
 import Input from "./ui/Input"
 import { ICustomer } from "../interfaces"
 import { postData, putData } from "../helpers/api.ts"
 import toast from "react-hot-toast"
-const OrderView = ({ setSelectedProducts }:
-    { setSelectedProducts: (value: Record<string, boolean>) => void; }) => {
+import { XIcon } from "lucide-react"
+const OrderView = ({ setSelectedProducts, selectedProducts }:
+    { setSelectedProducts: (value: Record<string, boolean>) => void; selectedProducts: Record<string, boolean> }) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
     const orderId = useAppSelector(state => state.tempOrders.order.id)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
@@ -66,7 +67,8 @@ const OrderView = ({ setSelectedProducts }:
         })
     }
     const submitOrderHandler = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+        e.preventDefault();
+
         const productsIds = tempOrders.map((order) => order.id);
         const formattedDate = new Date().toISOString();
         const reqData = {
@@ -77,37 +79,49 @@ const OrderView = ({ setSelectedProducts }:
                 totalPrice: totalPrice,
             },
         };
-        try {
-            const res = await postData('/orders', reqData)
-            dispatch(updateId(res.data.id))
-            closeModal()
-            dispatch(resetOrder())
-            setSelectedProducts(false)
-            toast.success('Successfully Order Added!')
-            closeModal()
-            openPayModal()
-        } catch (e) {
-            toast.error('Something goes wrong.!🥲')
-            console.log(e);
-        }
 
-    }
-    const handleDelivery = async (e: FormEvent<HTMLFormElement>) => {
+        try {
+            const res = await postData('/orders', reqData);
+            dispatch(updateId(res.data.id));
+
+            for (const order of tempOrders) {
+                await putData(`/products/${order.id}`, {
+                    data: {
+                        stock: order.attributes.stock - (order.qty || 0), // Update the stock
+                    },
+                });
+            }
+
+            dispatch(resetOrder());
+            setSelectedProducts(false);
+            toast.success('Successfully Order Added!');
+            closeModal();
+            openPayModal();
+        } catch (e) {
+            toast.error('Something went wrong! 🥲');
+            console.error(e);
+        }
+    };
+
+    const handleDelivery = async (e: MouseEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const res = await putData(`/orders/${orderId}`, { data: { status: "delivering" } })
+            await putData(`/orders/${orderId}`, { data: { status: "delivering" } })
             toast.success('To Shipping ...🚚')
             closePayModal()
-            console.log(res);
         } catch (e) {
-            console.log(e);
+            toast.error('Something goes wrong.!🥲')
         }
     }
 
+    const handleDeleteOrderItem = (id: number) => {
+        dispatch(removeOrderItemById(id));
+        setSelectedProducts({ ...selectedProducts, [id]: false });
+    }
     return (
 
         <>
-            <div className="p-8 w-[500px] max-w-[550px] min-h-[600px] rounded-md bg-white md:w-1/2 lg:w-1/3">
+            <div className="p-2 md:p-8 w-[100%] max-w-[550px] min-h-[600px] rounded-md bg-white md:w-1/2 lg:w-1/3">
                 {tempOrders.length > 0 ?
                     <div className="flex flex-col justify-between min-h-[600px]">
                         <div className="min-h-[200px] overflow-x-auto">
@@ -118,21 +132,24 @@ const OrderView = ({ setSelectedProducts }:
                                         <th className="py-2">Title</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {tempOrders.map((order, index) => (
                                         <tr className="border-b px-4" key={'order#' + order.id}>
-                                            <td className="px-4 w-[20px] py-2">{index + 1}</td>
-                                            <td className="px-4 py-2" style={{width: '150px'}}>{order.attributes.title}</td>
+                                            <td className=" py-2">{index + 1}</td>
+                                            <td className="px-4 py-2">{order.attributes.title}</td>
                                             <td className="flex items-center py-4 px-4">
                                                 <button onClick={() => incrementQuantityHandler(order.id)}
                                                     className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>
-                                                <span className="px-3 w-[40px]">{order.qty}</span>
+                                                <span className="w-[30px]">{order.qty}</span>
                                                 <button onClick={() => decrementQuantityHandler(order.id)}
                                                     className="py-0 px-2 bg-[--primary-light] text-white text-lg">-</button>
                                             </td>
-                                            <td className="font-semibold text-[--sec-color] py-2 px-4" style={{width:'110px', overflow:'hidden'}}>${calculateItemPrice(order.attributes.price, order.qty).toFixed(2)}</td>
+                                            <td className="font-semibold text-[--sec-color] py-2 px-4" style={{ width: '110px', overflow: 'hidden' }}>${calculateItemPrice(order.attributes.price, (order.qty || 0)).toFixed(2)}</td>
+                                            <td className="py-4"><button onClick={() => handleDeleteOrderItem(order.id)}
+                                                className="py-1 px-2 border border-red-500 text-red-500 hover:border-red-500 hover:bg-red-500 hover:text-white bg-transparent text-lg"><XIcon /></button></td>
                                         </tr>
                                     ))}
                                 </tbody>

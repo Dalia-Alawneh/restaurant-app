@@ -42,6 +42,7 @@ export interface IProduct {
         discount?: number;
         isNew?: boolean;
         sales: number;
+        stock: number
     };
     qty?: number;
 }

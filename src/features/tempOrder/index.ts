@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IProduct, ITempOrder } from '../../interfaces'
+import toast from 'react-hot-toast';
 
 export interface IStoreTempOrder {
     order: ITempOrder;
@@ -7,7 +8,7 @@ export interface IStoreTempOrder {
 }
 
 const initialState: IStoreTempOrder = {
-    order: {date:'', products:[], id:0},
+    order: { date: '', products: [], id: 0 },
     totalPrice: 0,
 }
 
@@ -16,7 +17,7 @@ export const tempOrdersSlice = createSlice({
     initialState,
     reducers: {
         addToTempOrders: (state, action: PayloadAction<IProduct>) => {
-            state.order.products = [...state.order.products, { ...action.payload, qty:1 }]
+            state.order.products = [...state.order.products, { ...action.payload, qty: 1 }]
         },
         removeFromTempOrders: (state, action: PayloadAction<number>) => {
             const productIdToRemove = action.payload
@@ -30,15 +31,28 @@ export const tempOrdersSlice = createSlice({
             const productIndex = state.order.products.findIndex(product => product.id === productId);
 
             if (productIndex !== -1) {
-                const updatedOrder = [...state.order.products];
-                updatedOrder[productIndex] = {
-                    ...updatedOrder[productIndex],
-                    qty: (updatedOrder[productIndex].qty || 0) + 1,
-                };
+                const product = state.order.products[productIndex];
+                const productStock = product.attributes.stock; // Optional chaining to access stock
 
-                state.order.products = updatedOrder;
+                if (product?.qty !== undefined && productStock !== undefined) { // Null check for qty and stock
+                    if (product.qty < productStock) {
+                        const updatedOrder = [...state.order.products];
+                        updatedOrder[productIndex] = {
+                            ...product,
+                            qty: (product.qty || 0) + 1,
+                        };
+
+                        state.order.products = updatedOrder;
+                    } else {
+                        toast.error("Out of stock!😵‍💫, check back later🫥");
+                    }
+                } else {
+                    console.log("Quantity or stock information is undefined.");
+                }
             }
         },
+
+
         decrementQuantity: (state, action: PayloadAction<number>) => {
             const productId = action.payload;
 
@@ -74,15 +88,21 @@ export const tempOrdersSlice = createSlice({
 
             state.totalPrice = totalPrice;
         },
-        resetOrder : (state)=>{
+        resetOrder: (state) => {
             state.order.products = []
             state.totalPrice = 0
         },
-        updateId: (state, action: PayloadAction<number>)=>{
+        updateId: (state, action: PayloadAction<number>) => {
             state.order.id = action.payload
-        }
+        },
+        removeOrderItemById: (state, action: PayloadAction<number>) => {
+            const productIdToRemove = action.payload;
 
-        
+            // Filter out the product with the specified ID
+            state.order.products = state.order.products.filter(product => product.id !== productIdToRemove);
+        },
+
+
 
 
     },
@@ -90,6 +110,6 @@ export const tempOrdersSlice = createSlice({
 
 export const { addToTempOrders, incrementQuantity,
     decrementQuantity, removeFromTempOrders,
-    calculateTotalPrice, resetOrder, updateId } = tempOrdersSlice.actions
+    calculateTotalPrice, resetOrder, updateId, removeOrderItemById } = tempOrdersSlice.actions
 
 export default tempOrdersSlice.reducer

@@ -102,7 +102,7 @@ const OrderHistory = () => {
                             {
                                 orders?.length ?
                                     orders?.map((order, index) => (
-                                        <tr
+                                        <tr key={order.id}
                                             className="bg-white border-b border-[--border-color] hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div className="flex items-center gap-3">

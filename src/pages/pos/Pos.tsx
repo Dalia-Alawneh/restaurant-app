@@ -33,7 +33,7 @@ const Pos = withWrapper(() => {
         <>
             <div className="mx-auto flex flex-col justify-center items-center md:flex-row md:justify-between w-full gap-4 md:items-start mt-24">
 
-                <OrderView setSelectedProducts={setSelectedProducts} />
+                <OrderView setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />
                 <div className="w-full md:w-2/3">
                     <div className="flex gap-4 w-full">
                         <div className='bg-white p-3 rounded-md w-[300px] border cursor-pointer shadow-[0px_2px_7px_2px_var(--sec-extra-light)]'
