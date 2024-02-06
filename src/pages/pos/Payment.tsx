@@ -2,38 +2,30 @@ import { FormEvent, useEffect, useState } from "react"
 import { payment } from "../../assets"
 import withWrapper from "../../components/hoc/withWrapper"
 import BreadCrumb from "../../components/ui/BreadCrumb"
-import SelectInput from "../../components/ui/SelectInput"
 import { getData, putData } from "../../helpers/api"
 import toast from "react-hot-toast"
-import { useAppSelector } from "../../app/store"
 import { useNavigate, useParams } from "react-router-dom"
 import MyListBox from "../../components/ui/ListBox"
-const selectOtions = [
-    { name: 'Cash' },
-    { name: 'Visa' },
-    { name: 'By Bank' },
-]
+import { IOrder } from "../../interfaces"
+
 const Payment = withWrapper(() => {
     const { orderId } = useParams()
     const navigate = useNavigate()
-    const [order, setOrder] = useState()
+    const [order, setOrder] = useState<IOrder>()
     const getOrder = async () => {
         const { data } = await getData(`/orders/${orderId}?populate=products&populate=products.img`)
-        console.log(data);
         setOrder(data)
     }
     const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const res = await putData(`/orders/${orderId}`, { data: { status: "completed" } })
+            await putData(`/orders/${orderId}`, { data: { status: "completed" } })
             toast.success('Payment Done Successfully.. 🤑❤️‍🔥')
-            console.log(res);
             setTimeout(() => {
                 navigate('/')
             }, 1000)
         } catch (e) {
             toast.error('Something goes wrong.!🥲')
-            console.log(e);
         }
     }
     useEffect(() => {
@@ -51,7 +43,6 @@ const Payment = withWrapper(() => {
                     <form className='flex flex-col gap-4 my-10 w-4/5 m-auto' onSubmit={handlePayment} >
                         <div>
                             <label htmlFor="">Payment Method:</label>
-                            {/* <SelectInput options={selectOtions} /> */}
                         </div>
                         <div className="flex justify-between gap-4">
                             <div className="w-full">

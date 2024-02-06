@@ -22,7 +22,7 @@ const Menus = withWrapper(() => {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
     const [isUpdateModalOpen, setUpdateModalOpen] = useState(false)
     const [options, setOptions] = useState<ISelectOptions[]>([])
-    const [selectedMenuId, setSelectedMenuId] = useState(null);
+    const [selectedMenuId, setSelectedMenuId] = useState<number | string>('');
     const closeModal = () => {
         setIsOpen(false)
     }
@@ -34,7 +34,7 @@ const Menus = withWrapper(() => {
         setDeleteModalOpen(false)
     }
 
-    const openDeleteModal = (menuId) => {
+    const openDeleteModal = (menuId: number | string) => {
         setSelectedMenuId(menuId)
         setDeleteModalOpen(true)
     }
@@ -42,7 +42,7 @@ const Menus = withWrapper(() => {
         setUpdateModalOpen(false)
     }
 
-    const openUpdateModal = (menuId) => {
+    const openUpdateModal = (menuId: number | string) => {
         setSelectedMenuId(menuId)
         setUpdateModalOpen(true)
     }
@@ -54,21 +54,21 @@ const Menus = withWrapper(() => {
                 return data
             }
         } catch (e) {
-            console.log(e);
-
             toast.error('Something goes wrong.!🥲')
         }
     }
-    const { data, isError, isLoading } = useQuery({
+    const { isError, isLoading, refetch } = useQuery({
         queryKey: ['menus'],
         queryFn: setData,
     })
     const handleSearch = async () => {
         const searchTerm = searchRef?.current?.value
-        console.log(searchTerm);
 
         if (searchTerm !== '') {
             const res = await getData(`/products?populate=img&populate=products.categories&filters[title][$contains]=${searchTerm?.trim()}`)
+            setMenus(res.data)
+        } else {
+            const res = await getData('/products?populate=img&populate=categories&pagination[pageSize]=8')
             setMenus(res.data)
         }
     }
@@ -76,8 +76,7 @@ const Menus = withWrapper(() => {
     useEffect(() => {
         async function getCategories() {
             const res = await getData('/categories')
-            console.log(res);
-            const options = res.data.map(({ id, attributes: { title } }) => ({ id, title }));
+            const options = res.data.map(({ id, attributes: { title } }: { id: number, attributes: { title: string } }) => ({ id, title }));
             setOptions(options)
         }
         getCategories()
@@ -130,8 +129,7 @@ const Menus = withWrapper(() => {
     const submitDeleteHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         try {
-            const res = await deleteData(`/products/${selectedMenuId}`)
-            console.log('delete', { res });
+            await deleteData(`/products/${selectedMenuId}`)
             toast.success('Menu Item Deleted Successfully! ❤️‍🔥');
             closeDeleteModal()
             setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== selectedMenuId));
@@ -146,9 +144,8 @@ const Menus = withWrapper(() => {
         <div className="flex sm:flex-row flex-col sm:justify-between items-start mb-5 sm:mb-0 sm:items-center">
             <div className="my-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
-                <input style={{ border: 'none' }} className="mw-[23.25rem] bg-transparent p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
-                    type="search" placeholder="Search here" ref={searchRef} />
-                <button className="bg-[--primary-light] text-white" onClick={handleSearch}>Search</button>
+                <input style={{ border: 'none' }} className="w-[25.25rem] bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
+                    type="search" placeholder="Search here" onChange={handleSearch} ref={searchRef} />
             </div>
             <Button onClick={openModal} text="add menu item" className="capitalize bg-[--sec-light] hover:border-[--sec-color]" />
             <MyModal isOpen={isOpen} closeModal={closeModal}>
@@ -163,7 +160,7 @@ const Menus = withWrapper(() => {
                         Need Menu Info Please.. <span className='text-lg'>🫣</span>
                     </p>
                 </div>
-                <Form options={options} closeModal={closeModal} />
+                <Form refetch={refetch} options={options} closeModal={closeModal} />
             </MyModal>
             <MyModal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal} >
                 <div className='space-y-3 px-4'>
@@ -188,7 +185,7 @@ const Menus = withWrapper(() => {
                         Need Menu Info Please.. <span className='text-lg'>🫣</span>
                     </p>
                 </div>
-                <Form mode="PUT" options={options} closeModal={closeUpdateModal}
+                <Form mode="PUT" refetch={refetch} options={options} closeModal={closeUpdateModal}
                     initialValues={menus?.find((menu) => menu.id === selectedMenuId)} />
             </MyModal>
         </div>
@@ -238,7 +235,6 @@ const Menus = withWrapper(() => {
                                             <div className="flex items-center gap-3">
                                                 <img src={menu.attributes?.img?.data?.attributes?.url} alt="" className="w-10 rounded-full" />
                                                 <h6 className="capitalize">{menu.attributes.title}</h6>
-
                                             </div>
                                         </th>
                                         <td className="px-6 py-4 capitalize">
@@ -271,13 +267,10 @@ const Menus = withWrapper(() => {
                                     </td>
                                 </tr>
                         }
-
-
-
                     </tbody>
                 </table>
             </div>
-            <Paginator entity="products" pageSize={8} setItems={setMenus} />
+            {!searchRef?.current?.value && <Paginator entity="products" pageSize={8} setItems={setMenus} />}
         </div>
     </div>
 })

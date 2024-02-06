@@ -24,7 +24,7 @@ const Categories = () => {
   }, [])
   return (
     <>
-      <div className="container pt-24">
+      <div className="container pt-10 lg:pt-40">
         <StyledTitle subTitle="OUR CATEGORIES" align="start"
           title={<h2 className="text-[30px] md:text-[40px] lg:text-[50px] font-[700] text-[#18214F] mb-10">Browser Our Top Food<br /> Categories</h2>} />
       </div>
@@ -34,13 +34,9 @@ const Categories = () => {
             slidesPerView: 1,
             spaceBetween: 20
           },
-          420: {
+          500: {
             slidesPerView: 2,
             spaceBetween: 20
-          },
-          480: {
-            slidesPerView: 3,
-            spaceBetween: 30
           },
           800: {
             slidesPerView: 3,
@@ -52,14 +48,12 @@ const Categories = () => {
           }
         }}
         loop={true}
-        className="py-8 pb-16 px-24"
+        className="py-8 pb-16 px-12"
         spaceBetween={50}
         slidesPerView={4}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
       >
         {categories?.map(category => (
-          <SwiperSlide><CategoryCard key={category.id} category={category} /></SwiperSlide>
+          <SwiperSlide key={category.id}><CategoryCard  category={category} /></SwiperSlide>
         ))}
       </Swiper>
     </>

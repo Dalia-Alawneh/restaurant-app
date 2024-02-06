@@ -10,8 +10,11 @@ import { ICustomer } from "../interfaces"
 import { postData, putData } from "../helpers/api.ts"
 import toast from "react-hot-toast"
 import { XIcon } from "lucide-react"
-const OrderView = ({ setSelectedProducts, selectedProducts }:
-    { setSelectedProducts: (value: Record<string, boolean>) => void; selectedProducts: Record<string, boolean> }) => {
+interface IOrderViewProps {
+    setSelectedProducts: (value: Record<string, boolean>) => void;
+    selectedProducts: Record<string, boolean>
+}
+const OrderView = ({ setSelectedProducts, selectedProducts }: IOrderViewProps) => {
     const tempOrders = useAppSelector(state => state.tempOrders.order.products)
     const orderId = useAppSelector(state => state.tempOrders.order.id)
     const totalPrice = useAppSelector(state => state.tempOrders.totalPrice)
@@ -59,7 +62,6 @@ const OrderView = ({ setSelectedProducts, selectedProducts }:
     }
 
     const handleInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(customerInfo);
         const { name, value } = e.target
         setCustomerInfo({
             ...customerInfo,

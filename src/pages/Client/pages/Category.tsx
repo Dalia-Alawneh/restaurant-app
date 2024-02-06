@@ -38,26 +38,27 @@ const Category = () => {
           <button className="bg-[--primary-light] text-white">Search</button>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-16">
           {category?.attributes.products.data.map(product => (
-            <div className="relative flex items-center justify-between border h-[170px] px-4 rounded-lg gap-5">
+            <div key={product.id} className="relative flex flex-col sm:flex-row items-center justify-between border sm:h-[170px] py-3 px-4 rounded-lg gap-5">
               {product.attributes.isNew && <div className="absolute right-0 top-0 bg-[--primary-light] text-white px-3 rounded-se-lg text-sm py-1">New !!</div>}
-              {product.attributes.discount && <div className="absolute left-0 top-0 bg-red-500 text-white px-3 rounded-ss-lg text-sm py-1">-{product.attributes.discount}%</div>}
-              <div className="flex gap-4 items-center">
+              {product.attributes.discount != undefined && product.attributes.discount > 0 &&
+                <div className="absolute left-0 top-0 bg-red-500 text-white px-3 rounded-ss-lg text-sm py-1">-{product.attributes.discount}%</div>}
+              <div className="flex flex-col sm:flex-row justify-center sm:justify-start gap-4 items-center">
                 <img src={product.attributes.img.data.attributes.url} className="w-[120px] rounded" alt="" />
                 <div className="">
                   <h4 className="mb-2 capitalize text-[20px]">{product.attributes.title}</h4>
-                  {product.attributes.discount ? (
-                    <p className="text-[--primary] font-[600]">
+                  {product.attributes.discount ? product.attributes.discount > 0 && (
+                    <p className="text-[--primary] font-[600] text-center sm:text-start">
                       <span className="text-[#2f4cdd8a] text-[14px] font-[600] line-through">${product.attributes.price.toFixed(2)}</span> ${(product.attributes.price - (product.attributes.price * product.attributes.discount / 100)).toFixed(2)}
                     </p>
                   ) : (
-                    <span className="text-[--primary] font-[600]">${product.attributes.price.toFixed(2)}</span>
+                    <p className="text-[--primary] font-[600] text-center sm:text-start">${product.attributes.price.toFixed(2)}</p>
                   )}
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-3">
-                <Rating starsCount={product.attributes.stars} />
+              <div className="flex flex-col items-center sm:items-end gap-3">
+                <Rating starsCount={product.attributes.stars}/>
                 <div className="bg-[--primary] rounded p-2 cursor-pointer">
                   <ShoppingCart color="white" />
                 </div>

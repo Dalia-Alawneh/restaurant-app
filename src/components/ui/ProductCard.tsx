@@ -41,9 +41,9 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                             </div>
                         </div>
                     )}
-                    {discount && <div className="discount text-white text-[13px] p-2 absolute right-0 bg-red-500 rounded-b-full rounded-ss-lg">
+                    {discount? discount >0 && <div className="discount text-white text-[13px] p-2 absolute right-0 bg-red-500 rounded-b-full rounded-ss-lg">
                         - {discount}%
-                    </div>}
+                    </div>:<></>}
                     <div className="card-img p-3">
                         <img className="w-full" src={img} alt={title} />
                     </div>

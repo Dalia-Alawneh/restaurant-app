@@ -26,7 +26,6 @@ const Pos = withWrapper(() => {
         }
     }
     useEffect(() => {
-        toast.success('Successfully toasted!')
         setData()
     }, [])
     return (

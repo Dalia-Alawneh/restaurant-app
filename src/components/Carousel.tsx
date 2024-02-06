@@ -92,7 +92,6 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
                 setCategoryId(activeCategoryId);
                 setIsAll(false)
             }}
-            onSwiper={(swiper) => console.log(swiper)}
             loop={true}
         >
             {categories.map(category => (

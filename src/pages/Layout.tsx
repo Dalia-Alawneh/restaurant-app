@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from "../components/Sidebar"
 import { useEffect, useState } from 'react'
 import SideBarLink from "../components/ui/SideBarLink"
-import { CircleDollarSign, LayoutDashboard, UserRound, Wallet } from "lucide-react"
+import { CircleDollarSign, UserRound, Wallet } from "lucide-react"
 const RootLayout = () => {
     const [isToggle, setIsToggle] = useState<boolean>(false)
     useEffect(() => {
@@ -31,7 +31,6 @@ const RootLayout = () => {
                                 <SideBarLink icon={<UserRound size={20} color="#1f3786" />} path="/transaction" text="orders" />
                                 <SideBarLink icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
                                 <SideBarLink icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
-                                <SideBarLink icon={<LayoutDashboard size={20} color="#1f3786" />} path="/dashboard" text="dashboard" />
                             </ul>
                         </>
                     </Sidebar>

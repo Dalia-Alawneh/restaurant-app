@@ -29,17 +29,14 @@ const Register = () => {
         },
         validationSchema: signupSchema,
         onSubmit: async (values) => {
-            console.log(values);
             try {
                 const res = await postData("/auth/local/register", values);
-                console.log(res);
                 setTimeout(() => {
                     if (res) {
                         navigate("/auth");
                     }
                 }, 1000)
             } catch (e) {
-                console.log(e);
                 toast.error("Something goes wrong.!🥲");
             }
         }
@@ -47,9 +44,7 @@ const Register = () => {
     const validationErrors: FormikErrorsWithIndexSignature = errors
     const formikTouched: FormikTouchedWithIndexSignature = touched
     const hasErrors = Object.keys(errors).length > 0;
-    console.log('====================================');
-    console.log({ hasErrors, errors });
-    console.log('====================================');
+
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">Sign up your account</p>

@@ -24,7 +24,7 @@ const Navbar = () => {
                 <div className={`user hidden lg:flex gap-3 items-center justify-end `}>
                     <div className="phone flex gap-3">
                         <PhoneCallIcon className="move-animation" width={20} color="#2f4cdd" />
-                        <a href="tel:+9705984758500">(+970) 5984758500</a>
+                        <a href="tel:+9705984758500"><span>(+970) 5984758500</span></a>
                     </div>
                     <Link to='/cart' className="cart relative">
                         <ShoppingBagIcon width={22} color="#2f4cdd" />

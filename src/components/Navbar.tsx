@@ -22,9 +22,13 @@ const Navbar = ({ setIsToggle, isToggle }: { setIsToggle: (isToggle: boolean) =>
                     <img src={logo} className='w-full' alt="davur logo" />
                 </Link>
                 <ul className='hidden md:flex gap-8 justify-center'>
-                    {navLinks.map(link => (
+                    {!loggedInUser ? navLinks.filter(link => link.text !== "dashboard").map(link => (
                         <ListItem key={"nav-link" + link.text} {...link} />
-                    ))}
+                    )) :
+                        navLinks.map(link => (
+                            <ListItem key={"nav-link" + link.text} {...link} />
+                        ))
+                    }
                 </ul>
                 <div className={`user flex gap-3 items-center justify-end ${loggedInUser ? "cursor-pointer" : ''} `} onClick={loggedInUser ? () => setIsOpen(!isOpen) : undefined}>
                     <div className="hidden sm:inline text-right">

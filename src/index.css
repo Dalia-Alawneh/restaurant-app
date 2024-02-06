@@ -131,25 +131,28 @@ button:focus-visible {
   color: white;
 }
 
-.home .swiper-slide-active{
+.home .swiper-slide-active {
   background-color: transparent;
   color: #18214F;
 }
-.home .swiper-slide{
+
+.home .swiper-slide {
   transition: 0.8s;
   -webkit-transition: 0.8s;
   -moz-transition: 0.8s;
   -ms-transition: 0.8s;
   -o-transition: 0.8s;
 }
-.home .swiper-slide:hover{
+
+.home .swiper-slide:hover {
   transform: translateY(-20px);
   -webkit-transform: translateY(-20px);
   -moz-transform: translateY(-20px);
   -ms-transform: translateY(-20px);
   -o-transform: translateY(-20px);
 }
-.sub-head::after{
+
+.sub-head::after {
   position: absolute;
   content: '';
   top: 0;
@@ -159,6 +162,7 @@ button:focus-visible {
   height: 100%;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
 }
+
 h2 {
   font-weight: 500;
   font-size: 1.7rem;
@@ -239,7 +243,7 @@ aside li a.active {
 
 
 
-.feature:hover{
+.feature:hover {
   transition: 0.8s;
   box-shadow: 0px 20px 70px rgba(35, 50, 126, 0.15);
   -webkit-transition: 0.8s;
@@ -247,9 +251,33 @@ aside li a.active {
   -ms-transition: 0.8s;
   -o-transition: 0.8s;
 }
-.custom-shadow{
+
+.custom-shadow {
   box-shadow: 0px 20px 70px rgba(35, 50, 126, 0.15);
 }
-.home p{
+
+.home p {
   color: #7A81A6;
+}
+
+@media (max-width:1130px)and (min-width:900px) {
+  .phone a span {
+    display: none;
+  }
+
+}
+
+.rotate-img {
+  animation: rotate-360 20s linear infinite;
+  -webkit-animation: rotate-360 20s linear infinite;
+}
+
+@keyframes rotate-360 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
 }

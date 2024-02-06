@@ -1,9 +1,9 @@
 import { useAppDispatch } from '../app/store';
 import { logout } from '../features/user';
 import { useNavigate } from 'react-router-dom';
-import SaberCookies from 'saber-cookies';
+import SaberCookies from 'saber-cookies' ;
 
-const useLogout = () => {
+export default function useLogout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -15,6 +15,5 @@ const useLogout = () => {
   };
 
   return handleLogout;
-};
+}
 
-export default useLogout;

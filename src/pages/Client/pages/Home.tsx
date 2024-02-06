@@ -1,7 +1,8 @@
 import Categories from "../components/Categories"
 import FoodQuality from "../components/FoodQuality"
 import Header from "../components/Header"
-import Features from "../components/features"
+import Features from "../components/Features"
+import MainProducts from "../components/MainProducts"
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Features/>
       <FoodQuality/>
       <Categories/>
+      <MainProducts/>
     </div>
   )
 }

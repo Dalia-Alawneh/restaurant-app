@@ -19,7 +19,7 @@ export const tempOrdersSlice = createSlice({
         addToTempOrders: (state, action: PayloadAction<IProduct>) => {
             state.order.products = [...state.order.products, { ...action.payload, qty: 1 }]
         },
-        removeFromTempOrders: (state, action: PayloadAction<number>) => {
+        removeFromTempOrders: (state, action: PayloadAction<number | string>) => {
             const productIdToRemove = action.payload
             const updatedOrder = state.order.products.filter(product => product.id !== productIdToRemove);
 
@@ -32,9 +32,9 @@ export const tempOrdersSlice = createSlice({
 
             if (productIndex !== -1) {
                 const product = state.order.products[productIndex];
-                const productStock = product.attributes.stock; // Optional chaining to access stock
+                const productStock = product.attributes.stock;
 
-                if (product?.qty !== undefined && productStock !== undefined) { // Null check for qty and stock
+                if (product?.qty !== undefined && productStock !== undefined) { 
                     if (product.qty < productStock) {
                         const updatedOrder = [...state.order.products];
                         updatedOrder[productIndex] = {
@@ -46,9 +46,7 @@ export const tempOrdersSlice = createSlice({
                     } else {
                         toast.error("Out of stock!😵‍💫, check back later🫥");
                     }
-                } else {
-                    console.log("Quantity or stock information is undefined.");
-                }
+                } 
             }
         },
 
@@ -77,14 +75,9 @@ export const tempOrdersSlice = createSlice({
                 const quantity = order.qty || 0;
                 const price = order.attributes.price || 0;
 
-                console.log("Calculating for item:", order);
-                console.log("Quantity:", quantity);
-                console.log("Price:", price);
-
                 return acc + quantity * price;
             }, 0);
 
-            console.log("Total Price:", totalPrice);
 
             state.totalPrice = totalPrice;
         },
@@ -98,7 +91,6 @@ export const tempOrdersSlice = createSlice({
         removeOrderItemById: (state, action: PayloadAction<number>) => {
             const productIdToRemove = action.payload;
 
-            // Filter out the product with the specified ID
             state.order.products = state.order.products.filter(product => product.id !== productIdToRemove);
         },
 

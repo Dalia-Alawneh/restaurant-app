@@ -36,10 +36,8 @@ const Login = () => {
         },
         validationSchema: signinSchema,
         onSubmit: async (values) => {
-            console.log(values);
             try {
                 const res = await postData("/auth/local", values);
-                console.log(res);
                 dispatch(storeUser(res))
                 setTimeout(() => {
                     if (res.user.isAdmin) {
@@ -49,7 +47,6 @@ const Login = () => {
                     }
                 }, 1000)
             } catch (e) {
-                console.log(e);
                 toast.error("Something goes wrong.!🥲");
             }
         },

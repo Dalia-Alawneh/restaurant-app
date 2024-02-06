@@ -52,11 +52,18 @@ const OrderHistory = () => {
     const setSearchTermValue = (e: ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target
         setSearchTerm(value)
+        handleSearch()
     }
     const handleSearch = useCallback(async () => {
         if (searchTerm !== '') {
             const res = await getData(`http://localhost:1337/api/orders?filters[name][$contains]=${searchTerm?.trim()}`)
             setOrders(res.data)
+        } else {
+            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8')
+            if (data.length) {
+                setOrders(data)
+
+            }
         }
     }, [searchTerm])
     useEffect(() => {
@@ -66,8 +73,8 @@ const OrderHistory = () => {
         <div>
             <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
-                <input style={{ border: 'none' }} className="mw-[23.25rem] bg-transparent p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none" type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
-                <button className="bg-[--primary-light] text-white" onClick={handleSearch}>Search</button>
+                <input style={{ border: 'none' }} className="w-[25.25rem] bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
+                    type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
             </div>
 
             <div className="relative rounded-lg border border-[--border-color]">
@@ -153,7 +160,7 @@ const OrderHistory = () => {
                         </tbody>
                     </table>
                 </div>
-                <Paginator entity="orders" pageSize={8} setItems={setOrders} />
+                {!searchTerm && <Paginator entity="orders" pageSize={8} setItems={setOrders} />}
             </div>
             <MyModal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal} >
                 <div className='space-y-3 px-4'>
@@ -166,7 +173,6 @@ const OrderHistory = () => {
                     </form>
                 </div>
             </MyModal>
-            {/* <Paginator products={products} setProducts={setProducts} pageSize={3}/> */}
         </div>
     )
 }

@@ -1,72 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     useFormik,
     FormikHelpers,
 } from 'formik';
-import { getTokenFromCookie, postData, putData } from '../../../helpers/api';
-import { IProduct, ISelectOptions } from '../../../interfaces';
+import { postData, putData } from '../../../helpers/api';
+import { ICategory, IProduct, ISelectOptions } from '../../../interfaces';
 import SelectInput from '../../../components/ui/SelectInput';
 import { productFormFeilds } from '../../../constants';
 import { productValidationSchema } from '../../../schemas';
-import { FormikErrorsWithIndexSignature, FormikTouchedWithIndexSignature } from '../../Auth/pages/Login/Login';
+import { FormikTouchedWithIndexSignature } from '../../Auth/pages/Login/Login';
 import toast from 'react-hot-toast';
+import { QueryObserverResult, RefetchOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface IProps {
     options: ISelectOptions[];
     closeModal: () => void;
     initialValues?: MyFormValues | IProduct;
-    mode?: "POST" | "PUT"
+    mode?: "POST" | "PUT";
+    refetch: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<unknown, Error>>;
+
 }
 
 interface MyFormValues {
+    id: number | string;
     title: string;
-    img: File | null;
+    img: File | null | string;
     categories: number[];
-    discount: number;
-    price: number;
+    discount: number | string;
+    price: number | string;
     duration: string;
-    rating: number;
+    rating: number | string;
 }
+
+interface FormikErrorsWithIndexSignature {
+    [key: string]: string | string[];
+}
+
 const defaultInitialValues: MyFormValues = {
+    id: '',
     title: '',
     categories: [],
     duration: '',
     img: null,
-    discount: 0,
-    price: 0,
-    rating: 0,
+    discount: '',
+    price: '',
+    rating: '',
 };
 
 const feildClasses =
     'w-full text-md bg-transparent p-2 rounded-lg border placeholder:text-sm outline-none focus:outline-none focus-visible:outline-none';
 
-const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mode = "POST" }: IProps) => {
+const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mode = "POST", refetch }: IProps) => {
     const isUpdateMode = mode === "PUT";
-    console.log(initialValues);
+    const [isImageChanged, setIsImageChanged] = useState<boolean>(false)
     const updateProduct = initialValues?.attributes
-    let updateInitailValues: MyFormValues
+    let updateInitailValues
     if (updateProduct) {
         updateInitailValues = {
             title: updateProduct.title,
             duration: updateProduct.duration,
             price: updateProduct.price,
-            discount: updateProduct.discount,
-            rating: updateProduct.stars,
+            discount: updateProduct.discount ?? 0,
+            rating: updateProduct.stars ?? 0,
             img: updateProduct.img.data.attributes.url,
-            categories: updateProduct.categories.data.map((category) => category.id)
+            categories: updateProduct.categories.data.map((category: ICategory) => category.id)
         }
     }
+
     const submitHandler = async (
         values: MyFormValues,
         actions: FormikHelpers<MyFormValues>
     ) => {
-        console.log({ values, actions }); console.log(formik.values.categories);
 
         actions.setSubmitting(false);
 
         try {
             const { title, price, img, discount, duration, categories } = values;
-            const jwt = getTokenFromCookie()
             const formData = new FormData();
             formData.append(
                 'data',
@@ -83,29 +92,18 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                 formData.append('files.img', img);
             }
 
-            // for (let pair of formData.entries()) {
-            //     console.log(pair[0] + ', ' + pair[1]);
-            // }
-            // const res = await postData('/products?populate=*', formData, {
-            //     headers:{
-            //         Authorization: `Bearer ${jwt}`,
-            //         'Content-Type':'application/json; charset=utf-8'
-            //     }
-            // });
-            // console.log({ res });
             if (isUpdateMode) {
-                const res = await putData(`/products/${initialValues?.id}?populate=*`, formData);
-                console.log({ res });
+                await putData(`/products/${initialValues?.id}?populate=*`, formData);
                 toast.success('Menu Item Updated Successfully! ❤️‍🔥');
+
             } else {
-                const res = await postData('/products?populate=*', formData);
-                console.log({ res });
+                await postData('/products?populate=*', formData);
                 toast.success('Menu Item Added Successfully! ❤️‍🔥');
             }
             closeModal();
 
+            refetch()
         } catch (error) {
-            console.error('Error submitting form:', error);
             toast.error('Menu Item not Added. Something Went Wrong!');
         }
     };
@@ -113,10 +111,11 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
 
     const handleImageChange = (
         event: React.ChangeEvent<HTMLInputElement>,
-        setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+        setFieldValue: (field: string, value: unknown, shouldValidate?: boolean) => void
     ) => {
         const file = event.currentTarget.files?.[0];
         setFieldValue('img', file);
+        setIsImageChanged(true)
     };
 
 
@@ -128,6 +127,8 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
     const validationErrors: FormikErrorsWithIndexSignature = formik.errors
     const formikTouched: FormikTouchedWithIndexSignature = formik.touched
     const hasErrors = Object.keys(formik.errors).length > 0;
+    console.log(formik.values);
+
     return (
         <div>
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3 my-4">
@@ -146,12 +147,15 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                         )}
                     </div>
                 ))}
-                <input
-                    type="file"
-                    className={feildClasses}
-                    name="img"
-                    onChange={(event) => handleImageChange(event, formik.setFieldValue)}
-                />
+                <div className="flex gap-2 items-center">
+                    {mode === 'PUT' && !isImageChanged && <img className='w-[40%]' src={formik.values.img} />}
+                    <input
+                        type="file"
+                        className={feildClasses}
+                        name="img"
+                        onChange={(event) => handleImageChange(event, formik.setFieldValue)}
+                    />
+                </div>
                 {validationErrors[`img`] && formikTouched[`img`] && (
                     <p className="text-red-500 text-xs">* {validationErrors[`img`]}</p>
                 )}
@@ -163,7 +167,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                         {`${hasErrors ? "cursor-not-allowed" : ""} 
                         "inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"`}
                     >
-                        Submit
+                        {mode === 'PUT' ? 'Save Updates' : 'Submit'}
                     </button>
                 </div>
             </form>

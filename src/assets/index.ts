@@ -14,6 +14,9 @@ import feature3 from './client/feature3.png'
 import burger from './client/burger.png'
 import vegetable from './client/vegetable-2.png'
 import subPagebg from './client/bg.jpg'
+import prod from './client/pic1.png'
+import green from './client/greenpng.png'
+
 export {
   logo,
   userDefaultImage,
@@ -31,4 +34,6 @@ export {
   burger,
   vegetable,
   subPagebg,
+  prod,
+  green,
 }

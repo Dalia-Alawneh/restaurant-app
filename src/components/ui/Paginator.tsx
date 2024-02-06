@@ -29,7 +29,7 @@ const Paginator = ({ pageSize, setItems, entity }: IProps) => {
         setCurrentPage(page);
     };
     return (
-        <div className="">
+        <div className="mx-3 overflow-auto">
             <div className="pagination flex gap-3 my-8 justify-end">
                 <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                     <ChevronLeft />

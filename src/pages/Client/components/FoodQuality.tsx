@@ -12,15 +12,15 @@ const FoodQuality = () => {
           </svg>
         </div>
         <div className="px-4 sm:px-0">
-          <img className="lg:absolute m-auto p-5 custom-shadow rounded-3xl top-4 left-20 bg-white" src={burger} alt="" />
+          <img className="lg:absolute m-auto p-5 custom-shadow rounded-3xl top-4 left-6 xl:left-28 bg-white" src={burger} alt="" />
         </div>
       </div>
       <div className="md:pt-16 pt-24 container">
         <StyledTitle subTitle="WHAT THEY SAY" align="start"
-          title={<h2 className="text-[30px] md:text-[40px] lg:text-[50px] font-[700] text-[#18214F] mb-10 md:pe-10">Food Quality Is The Most Important Part For Test</h2>} />
-        <p className="mb-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+          title={<h2 className="text-[30px] xl:text-[50px] font-[700] text-[#18214F] mb-10 md:pe-10">Food Quality Is The Most Important Part For Test</h2>} />
+        <p className="mb-5 sm:pe-12">There are many variations of passages of Lorem Ipsum available, but the majority have suffered
           alteration in some for by injected randomised words which don't look even slightly believable.</p>
-        <p className="mb-10">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <p className="mb-10 sm:pe-12">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         <button className="bg-[--primary] py-4 px-8 flex text-white gap-3 capitalize">shop more <ArrowBigRightDashIcon /> </button>
         <img className="inline md:hidden lg:inline absolute lg:-bottom-16 right-0 -bottom-20 lg:w-[200px] w-[140px]" src={vegetable} alt="" />
       </div>
