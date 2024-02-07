@@ -11,6 +11,10 @@ interface IFormData {
     username: string;
     password: string;
     confirmPassword: string;
+    name: string;
+    city: string;
+    phone: number | string;
+
 }
 const Register = () => {
     const navigate = useNavigate()
@@ -26,6 +30,9 @@ const Register = () => {
             username: "",
             password: "",
             confirmPassword: "",
+            name: "",
+            city: "",
+            phone: "",
         },
         validationSchema: signupSchema,
         onSubmit: async (values) => {
@@ -48,8 +55,21 @@ const Register = () => {
     return (
         <div className="flex flex-col gap-4 w-full">
             <p className="text-[18px] text-center font-semibold">Sign up your account</p>
-            <form className="flex flex-col gap-6 mt-4" onSubmit={handleSubmit}>
-                {registerFormFeilds.map((feild, index) => (
+            <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-2 gap-3">
+                    {registerFormFeilds.slice(0, 4).map((feild, index) => (
+                        <div key={index}>
+                            <Input
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={feild.placeholder} type={feild.type} name={feild.name} />
+                            {validationErrors[`${feild.name}`] && formikTouched[`${feild.name}`] && (
+                                <p className="text-red-500 text-xs">* {validationErrors[`${feild.name}`]}</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
+                {registerFormFeilds.slice(4, registerFormFeilds.length).map((feild, index) => (
                     <div key={index}>
                         <Input
                             onChange={handleChange}

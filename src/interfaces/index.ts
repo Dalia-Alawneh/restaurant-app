@@ -93,5 +93,8 @@ export interface IUser {
     blocked: boolean;
     createdAt: string;
     updatedAt: string;
-    isAdmin: boolean
+    isAdmin: boolean;
+    name: string;
+    city: string;
+    phone: number | string;
 }

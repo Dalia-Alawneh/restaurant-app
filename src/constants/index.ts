@@ -63,14 +63,29 @@ export const productFormFeilds: IFormFeild[] = [
 
 export const registerFormFeilds: IFormFeild[] = [
     {
-        name: 'email',
-        type: 'email',
-        placeholder: 'Email',
+        name: 'name',
+        type: 'text',
+        placeholder: 'Name',
+    },
+    {
+        name: 'city',
+        type: 'text',
+        placeholder: 'City',
+    },
+    {
+        name: 'phone',
+        type: 'number',
+        placeholder: 'Phone Number',
     },
     {
         name: 'username',
         type: 'text',
         placeholder: 'Username',
+    },
+    {
+        name: 'email',
+        type: 'email',
+        placeholder: 'Email',
     },
     {
         name: 'password',
@@ -103,35 +118,35 @@ export const clientNavLinks: { text: string; path: string }[] = [
     },
     {
         text: "about",
-        path: "/",
+        path: "/home",
     },
     {
         text: "shop",
-        path: "/",
+        path: "/home",
     },
     {
         text: "blog",
-        path: "/",
+        path: "/home",
     },
     {
         text: "contact",
-        path: "/",
+        path: "/home",
     },
 ]
 export const features: { title: string; image: string; description: string; }[] = [
     {
         image: feature1,
-        title:"Easy To Order",
+        title: "Easy To Order",
         description: "It is a long established fact that a reader of a page when looking at its layout."
     },
     {
         image: feature2,
-        title:"Fastest Deilvery",
+        title: "Fastest Deilvery",
         description: "It is a long established fact that a reader of a page when looking at its layout."
     },
     {
         image: feature3,
-        title:"Best Quailty",
+        title: "Best Quailty",
         description: "It is a long established fact that a reader of a page when looking at its layout."
     },
 ]

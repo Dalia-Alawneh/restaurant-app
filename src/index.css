@@ -261,7 +261,7 @@ aside li a.active {
   color: #7A81A6;
 }
 
-@media (max-width:1130px)and (min-width:900px) {
+@media (max-width:1200px)and (min-width:900px) {
   .phone a span {
     display: none;
   }
@@ -282,7 +282,8 @@ aside li a.active {
     transform: rotate(359deg);
   }
 }
-.product .card-head{
+
+.product .card-head {
   transition: 0.5s;
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -290,12 +291,13 @@ aside li a.active {
   -o-transition: 0.5s;
   z-index: 2;
 }
+
 .product:hover .card-head {
   opacity: 1;
   bottom: 0;
 }
 
-.product .overlay{
+.product .overlay {
   visibility: hidden;
   transition: 0.4s;
   -webkit-transition: 0.4s;
@@ -304,7 +306,8 @@ aside li a.active {
   -o-transition: 0.4s;
   z-index: 1;
 }
-.product:hover .overlay{
+
+.product:hover .overlay {
   visibility: visible;
   opacity: 1;
 }

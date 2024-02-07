@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 import { IProduct } from '../../interfaces';
 
 interface CartState {
@@ -11,45 +12,71 @@ const initialState: CartState = {
   totalPrice: 0,
 };
 
+const STORAGE_KEY = 'cartItems';
+
+const loadStateFromLocalStorage = (): CartState => {
+  try {
+    const serializedState = localStorage.getItem(STORAGE_KEY);
+    if (serializedState === null) {
+      return initialState;
+    }
+    return JSON.parse(serializedState);
+  } catch (error) {
+    console.error('Error loading state from localStorage:', error);
+    return initialState;
+  }
+};
+
+const saveStateToLocalStorage = (state: CartState): void => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem(STORAGE_KEY, serializedState);
+  } catch (error) {
+    console.error('Error saving state to localStorage:', error);
+  }
+};
+
 export const cartSlice = createSlice({
   name: 'cart',
-  initialState,
+  initialState: loadStateFromLocalStorage(),
   reducers: {
     addToCart: (state, action: PayloadAction<IProduct>) => {
       const { id } = action.payload;
-      const existingProductIndex = state.items.findIndex(item => item.id === id);
-      if (existingProductIndex !== -1) {
-        if (state.items[existingProductIndex].qty !== undefined) {
-          state.items[existingProductIndex].qty!++;
-        } else {
-          state.items[existingProductIndex].qty = 1;
-        }
+      const existingProduct = state.items.find(item => item.id === id);
+      if (existingProduct) {
+        existingProduct.qty = (existingProduct.qty || 0) + 1;
       } else {
         state.items.push({ ...action.payload, qty: 1 });
       }
       state.totalPrice = calculateTotalPrice(state.items);
+      saveStateToLocalStorage(state);
+      toast.success('Item Added Successfully !');
     },
-    removeFromCart: (state, action: PayloadAction<number|string>) => {
+    removeFromCart: (state, action: PayloadAction<number | string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
       state.totalPrice = calculateTotalPrice(state.items);
+      saveStateToLocalStorage(state);
+      toast.success('Item Removed Successfully !');
     },
     updateCartItemQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
       const { id, quantity } = action.payload;
-      const itemIndex = state.items.findIndex(item => item.id === id);
-    
-      if (itemIndex !== -1) {
-        const item = state.items[itemIndex];
+      const item = state.items.find(item => item.id === id);
+      if (item) {
         const currentStock = item.attributes.stock || 0;
         const newQuantity = Math.max(1, Math.min(quantity, currentStock));
-    
-        state.items[itemIndex] = { ...item, qty: newQuantity };
+        if (newQuantity === currentStock) {
+          toast.error("Out of stock! 😵‍💫 Check back later 🫥");
+          return;
+        }
+        item.qty = newQuantity;
         state.totalPrice = calculateTotalPrice(state.items);
+        saveStateToLocalStorage(state);
       }
     },
-    
     clearCart: (state) => {
       state.items = [];
       state.totalPrice = 0;
+      saveStateToLocalStorage(state);
     },
   },
 });
