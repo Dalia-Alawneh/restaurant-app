@@ -71,9 +71,9 @@ const OrderHistory = () => {
     }, [])
     return (
         <div>
-            <div className="mb-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
+            <div className="mb-8 w-full sm:w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
-                <input style={{ border: 'none' }} className="w-[25.25rem] bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
+                <input style={{ border: 'none' }} className="sm:w-[25.25rem] w-full bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
                     type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
             </div>
 
@@ -160,7 +160,9 @@ const OrderHistory = () => {
                         </tbody>
                     </table>
                 </div>
-                {!searchTerm && <Paginator entity="orders" pageSize={8} setItems={setOrders} />}
+                <div className="overflow-x-scroll">
+                    {!searchTerm && <Paginator entity="orders" pageSize={15} setItems={setOrders} />}
+                </div>
             </div>
             <MyModal isOpen={isDeleteModalOpen} closeModal={closeDeleteModal} >
                 <div className='space-y-3 px-4'>

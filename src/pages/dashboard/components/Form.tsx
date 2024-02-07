@@ -10,7 +10,7 @@ import { productFormFeilds } from '../../../constants';
 import { productValidationSchema } from '../../../schemas';
 import { FormikTouchedWithIndexSignature } from '../../Auth/pages/Login/Login';
 import toast from 'react-hot-toast';
-import { QueryObserverResult, RefetchOptions, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 
 interface IProps {
     options: ISelectOptions[];

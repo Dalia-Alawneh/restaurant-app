@@ -1,4 +1,5 @@
 import logo from './logo-text.png'
+import logoWhite from './client/logo-white.png'
 import userDefaultImage from './icon-user-default.png'
 import close from './close.svg'
 import menu from './menu.svg'
@@ -19,6 +20,7 @@ import green from './client/greenpng.png'
 
 export {
   logo,
+  logoWhite,
   userDefaultImage,
   close,
   menu,

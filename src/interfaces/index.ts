@@ -12,6 +12,9 @@ export interface IOrder {
         status: "delivering" | "completed";
         totalPrice: number;
         address: string;
+        products: {
+            data: IProduct[]
+        };
     };
     products: {
         data: IProduct[]

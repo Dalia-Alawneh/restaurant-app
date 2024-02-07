@@ -1,4 +1,4 @@
-import { Swiper, SwiperSlide } from "swiper/react"
+import { SwiperSlide } from "swiper/react"
 import StyledTitle from "./ui/StyledTitle"
 import 'swiper/css';
 import CategoryCard from "./ui/CategoryCard";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getData } from "../../../helpers/api";
 import { ICategory } from "../../../interfaces";
+import Caroasel from "./ui/Caroasel";
 const Categories = () => {
   const [categories, setCategories] = useState<ICategory[]>([])
   const getCategories = async () => {
@@ -28,34 +29,11 @@ const Categories = () => {
         <StyledTitle subTitle="OUR CATEGORIES" align="start"
           title={<h2 className="text-[30px] md:text-[40px] lg:text-[50px] font-[700] text-[#18214F] mb-10">Browser Our Top Food<br /> Categories</h2>} />
       </div>
-      <Swiper
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 20
-          },
-          500: {
-            slidesPerView: 2,
-            spaceBetween: 20
-          },
-          800: {
-            slidesPerView: 3,
-            spaceBetween: 40
-          },
-          1000: {
-            slidesPerView: 4,
-            spaceBetween: 40
-          }
-        }}
-        loop={true}
-        className="py-8 pb-16 px-12"
-        spaceBetween={50}
-        slidesPerView={4}
-      >
+      <Caroasel>
         {categories?.map(category => (
           <SwiperSlide key={category.id}><CategoryCard  category={category} /></SwiperSlide>
         ))}
-      </Swiper>
+      </Caroasel>
     </>
   )
 }

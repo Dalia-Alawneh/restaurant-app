@@ -4,17 +4,21 @@ import { useEffect, useState } from "react"
 import { getData } from "../../../helpers/api"
 import toast from "react-hot-toast"
 import { ICategory } from "../../../interfaces"
-import { Search, ShoppingCart } from "lucide-react"
+import { ShoppingCart } from "lucide-react"
 import Rating from "../../../components/ui/Rating"
+import { addToCart } from "../../../features/cart"
+import { useAppDispatch } from "../../../app/store"
 
 const Category = () => {
   const [category, setCategory] = useState<ICategory>()
+  const dispatch = useAppDispatch()
   const { id } = useParams()
   const getCategory = async () => {
     try {
       const data = await getData(`/categories/${id}?populate=products&populate=products.img`);
       if (data.data) {
         setCategory(data.data)
+        
       }
     } catch (e) {
       toast.error('Something goes wrong.!🥲')
@@ -23,23 +27,16 @@ const Category = () => {
   useEffect(() => {
     getCategory()
   }, [])
+
+
   return (
     <div className="mt-20">
       {category && (
         <PageSubHeadBreadCrumb title={category.attributes?.title} page="category" />
       )}
       <div className="container py-10">
-        <div className="my-8 w-full rounded-lg flex items-center justify-between border border-[--border-color] ps-2">
-          <div className="flex items-center w-full">
-            <Search color='#ff6d4d' size={18} />
-            <input style={{ border: 'none' }} className="mw-[23.25rem] w-full bg-transparent p-1 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
-              type="search" placeholder="Search Any Food ..." />
-          </div>
-          <button className="bg-[--primary-light] text-white">Search</button>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-16">
-          {category?.attributes.products.data.map(product => (
+          {category?.attributes.products.data?.map(product => (
             <div key={product.id} className="relative flex flex-col sm:flex-row items-center justify-between border sm:h-[170px] py-3 px-4 rounded-lg gap-5">
               {product.attributes.isNew && <div className="absolute right-0 top-0 bg-[--primary-light] text-white px-3 rounded-se-lg text-sm py-1">New !!</div>}
               {product.attributes.discount != undefined && product.attributes.discount > 0 &&
@@ -58,8 +55,8 @@ const Category = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center sm:items-end gap-3">
-                <Rating starsCount={product.attributes.stars}/>
-                <div className="bg-[--primary] rounded p-2 cursor-pointer">
+                <Rating starsCount={product.attributes.stars} />
+                <div className="bg-[--primary] rounded p-2 cursor-pointer" onClick={() => dispatch(addToCart(product))}>
                   <ShoppingCart color="white" />
                 </div>
               </div>

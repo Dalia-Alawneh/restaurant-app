@@ -14,9 +14,9 @@ const Navbar = ({ setIsToggle, isToggle }: { setIsToggle: (isToggle: boolean) =>
     const [isOpen, setIsOpen] = useState(false)
     return (
         <nav className="fixed w-full top-0 flex shadow-md justify-between z-40 bg-white">
-            <div className="bg-[--primary] px-6 flex items-stretch cursor-pointer" onClick={() => setIsToggle(!isToggle)}>
+            {loggedInUser && <div className={`bg-[--primary] px-6 flex items-stretch cursor-pointer`} onClick={() => setIsToggle(!isToggle)}>
                 <img src={isToggle ? close : menu} className='w-[30px]' alt="" />
-            </div>
+            </div>}
             <div className='px-2 md:px-10 py-4 flex  items-center justify-between w-full'>
                 <Link to='/' className='logo'>
                     <img src={logo} className='w-full' alt="davur logo" />

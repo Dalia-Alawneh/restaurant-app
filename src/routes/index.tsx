@@ -16,6 +16,7 @@ import ClientLayout from "../pages/Client/Layout";
 import Protected from "../components/hoc/withProtection";
 import Home from "../pages/Client/pages/Home";
 import Category from "../pages/Client/pages/Category";
+import Cart from "../pages/Client/pages/Cart";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <>
@@ -42,6 +43,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/home" element={<ClientLayout />} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Home />} />
             <Route path="category/:id" element={<Category />} />
+            <Route path="cart" element={<Cart />} />
         </Route>
         <Route path="*" element={<ErrorHandler status={404} title="Page Not Found!" />} />
     </>

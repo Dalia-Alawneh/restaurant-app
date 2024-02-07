@@ -68,7 +68,7 @@ const Pos = withWrapper(() => {
                             </div>
                             : <div className="w-full flex justify-center mt-8">No Items Found</div>
                     }
-                    {isAll && <Paginator setItems={setProducts} pageSize={4} entity="products" />}
+                    {isAll && !isLoading && <Paginator setItems={setProducts} pageSize={6} entity="products" />}
                 </div>
 
 

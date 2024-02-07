@@ -3,7 +3,7 @@ import BreadCrumb from "../../../components/ui/BreadCrumb"
 import Paginator from "../../../components/ui/Paginator"
 import { emptyCart } from "../../../assets"
 import { Edit, Search, Trash } from "lucide-react"
-import { FormEvent, useEffect, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { deleteData, getData } from "../../../helpers/api"
 import { IProduct, ISelectOptions } from "../../../interfaces"
@@ -17,10 +17,10 @@ import Form from "../components/Form"
 
 const Menus = withWrapper(() => {
     const [menus, setMenus] = useState<IProduct[]>()
-    const searchRef = useRef<HTMLInputElement>(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
     const [isUpdateModalOpen, setUpdateModalOpen] = useState(false)
+    const [searchTerm, setSearchTerm] = useState<string>()
     const [options, setOptions] = useState<ISelectOptions[]>([])
     const [selectedMenuId, setSelectedMenuId] = useState<number | string>('');
     const closeModal = () => {
@@ -61,18 +61,20 @@ const Menus = withWrapper(() => {
         queryKey: ['menus'],
         queryFn: setData,
     })
-    const handleSearch = async () => {
-        const searchTerm = searchRef?.current?.value
-
+    const setSearchTermValue = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target
+        setSearchTerm(value)
+        handleSearch()
+    }
+    const handleSearch = useCallback(async () => {
         if (searchTerm !== '') {
-            const res = await getData(`/products?populate=img&populate=products.categories&filters[title][$contains]=${searchTerm?.trim()}`)
+            const res = await getData(`/products?populate=img&populate=categories&filters[title][$contains]=${searchTerm?.trim()}`)
             setMenus(res.data)
         } else {
             const res = await getData('/products?populate=img&populate=categories&pagination[pageSize]=8')
             setMenus(res.data)
         }
-    }
-
+    }, [searchTerm])
     useEffect(() => {
         async function getCategories() {
             const res = await getData('/categories')
@@ -134,7 +136,6 @@ const Menus = withWrapper(() => {
             closeDeleteModal()
             setMenus((prevMenus) => prevMenus?.filter((menu) => menu.id !== selectedMenuId));
         } catch (error) {
-            console.error('Error submitting form:', error);
             toast.error('Menu Item not Deleted. Something Went Wrong!');
         }
     }
@@ -142,10 +143,10 @@ const Menus = withWrapper(() => {
     return <div className="mt-24">
         <BreadCrumb homePath="/dashboard" page="Menus" />
         <div className="flex sm:flex-row flex-col sm:justify-between items-start mb-5 sm:mb-0 sm:items-center">
-            <div className="my-8 w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
+            <div className="my-8 w-full sm:w-fit rounded-lg flex items-center border border-[--border-color] ps-2">
                 <Search color='#ff6d4d' size={18} />
-                <input style={{ border: 'none' }} className="w-[25.25rem] bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
-                    type="search" placeholder="Search here" onChange={handleSearch} ref={searchRef} />
+                <input style={{ border: 'none' }} className="sm:w-[25.25rem] w-full bg-transparent px-4 py-2 placeholder:text-sm border-0 outline-none focus:outline-none focus-visible:outline-none"
+                    type="search" placeholder="Search here" value={searchTerm} onChange={setSearchTermValue} />
             </div>
             <Button onClick={openModal} text="add menu item" className="capitalize bg-[--sec-light] hover:border-[--sec-color]" />
             <MyModal isOpen={isOpen} closeModal={closeModal}>
@@ -270,7 +271,7 @@ const Menus = withWrapper(() => {
                     </tbody>
                 </table>
             </div>
-            {!searchRef?.current?.value && <Paginator entity="products" pageSize={8} setItems={setMenus} />}
+            {!searchTerm && <Paginator entity="products" pageSize={8} setItems={setMenus} />}
         </div>
     </div>
 })

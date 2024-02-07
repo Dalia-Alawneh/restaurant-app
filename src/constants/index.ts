@@ -103,19 +103,19 @@ export const clientNavLinks: { text: string; path: string }[] = [
     },
     {
         text: "about",
-        path: "/about",
+        path: "/",
     },
     {
         text: "shop",
-        path: "/shop",
+        path: "/",
     },
     {
         text: "blog",
-        path: "/blog",
+        path: "/",
     },
     {
         text: "contact",
-        path: "/contact",
+        path: "/",
     },
 ]
 export const features: { title: string; image: string; description: string; }[] = [

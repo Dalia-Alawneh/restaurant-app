@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { getData } from "../../helpers/api"
 import { useEffect, useState } from "react"
-import { IOrder } from "../../interfaces";
+import { IOrder, IProduct } from "../../interfaces";
 import { userDefaultImage } from "../../assets";
 import { Check, MapPin, Truck } from "lucide-react";
 import BreadCrumb from "../../components/ui/BreadCrumb";
@@ -10,10 +10,8 @@ const OrderDetails = () => {
     const id = useParams().id;
 
     const [order, setOrder] = useState<IOrder>()
-    console.log(order);
     const getOrder = async () => {
         const { data } = await getData(`/orders/${id}?populate=products&populate=products.img`)
-        console.log(data);
         setOrder(data)
     }
     useEffect(() => {
@@ -68,7 +66,7 @@ const OrderDetails = () => {
                     <div className="order-info w-full sm:w-50 flex flex-col gap-3">
                         <h3 className="text-[16px] capitalize font-semibold">order menu</h3>
                         {
-                            order?.attributes.products?.data.map((product, index) => (
+                            order?.attributes.products?.data.map((product:IProduct) => (
                                 <div className="flex justify-between items-center" key={product.id}>
                                     <div className="flex items-center gap-3">
                                         <img className="w-[5rem] h-[5rem] object-contain rounded-xl border border-[--sec-color]" src={product.attributes.img.data.attributes.url} alt="" />

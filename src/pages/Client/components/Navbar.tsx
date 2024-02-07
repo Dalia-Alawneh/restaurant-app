@@ -3,8 +3,9 @@ import { close, logoFull, menu } from "../../../assets"
 import { clientNavLinks } from "../../../constants"
 import { PhoneCallIcon, ShoppingBagIcon } from "lucide-react"
 import { useState } from "react"
+import { useAppSelector } from "../../../app/store"
 const Navbar = () => {
-
+    const {items} = useAppSelector((state)=>state.cart)
     const [isToggle, setIsToggle] = useState<boolean>(false)
     return (
         <nav className="flex fixed w-full top-0 shadow-md justify-between z-40 bg-white">
@@ -26,10 +27,10 @@ const Navbar = () => {
                         <PhoneCallIcon className="move-animation" width={20} color="#2f4cdd" />
                         <a href="tel:+9705984758500"><span>(+970) 5984758500</span></a>
                     </div>
-                    <Link to='/cart' className="cart relative">
+                    <Link to='/home/cart' className="cart relative">
                         <ShoppingBagIcon width={22} color="#2f4cdd" />
-                        <div className="absolute top-[-10px] left-[10px] badg rounded-full bg-[--primary] text-white text-[12px] font-bold flex items-center justify-center w-[20px] h-[20px]">
-                            1
+                        <div className="absolute top-[-10px] left-[10px] badg rounded-full bg-[--primary] text-white text-[12px] font-bold flex text-center items-center justify-center w-[20px] h-[20px]">
+                            <span>{items.length}</span>
                         </div>
                     </Link>
                 </div>

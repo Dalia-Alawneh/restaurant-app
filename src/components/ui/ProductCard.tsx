@@ -28,7 +28,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                 <CardSkeleton />
                 :
 
-                <div className="relative overflow-hidden cursor-pointer rounded-xl border flex flex-col justify-between w-full min-h-[460px]" onClick={orderClickHandler}>
+                <div className="relative overflow-hidden cursor-pointer rounded-xl border flex flex-col justify-between w-full h-[460px]" onClick={orderClickHandler}>
                     {isNew && (
                         <div className="relative">
                             <div className="text-white text-[13px] py-1 px-6 transform -skew-y-10 absolute -top-0 -left-3 bg-blue-500" style={

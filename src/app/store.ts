@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 import tempOrdersReducer from '../features/tempOrder/index.ts'
 import userReducer from '../features/user/index.ts'
+import cartReducer from '../features/cart/index.ts'
 export const store = configureStore({
     reducer: {
         tempOrders: tempOrdersReducer,
         user: userReducer,
+        cart: cartReducer,
     },
 })
 

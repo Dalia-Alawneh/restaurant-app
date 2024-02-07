@@ -62,6 +62,7 @@
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 a {
@@ -280,4 +281,30 @@ aside li a.active {
   100% {
     transform: rotate(359deg);
   }
+}
+.product .card-head{
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  z-index: 2;
+}
+.product:hover .card-head {
+  opacity: 1;
+  bottom: 0;
+}
+
+.product .overlay{
+  visibility: hidden;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+  z-index: 1;
+}
+.product:hover .overlay{
+  visibility: visible;
+  opacity: 1;
 }
