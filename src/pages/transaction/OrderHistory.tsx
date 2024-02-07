@@ -40,10 +40,9 @@ const OrderHistory = () => {
     }
     const setData = async () => {
         try {
-            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8')
+            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8&sort=createdAt:desc')
             if (data.length) {
                 setOrders(data)
-
             }
         } catch (e) {
             toast.error('Something goes wrong.!🥲')
@@ -56,7 +55,7 @@ const OrderHistory = () => {
     }
     const handleSearch = useCallback(async () => {
         if (searchTerm !== '') {
-            const res = await getData(`http://localhost:1337/api/orders?filters[name][$contains]=${searchTerm?.trim()}`)
+            const res = await getData(`/orders?filters[name][$contains]=${searchTerm?.trim()}`)
             setOrders(res.data)
         } else {
             const { data } = await getData('/orders?populate=img&pagination[pageSize]=8')
@@ -137,11 +136,12 @@ const OrderHistory = () => {
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <span className={`block w-fit px-3 py-1 rounded-xl ${order.attributes.status == null ? 'bg-[#f9b5b5] text-[#af2e2e]' : order.attributes.status === 'completed' ? 'bg-green-200 text-green-800' : "bg-amber-200 text-amber-800"} `}>
-
                                                     {order.attributes.status ?? "Canceled"}</span>
                                             </td>
                                             <td className="px-6 py-4 text-right relative">
-                                                <DropDown openDeleteModal={() => openDeleteModal(order.id)} navigateToOrderDetails={() => navigateToOrderDetails(order.id)} />
+                                                <DropDown openDeleteModal={openDeleteModal}
+                                                id={order.id}
+                                                navigateToOrderDetails={navigateToOrderDetails} />
                                             </td>
                                         </tr>
                                     ))

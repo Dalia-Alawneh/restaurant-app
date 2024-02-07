@@ -47,7 +47,7 @@ const Navbar = () => {
                                     onClick={() => setIsOpen(!isOpen)}
                                     alt="user image"
                                     className='cursor-pointer w-[40px] h-[40px] rounded-full p-1 border-[3px] border-x-[--link-active-color]' />
-                                <UserDropDown isOpen={isOpen} redirectRoute="/home">
+                                <UserDropDown rightPosition="" isOpen={isOpen} redirectRoute="/home">
                                     <Link to='/home/profile' className="py-3 flex gap-4 px-4 items-center hover:bg-[#4b4bed57] hover:text-[#4b4bed]">
                                         <User2Icon color="#4b4bed" size={20} />
                                         <p className="capitalize text-[#333333e9]" style={{ letterSpacing: '1px' }}>{loggedInUser?.username}</p>

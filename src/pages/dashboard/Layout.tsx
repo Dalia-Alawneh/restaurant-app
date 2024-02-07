@@ -36,10 +36,10 @@ const DashboardLayout = () => {
                         <Sidebar>
                             <>
                                 <ul className="flex-col mt-5 max-w-100 gap-16">
-                                    <SideBarLink icon={<Menu size={20} color="#1f3786" />} path="/dashboard/menus" text="menus" />
-                                    <SideBarLink icon={<UserRound size={20} color="#1f3786" />} path="/transaction" text="orders" />
-                                    <SideBarLink icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
-                                    <SideBarLink icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
+                                    <SideBarLink onClick={() => setIsToggle(false)} icon={<Menu size={20} color="#1f3786" />} path="/dashboard/menus" text="menus" />
+                                    <SideBarLink onClick={() => setIsToggle(false)} icon={<UserRound size={20} color="#1f3786" />} path="/transaction" text="orders" />
+                                    <SideBarLink onClick={() => setIsToggle(false)} icon={<CircleDollarSign size={20} color="#1f3786" />} path="/" text="pos" />
+                                    <SideBarLink onClick={() => setIsToggle(false)} icon={<Wallet size={20} color="#1f3786" />} path="/wallet" text="wallet" />
                                 </ul>
                                 <div onClick={() => handleLogout('/')} className="border-t flex px-5 gap-2 hover:bg-[--sec-extra-light] cursor-pointer py-4">
                                     <LogOutIcon color="#f77" />

@@ -123,7 +123,7 @@ const OrderView = ({ setSelectedProducts, selectedProducts }: IOrderViewProps) =
     return (
 
         <>
-            <div className="p-2 md:p-8 w-[100%] max-w-[550px] min-h-[600px] rounded-md bg-white md:w-1/2 lg:w-1/3">
+            <div className="p-2 md:p-8 w-[100%] max-w-[550px] min-h-[600px] rounded-md bg-white md:w-1/2 lg:w-[68%]">
                 {tempOrders.length > 0 ?
                     <div className="flex flex-col justify-between min-h-[600px]">
                         <div className="min-h-[200px] overflow-x-auto">
@@ -141,7 +141,7 @@ const OrderView = ({ setSelectedProducts, selectedProducts }: IOrderViewProps) =
                                     {tempOrders.map((order, index) => (
                                         <tr className="border-b px-4" key={'order#' + order.id}>
                                             <td className=" py-2">{index + 1}</td>
-                                            <td className="px-4 py-2">{order.attributes.title}</td>
+                                            <td className="px-4 py-2">{order.attributes.title.slice(0,7)}...</td>
                                             <td className="flex items-center py-4 px-4">
                                                 <button onClick={() => incrementQuantityHandler(order.id)}
                                                     className="py-0 px-2 bg-[--primary-light] text-white text-lg">+</button>

@@ -2,8 +2,8 @@ import { Menu, Transition } from '@headlessui/react'
 import { InfoIcon, Trash2Icon } from 'lucide-react'
 import { Fragment } from 'react'
 
-export default function DropDown({ openDeleteModal, navigateToOrderDetails }:
-    { openDeleteModal: (orderId: number) => void, navigateToOrderDetails: (id: number) => void }) {
+export default function DropDown({ openDeleteModal, navigateToOrderDetails, id }:
+    { openDeleteModal: (orderId: number) => void, navigateToOrderDetails: (id: number) => void; id?:number }) {
     return (
         <div className=" top-16 text-right">
             <Menu as="div" className="relative inline-block text-left">
@@ -25,7 +25,7 @@ export default function DropDown({ openDeleteModal, navigateToOrderDetails }:
                         <div className="px-1 py-1">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button onClick={()=>navigateToOrderDetails}
+                                    <button onClick={()=>navigateToOrderDetails(id!)}
                                         className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
@@ -49,7 +49,7 @@ export default function DropDown({ openDeleteModal, navigateToOrderDetails }:
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        onClick={()=>openDeleteModal}
+                                        onClick={()=>openDeleteModal(id!)}
                                         className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
