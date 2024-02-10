@@ -13,7 +13,7 @@ const Pos = withWrapper(() => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedProducts, setSelectedProducts] = useState<Record<string, boolean>>({});
-    const [isAll, setIsAll] = useState<boolean>(true)
+    const [isAll, setIsAll] = useState<boolean>(false)
     const setData = async () => {
         try {
             const data = await getData('/products?populate=categories&populate=img&pagination[pageSize]=4&pagination[page]=1')
