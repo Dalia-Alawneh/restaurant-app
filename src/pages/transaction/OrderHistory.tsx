@@ -34,7 +34,6 @@ const OrderHistory = () => {
             closeDeleteModal()
             setOrders((prevMenus) => prevMenus?.filter((order) => order.id !== selectedOrderId));
         } catch (error) {
-            console.error('Error submitting form:', error);
             toast.error('Order Item not Deleted. Something Went Wrong!');
         }
     }
@@ -55,10 +54,10 @@ const OrderHistory = () => {
     }
     const handleSearch = useCallback(async () => {
         if (searchTerm !== '') {
-            const res = await getData(`/orders?filters[name][$contains]=${searchTerm?.trim()}`)
+            const res = await getData(`/orders?filters[name][$contains]=${searchTerm?.trim()}&sort=createdAt:desc`)
             setOrders(res.data)
         } else {
-            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8')
+            const { data } = await getData('/orders?populate=img&pagination[pageSize]=8&sort=createdAt:desc')
             if (data.length) {
                 setOrders(data)
 

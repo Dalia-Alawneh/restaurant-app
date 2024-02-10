@@ -39,6 +39,11 @@ export const productValidationSchema = Yup.object().shape({
         .min(0, 'Discount must be at least 0')
         .max(100, 'Discount cannot exceed 100')
         .required('Discount is required'),
+    stock: Yup.number()
+        .typeError('Stock must be a number')
+        .min(1, 'Stock must be at least 1')
+        .max(50, 'Stock cannot exceed 50')
+        .required('Stock is required'),
     price: Yup.number()
         .typeError('Price must be a number')
         .min(0, 'Price must be at least 0')

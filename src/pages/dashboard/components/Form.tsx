@@ -27,7 +27,9 @@ interface MyFormValues {
     img: File | null | string;
     categories: number[];
     discount: number | string;
+    stock: number | string;
     price: number | string;
+    [key: string]: any;
     duration: string;
     rating: number | string;
 }
@@ -45,6 +47,7 @@ const defaultInitialValues: MyFormValues = {
     discount: '',
     price: '',
     rating: '',
+    stock: ''
 };
 
 const feildClasses =
@@ -59,6 +62,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
         updateInitailValues = {
             title: updateProduct.title,
             duration: updateProduct.duration,
+            stock: updateProduct.stock,
             price: updateProduct.price,
             discount: updateProduct.discount ?? 0,
             rating: updateProduct.stars ?? 0,
@@ -75,7 +79,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
         actions.setSubmitting(false);
 
         try {
-            const { title, price, img, discount, duration, categories } = values;
+            const { title, price, img, discount, duration, categories, stock } = values;
             const formData = new FormData();
             formData.append(
                 'data',
@@ -85,6 +89,8 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                     duration,
                     discount,
                     categories,
+                    isNew: !isUpdateMode,
+                    stock,
                 })
             );
 
@@ -127,7 +133,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
     const validationErrors: FormikErrorsWithIndexSignature = formik.errors
     const formikTouched: FormikTouchedWithIndexSignature = formik.touched
     const hasErrors = Object.keys(formik.errors).length > 0;
-    console.log(formik.values);
+
 
     return (
         <div>
@@ -148,7 +154,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                     </div>
                 ))}
                 <div className="flex gap-2 items-center">
-                    {mode === 'PUT' && !isImageChanged && <img className='w-[40%]' src={formik.values.img} />}
+                    {mode === 'PUT' && !isImageChanged && <img className='w-[40%]' src={`${formik.values.img}`} />}
                     <input
                         type="file"
                         className={feildClasses}

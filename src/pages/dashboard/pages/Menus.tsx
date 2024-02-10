@@ -215,7 +215,7 @@ const Menus = withWrapper(() => {
                                 Rating
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Sales
+                                Stock
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Actions
@@ -251,7 +251,7 @@ const Menus = withWrapper(() => {
                                             {menu.attributes.stars || 0} / 5
                                         </td>
                                         <td className="px-6 py-4">
-                                            {menu.attributes.sales || 0}
+                                            {menu.attributes.stock || 0}
                                         </td>
                                         <td className="px-6 py-4 flex gap-3">
                                             <button className="hover:border-red-300 px-3" onClick={() => openDeleteModal(menu.id)}><Trash className="" color="#ff4d4d" /></button>

@@ -4,8 +4,8 @@ import PageSubHeadBreadCrumb from "../components/ui/PageSubHeadBreadCrumb"
 import { clearCart, removeFromCart, updateCartItemQuantity } from "../../../features/cart"
 import { emptyCart } from "../../../assets"
 import MyModal from "../../../components/ui/MyModal"
-import { useState } from "react"
-import { postData } from "../../../helpers/api"
+import { FormEvent, useState } from "react"
+import { postData, putData } from "../../../helpers/api"
 import toast from "react-hot-toast"
 import { getUserFromCookies } from "../../../helpers/getUserFromCookies"
 import { IUser } from "../../../interfaces"
@@ -43,7 +43,8 @@ const Cart = () => {
   }
 
 
-  const submitOrderHandler = async () => {
+  const submitOrderHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     try {
       const productsIds = items.map((item) => item.id);
 
@@ -59,21 +60,26 @@ const Cart = () => {
           totalPrice: totalPrice,
         },
       };
-      const res = await postData('/orders', reqData);
-      console.log(res);
-      
+      await postData('/orders', reqData);
+      for (const item of items) {
+        await putData(`/products/${item.id}`, {
+          data: {
+            stock: item.attributes.stock - (item.qty || 0), 
+          },
+        });
+      }
       dispatch(clearCart());
 
       toast.success('Successfully Order Added!');
       closeOrderConfirmModal();
     } catch (error) {
       toast.error('Something went wrong! 🥲');
-      console.error('Error submitting order:', error);
     }
   };
 
 
-  function submitDeleteHandler(): void {
+  function submitDeleteHandler(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     dispatch(removeFromCart(selectedId))
     closeDeleteModal()
   }
@@ -86,7 +92,8 @@ const Cart = () => {
   }
 
 
-  function submitDeleteAllHandler(): void {
+  function submitDeleteAllHandler(e: FormEvent<HTMLFormElement>): void {
+    e.preventDefault()
     dispatch(clearCart())
     closeDeleteModal()
   }

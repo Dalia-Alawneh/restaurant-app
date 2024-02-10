@@ -28,7 +28,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                 <CardSkeleton />
                 :
 
-                <div className="relative overflow-hidden cursor-pointer rounded-xl border flex flex-col justify-between w-full h-[460px]" onClick={orderClickHandler}>
+                <div className="relative overflow-hidden cursor-pointer rounded-xl border flex flex-col justify-between w-full md:h-[460px]" onClick={orderClickHandler}>
                     {isNew && (
                         <div className="relative">
                             <div className="text-white text-[13px] py-1 px-6 transform -skew-y-10 absolute -top-0 -left-3 bg-blue-500" style={
@@ -41,11 +41,11 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                             </div>
                         </div>
                     )}
-                    {discount? discount >0 && <div className="discount text-white text-[13px] p-2 absolute right-0 bg-red-500 rounded-b-full rounded-ss-lg">
+                    {discount ? discount > 0 && <div className="discount text-white text-[13px] p-2 absolute right-0 bg-red-500 rounded-b-full rounded-ss-lg">
                         - {discount}%
-                    </div>:<></>}
-                    <div className="card-img p-3">
-                        <img className="w-full" src={img} alt={title} />
+                    </div> : <></>}
+                    <div className="card-img max-h-200 p-3 overflow-hidden">
+                        <img className="w-full object-contain" src={img} alt={title} />
                     </div>
                     <div className="card-head p-3">
                         <Rating starsCount={stars} />
@@ -71,6 +71,7 @@ const ProductCard = ({ id, attributes, isLoading, img, isSelectProduct = false, 
                             </button>
                         </div>
                         <p className='text-center my-2 text-[#80808052] font-semibold'>{duration} min</p>
+                        {attributes.stock <= 0 && <div className='absolute inset-0 flex justify-center items-center bg-[#33333379] text-white font-bold'>Out Of Stock</div>}
                     </div>
                 </div >
             }

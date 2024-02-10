@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import 'swiper/css';
 import { getData } from '../helpers/api';
 import { ICategory, IProduct } from '../interfaces';
+import toast from 'react-hot-toast';
 interface IProps {
     setProducts: (products: IProduct[]) => void;
     setIsAll: (isAll: boolean) => void;
@@ -17,12 +18,14 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
     useEffect(() => {
         const filterData = async () => {
             try {
-                const data = await getData(`/categories/${categoryId}?populate=products&populate=products.img`);
-                setProducts(data.data.attributes.products.data);
-                setActiveIndex(0);
-                setIsLoading(false);
+                if (categoryId) {
+                    const data = await getData(`/categories/${categoryId}?populate=products&populate=products.img`);
+                    setProducts(data.data.attributes.products.data);
+                    setActiveIndex(0);
+                    setIsLoading(false);
+                }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error('Something goes wrong.!🥲')
             }
         };
 
@@ -36,7 +39,7 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
                 setActiveIndex(0);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error('Something goes wrong.!🥲')
             }
         };
 

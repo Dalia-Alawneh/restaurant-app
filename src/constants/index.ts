@@ -55,6 +55,11 @@ export const productFormFeilds: IFormFeild[] = [
         name: "discount",
     },
     {
+        type: 'number',
+        placeholder: 'stock',
+        name: "stock",
+    },
+    {
         type: 'text',
         placeholder: 'duration',
         name: "duration",

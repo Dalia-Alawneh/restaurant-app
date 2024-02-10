@@ -22,7 +22,7 @@ const loadStateFromLocalStorage = (): CartState => {
     }
     return JSON.parse(serializedState);
   } catch (error) {
-    console.error('Error loading state from localStorage:', error);
+    toast.error('Something goes wrong.!🥲')
     return initialState;
   }
 };
@@ -32,7 +32,8 @@ const saveStateToLocalStorage = (state: CartState): void => {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(STORAGE_KEY, serializedState);
   } catch (error) {
-    console.error('Error saving state to localStorage:', error);
+    toast.error('Something goes wrong.!🥲')
+
   }
 };
 

@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getData } from "../../helpers/api";
 import { useState, useEffect } from 'react'
+import toast from "react-hot-toast";
 interface IProps {
     pageSize: number;
     setItems: (Items: []) => void;
@@ -17,7 +18,7 @@ const Paginator = ({ pageSize, setItems, entity }: IProps) => {
             setItems(data.data || []);
             setTotalPages(data.meta.pagination?.pageCount || 1)
         } catch (error) {
-            console.error('Error fetching data:', error)
+            toast.error('Something goes wrong.!🥲')
         }
     };
 

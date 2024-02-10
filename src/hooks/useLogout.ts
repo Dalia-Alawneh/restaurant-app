@@ -12,7 +12,7 @@ export default function useLogout() {
     SaberCookies.remove('token');
     dispatch(logout());
     navigate(path, { replace: true })
-    window.location.reload(false);
+    window.location.reload();
   };
 
   return handleLogout;
