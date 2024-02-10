@@ -22,7 +22,7 @@ interface IProps {
 }
 
 interface MyFormValues {
-    id: number | string;
+    // id: number | string;
     title: string;
     img: File | null | string;
     categories: number[];
@@ -51,13 +51,13 @@ const defaultInitialValues: MyFormValues = {
 };
 
 const feildClasses =
-    'w-full text-md bg-transparent p-2 rounded-lg border placeholder:text-sm outline-none focus:outline-none focus-visible:outline-none';
+    'text-md bg-transparent p-2 rounded-lg border placeholder:text-sm outline-none focus:outline-none focus-visible:outline-none';
 
 const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mode = "POST", refetch }: IProps) => {
     const isUpdateMode = mode === "PUT";
     const [isImageChanged, setIsImageChanged] = useState<boolean>(false)
     const updateProduct = initialValues?.attributes
-    let updateInitailValues
+    let updateInitailValues: MyFormValues;
     if (updateProduct) {
         updateInitailValues = {
             title: updateProduct.title,
@@ -126,12 +126,12 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
 
 
     const formik = useFormik<MyFormValues>({
-        initialValues: isUpdateMode ? updateInitailValues : defaultInitialValues,
+        initialValues: isUpdateMode ? updateInitailValues! : defaultInitialValues,
         validationSchema: productValidationSchema,
         onSubmit: submitHandler,
     });
-    const validationErrors: FormikErrorsWithIndexSignature = formik.errors
-    const formikTouched: FormikTouchedWithIndexSignature = formik.touched
+    const validationErrors: FormikErrorsWithIndexSignature = formik.errors as FormikErrorsWithIndexSignature;
+    const formikTouched: FormikTouchedWithIndexSignature = formik.touched as FormikTouchedWithIndexSignature
     const hasErrors = Object.keys(formik.errors).length > 0;
 
 
@@ -139,18 +139,21 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
         <div>
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3 my-4">
                 {productFormFeilds.map((feild) => (
-                    <div key={feild.name}>
-                        <input
-                            className={feildClasses}
-                            type={feild.type}
-                            placeholder={feild.placeholder}
-                            name={feild.name}
-                            onChange={formik.handleChange}
-                            value={formik.values[feild.name]}
-                        />
-                        {validationErrors[`${feild.name}`] && formikTouched[`${feild.name}`] && (
-                            <p className="text-red-500 text-xs">* {validationErrors[`${feild.name}`]}</p>
-                        )}
+                    <div key={feild.name} className='flex items-center justify-between gap-3'>
+                        <label className='capitalize font-[600] text-sm'>{feild.name}</label>
+                        <div>
+                            <input
+                                className={`${feildClasses} w-[320px]`}
+                                type={feild.type}
+                                placeholder={feild.placeholder}
+                                name={feild.name}
+                                onChange={formik.handleChange}
+                                value={formik.values[feild.name]}
+                            />
+                            {validationErrors[`${feild.name}`] && formikTouched[`${feild.name}`] && (
+                                <p className="text-red-500 text-xs">* {validationErrors[`${feild.name}`]}</p>
+                            )}
+                        </div>
                     </div>
                 ))}
                 <div className="flex gap-2 items-center">
@@ -173,7 +176,7 @@ const MyForm = ({ options, closeModal, initialValues = defaultInitialValues, mod
                         {`${hasErrors ? "cursor-not-allowed" : ""} 
                         "inline-flex justify-center rounded-md border border-transparent bg-[--sec-light] px-4 py-2 text-sm font-medium hover:text-white hover:bg-[--sec-color] focus:outline-none"`}
                     >
-                        {mode === 'PUT' ? 'Save Updates' : 'Submit'}
+                        {mode === 'PUT' ? 'Save Updates' : 'Add Menu'}
                     </button>
                 </div>
             </form>

@@ -37,7 +37,7 @@ const Navbar = ({ setIsToggle, isToggle }: { setIsToggle: (isToggle: boolean) =>
                     </div>
                     <img src={userDefaultImage} alt="user image" className='w-[60px] h-[60px] rounded-full p-1 border-[3px] border-x-[--link-active-color]' />
                 </div>
-                <UserDropDown isOpen={isOpen} />
+                <UserDropDown isOpen={isOpen}></UserDropDown>
             </div>
 
 
