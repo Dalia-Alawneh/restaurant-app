@@ -35,7 +35,7 @@ const Pos = withWrapper(() => {
                 <OrderView setSelectedProducts={setSelectedProducts} selectedProducts={selectedProducts} />
                 <div className="w-full md:w-2/3">
                     <div className="flex gap-4 w-full">
-                        <div className='bg-white p-3 rounded-md w-[300px] border cursor-pointer shadow-[0px_2px_7px_2px_var(--sec-extra-light)]'
+                        <div className={`${isAll? 'bg-[--sec-color]' :'bg-white'} p-3 rounded-md w-[300px] border cursor-pointer shadow-[0px_2px_7px_2px_var(--sec-extra-light)]`}
                             onClick={() => {
                                 setData()
                                 setIsAll(true)
@@ -46,7 +46,7 @@ const Pos = withWrapper(() => {
                                 <h3 className="text-center">All Categories</h3>
                             </div>
                         </div>
-                        <Carousel setIsAll={setIsAll} setProducts={setProducts} />
+                        <Carousel isAll={isAll} setIsAll={setIsAll} setProducts={setProducts} />
                     </div>
                     {
                         products.length > 0 ?

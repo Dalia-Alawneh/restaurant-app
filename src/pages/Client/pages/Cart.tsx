@@ -64,7 +64,7 @@ const Cart = () => {
       for (const item of items) {
         await putData(`/products/${item.id}`, {
           data: {
-            stock: item.attributes.stock - (item.qty || 0), 
+            stock: item.attributes.stock - (item.qty || 0),
           },
         });
       }
@@ -95,7 +95,7 @@ const Cart = () => {
   function submitDeleteAllHandler(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault()
     dispatch(clearCart())
-    closeDeleteModal()
+    closeDeleteAllModal()
   }
 
   return (

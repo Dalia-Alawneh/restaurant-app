@@ -18,7 +18,7 @@ const Category = () => {
       const data = await getData(`/categories/${id}?populate=products&populate=products.img`);
       if (data.data) {
         setCategory(data.data)
-        
+
       }
     } catch (e) {
       toast.error('Something goes wrong.!🥲')
@@ -52,6 +52,8 @@ const Category = () => {
                   ) : (
                     <p className="text-[--primary] font-[600] text-center sm:text-start">${product.attributes.price.toFixed(2)}</p>
                   )}
+                  {product?.attributes.stock <= 0 && <div className='rounded absolute inset-0 flex justify-center items-center bg-[#33333379] text-white font-bold'>Out Of Stock</div>}
+
                 </div>
               </div>
               <div className="flex flex-col items-center sm:items-end gap-3">

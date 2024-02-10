@@ -52,6 +52,7 @@ const ProductCard = ({ product }: IProps) => {
                     </div>
                 </div>
                 <div className="overlay absolute inset-0 rounded-xl opacity-0 bg-[#3333335f]"></div>
+                {product?.attributes.stock <= 0 && <div className='absolute inset-0 flex justify-center items-center bg-[#33333379] text-white font-bold'>Out Of Stock</div>}
             </div >
         </div>
     )

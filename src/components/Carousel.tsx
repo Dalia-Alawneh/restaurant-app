@@ -9,8 +9,9 @@ import toast from 'react-hot-toast';
 interface IProps {
     setProducts: (products: IProduct[]) => void;
     setIsAll: (isAll: boolean) => void;
+    isAll:boolean;
 }
-const Carousel = ({ setProducts, setIsAll }: IProps) => {
+const Carousel = ({ setProducts, setIsAll, isAll }: IProps) => {
     const [categories, setCategories] = useState<ICategory[]>([])
     const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +88,7 @@ const Carousel = ({ setProducts, setIsAll }: IProps) => {
                     },
                 }
             }
-            initialSlide={activeIndex}
+            initialSlide={isAll? undefined : activeIndex}
             spaceBetween={50}
             slidesPerView={4}
             onSlideChange={(swiper) => {

@@ -139,8 +139,8 @@ const OrderHistory = () => {
                                             </td>
                                             <td className="px-6 py-4 text-right relative">
                                                 <DropDown openDeleteModal={openDeleteModal}
-                                                id={order.id}
-                                                navigateToOrderDetails={navigateToOrderDetails} />
+                                                    id={order.id}
+                                                    navigateToOrderDetails={navigateToOrderDetails} />
                                             </td>
                                         </tr>
                                     ))
@@ -153,13 +153,10 @@ const OrderHistory = () => {
                                         </td>
                                     </tr>
                             }
-
-
-
                         </tbody>
                     </table>
                 </div>
-                <div className="overflow-x-scroll">
+                <div className="overflow-x-auto">
                     {!searchTerm && <Paginator entity="orders" pageSize={15} setItems={setOrders} />}
                 </div>
             </div>
