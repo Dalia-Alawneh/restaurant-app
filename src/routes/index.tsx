@@ -29,7 +29,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             </Route>
 
         </Route>
-        <Route path="/dashboard" element={<Protected redirectTo="/admin/auth"><DashboardLayout/></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
+        <Route path="/dashboard" element={<Protected redirectTo="/auth"><DashboardLayout/></Protected>} errorElement={<ErrorHandler status={500} title="Server Error" />}>
             <Route index element={<Dashboard />} />
             <Route path="menus" element={<Menus />} />
         </Route>
