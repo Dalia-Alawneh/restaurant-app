@@ -15,7 +15,7 @@ This project is a restaurant website built with React.js and Typescript integrat
 
 ## Demo Video
 
-Watch the demo video of the project on Google Drive: [Demo Video]([https://drive.google.com/file/d/1U6hmjHkS3bAuckIFpH5PVBZWQCNYQWrH/view?usp=sharing](https://drive.google.com/file/d/1T6hkC2HE1gj942vQMGqgBEx6NOvTDk5i/view?usp=sharing)
+Watch the demo video of the project on Google Drive: [Demo Video](https://drive.google.com/file/d/1T6hkC2HE1gj942vQMGqgBEx6NOvTDk5i/view?usp=sharing)
 
 ## Getting Started
 
